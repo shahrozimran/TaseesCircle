@@ -3,14 +3,12 @@
 import { useState } from "react";
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
-
 import FAQ from "@/components/ui/FAQ";
 import { motion } from "framer-motion";
-import { Send, CheckCircle } from "lucide-react";
+import { Send, CheckCircle, AlertCircle } from "lucide-react";
 import { FacebookIcon, InstagramIcon, YoutubeIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { SOCIAL_LINKS } from "@/lib/constants";
-
-
+import { sanitizeInput, validateEmail } from "@/lib/security";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -21,13 +19,36 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
+    setErrorMessage("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Perform security validation & sanitization
+    const sanitizedEmail = formData.email.trim();
+    if (!validateEmail(sanitizedEmail)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    const sanitizedData = {
+      name: sanitizeInput(formData.name, 100),
+      email: sanitizedEmail,
+      country: sanitizeInput(formData.country, 50),
+      subject: sanitizeInput(formData.subject, 150),
+      message: sanitizeInput(formData.message, 2000),
+    };
+
+    if (!sanitizedData.name || !sanitizedData.subject || !sanitizedData.message) {
+      setErrorMessage("Please fill out all required fields with valid input.");
+      return;
+    }
+
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
@@ -72,10 +93,17 @@ export default function ContactPage() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                  {errorMessage && (
+                    <div className="flex items-center gap-2 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs sm:text-sm font-medium">
+                      <AlertCircle size={16} className="shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label htmlFor="contact-name" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
-                        Full Name
+                        Full Name *
                       </label>
                       <input
                         id="contact-name"
@@ -83,6 +111,7 @@ export default function ContactPage() {
                         type="text"
                         value={formData.name}
                         onChange={handleChange}
+                        maxLength={100}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
                         placeholder="Your full name"
@@ -90,7 +119,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label htmlFor="contact-email" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
-                        Email Address
+                        Email Address *
                       </label>
                       <input
                         id="contact-email"
@@ -98,6 +127,7 @@ export default function ContactPage() {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
+                        maxLength={254}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
                         placeholder="your@email.com"
@@ -108,7 +138,7 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label htmlFor="contact-country" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
-                        Country
+                        Country *
                       </label>
                       <select
                         id="contact-country"
@@ -126,7 +156,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label htmlFor="contact-subject" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
-                        Subject
+                        Subject *
                       </label>
                       <input
                         id="contact-subject"
@@ -134,6 +164,7 @@ export default function ContactPage() {
                         type="text"
                         value={formData.subject}
                         onChange={handleChange}
+                        maxLength={150}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
                         placeholder="How can we help?"
@@ -143,13 +174,14 @@ export default function ContactPage() {
 
                   <div>
                     <label htmlFor="contact-message" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
-                      Message
+                      Message *
                     </label>
                     <textarea
                       id="contact-message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
+                      maxLength={2000}
                       required
                       rows={5}
                       className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm resize-none"
@@ -178,43 +210,65 @@ export default function ContactPage() {
 
               {/* Email */}
               <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
-                <h4 className="font-heading font-bold text-charcoal-600 mb-1.5 text-base">
-                  Email Us
-                </h4>
-                <p className="text-charcoal-300 text-xs sm:text-sm mb-3">
-                  We typically respond within 24–48 hours.
+                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">
+                  Email Support
+                </h3>
+                <p className="text-charcoal-300 text-xs leading-relaxed mb-3">
+                  Reach out to us via email for any inquiries or support.
                 </p>
                 <a
                   href="mailto:info@taseescircle.org"
-                  className="text-gold font-medium text-sm hover:underline break-all"
+                  className="text-gold font-semibold text-xs sm:text-sm hover:underline"
                 >
                   info@taseescircle.org
                 </a>
               </div>
 
-              {/* Social */}
+              {/* Social Channels */}
               <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
-                <h4 className="font-heading font-bold text-charcoal-600 mb-4 text-base">
-                  Connect on Social Media
-                </h4>
-                <div className="flex gap-3">
-                  {[
-                    { Icon: FacebookIcon, href: SOCIAL_LINKS.facebook, label: "Facebook" },
-                    { Icon: InstagramIcon, href: SOCIAL_LINKS.instagram, label: "Instagram" },
-                    { Icon: YoutubeIcon, href: SOCIAL_LINKS.youtube, label: "YouTube" },
-                    { Icon: WhatsAppIcon, href: SOCIAL_LINKS.whatsapp, label: "WhatsApp" },
-                  ].map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-11 h-11 rounded-xl bg-white border border-beige-200 flex items-center justify-center text-charcoal-400 hover:text-gold hover:border-gold transition-all"
-                      aria-label={s.label}
-                    >
-                      <s.Icon size={18} />
-                    </a>
-                  ))}
+                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">
+                  Social Channels
+                </h3>
+                <p className="text-charcoal-300 text-xs leading-relaxed mb-4">
+                  Follow our official channels for daily knowledge and updates.
+                </p>
+                <div className="flex items-center gap-3">
+                  <a
+                    href={SOCIAL_LINKS.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
+                    aria-label="Facebook"
+                  >
+                    <FacebookIcon size={18} />
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <InstagramIcon size={18} />
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
+                    aria-label="YouTube"
+                  >
+                    <YoutubeIcon size={18} />
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
+                    aria-label="WhatsApp"
+                  >
+                    <WhatsAppIcon size={18} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -223,7 +277,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="section-padding bg-beige-50">
+      <section className="section-padding bg-beige-50 border-t border-beige-200">
         <div className="section-container">
           <SectionHeader
             label="Common Questions"

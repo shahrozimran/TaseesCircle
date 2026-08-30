@@ -2,21 +2,28 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, CheckCircle } from "lucide-react";
+import { Mail, ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
+import { validateEmail } from "@/lib/security";
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setEmail("");
-      }, 3000);
+    setError(false);
+
+    if (!validateEmail(email)) {
+      setError(true);
+      return;
     }
+
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setEmail("");
+    }, 3000);
   };
 
   return (
@@ -45,15 +52,28 @@ export default function NewsletterForm() {
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setError(false);
+                setEmail(e.target.value);
+              }}
+              maxLength={254}
               placeholder="Enter your email address"
               required
-              className="w-full pl-12 pr-4 py-3.5 rounded-xl border border-beige-300 bg-white text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
+              className={`w-full pl-12 pr-4 py-3.5 rounded-xl border bg-white text-charcoal-500 placeholder:text-charcoal-200 focus:ring-2 transition-all text-sm ${
+                error
+                  ? "border-red-400 focus:ring-red-200"
+                  : "border-beige-300 focus:border-gold focus:ring-gold/20"
+              }`}
             />
+            {error && (
+              <span className="flex items-center gap-1 text-[11px] text-red-500 mt-1 pl-1">
+                <AlertCircle size={12} /> Please enter a valid email address.
+              </span>
+            )}
           </div>
           <button
             type="submit"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm whitespace-nowrap"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm whitespace-nowrap self-start sm:self-auto"
           >
             Subscribe
             <ArrowRight size={16} />

@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
 import DiscussionCard from "@/components/ui/DiscussionCard";
 import { pakistanDiscussions, pakistanHero } from "@/data/pakistan";
+import { sanitizeSearchQuery } from "@/lib/security";
 import { motion } from "framer-motion";
 import { Filter, Search, BookOpen } from "lucide-react";
 
@@ -25,11 +26,12 @@ export default function PakistanDiscussionsPage() {
   const filteredDiscussions = pakistanDiscussions.filter((disc) => {
     const matchesCategory =
       selectedCategory === "All" || disc.category === selectedCategory;
+    const cleanSearch = sanitizeSearchQuery(searchQuery).toLowerCase();
     const matchesSearch =
-      searchQuery === "" ||
-      disc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      disc.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      disc.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      cleanSearch === "" ||
+      disc.title.toLowerCase().includes(cleanSearch) ||
+      disc.excerpt.toLowerCase().includes(cleanSearch) ||
+      disc.tags.some((t) => t.toLowerCase().includes(cleanSearch));
     return matchesCategory && matchesSearch;
   });
 
@@ -61,6 +63,7 @@ export default function PakistanDiscussionsPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-300" size={18} />
               <input
                 type="text"
+                maxLength={100}
                 placeholder="Search topics, keywords (e.g. Rizq, Freelancing, Riba)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
