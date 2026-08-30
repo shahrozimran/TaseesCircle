@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BookOpen, MessageCircle, Clock, Tag } from "lucide-react";
+import { BookOpen, MessageCircle, Clock, Tag, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const categoryColors = {
   "Rizq & Livelihood": "bg-gold/10 text-gold border-gold/20",
@@ -17,6 +18,8 @@ const categoryColors = {
 };
 
 export default function DiscussionCard({
+  slug,
+  community = "pakistan",
   title,
   category,
   excerpt,
@@ -30,13 +33,15 @@ export default function DiscussionCard({
     categoryColors[category] ||
     "bg-gold/10 text-gold border-gold/20";
 
-  return (
+  const href = slug ? `/discussions/${community}/${slug}` : null;
+
+  const content = (
     <motion.article
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="bg-white rounded-2xl shadow-card card-hover border border-beige-100 flex flex-col overflow-hidden group"
+      className="bg-white rounded-2xl shadow-card card-hover border border-beige-100 flex flex-col overflow-hidden group h-full"
     >
       {/* Top accent bar */}
       <div className="h-1 bg-gradient-to-r from-gold via-gold-light to-beige-400 w-full" />
@@ -115,7 +120,7 @@ export default function DiscussionCard({
 
         {/* Tags */}
         {tags.length > 0 && (
-          <div className="flex items-center gap-1.5 flex-wrap pt-3 border-t border-beige-100">
+          <div className="flex items-center gap-1.5 flex-wrap pt-3 border-t border-beige-100 mb-3">
             <Tag size={11} className="text-charcoal-300 shrink-0" />
             {tags.map((tag) => (
               <span
@@ -127,7 +132,21 @@ export default function DiscussionCard({
             ))}
           </div>
         )}
+
+        {/* Read Full Article Link */}
+        {href && (
+          <div className="mt-auto pt-2 flex items-center justify-between text-xs font-semibold text-gold group-hover:text-gold-dark transition-colors">
+            <span>Read Full Discussion</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </div>
+        )}
       </div>
     </motion.article>
   );
+
+  if (href) {
+    return <Link href={href} className="block h-full">{content}</Link>;
+  }
+
+  return content;
 }

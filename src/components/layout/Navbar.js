@@ -9,6 +9,19 @@ import MobileMenu from "./MobileMenu";
 import UserMenu from "@/components/auth/UserMenu";
 import { useAuth } from "@/hooks/useAuth";
 
+const heroRoutes = [
+  "/",
+  "/about",
+  "/discussions",
+  "/discussions/pakistan",
+  "/discussions/canada",
+  "/pakistan",
+  "/canada",
+  "/programs",
+  "/resources",
+  "/contact",
+];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -33,11 +46,14 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const hasDarkHero = heroRoutes.includes(pathname);
+  const isSolid = scrolled || !hasDarkHero;
+
   return (
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
+          isSolid
             ? "bg-white/95 backdrop-blur-md shadow-navbar py-3"
             : "bg-transparent py-5"
         }`}
@@ -50,7 +66,7 @@ export default function Navbar() {
             </div>
             <span
               className={`font-heading font-bold text-xl transition-colors ${
-                scrolled ? "text-charcoal-600" : "text-white"
+                isSolid ? "text-charcoal-600" : "text-white"
               }`}
             >
               {SITE_NAME}
@@ -72,7 +88,7 @@ export default function Navbar() {
                       className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                         link.children.some((c) => isActive(c.href))
                           ? "text-gold"
-                          : scrolled
+                          : isSolid
                           ? "text-charcoal-400 hover:text-charcoal-600 hover:bg-beige-100"
                           : "text-white/80 hover:text-white hover:bg-white/10"
                       }`}
@@ -114,7 +130,7 @@ export default function Navbar() {
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       isActive(link.href)
                         ? "text-gold"
-                        : scrolled
+                        : isSolid
                         ? "text-charcoal-400 hover:text-charcoal-600 hover:bg-beige-100"
                         : "text-white/80 hover:text-white hover:bg-white/10"
                     }`}
@@ -127,7 +143,7 @@ export default function Navbar() {
 
             {/* Auth Button or User Menu */}
             {user ? (
-              <UserMenu scrolled={scrolled} />
+              <UserMenu scrolled={isSolid} />
             ) : (
               <Link
                 href="/login"
@@ -143,7 +159,7 @@ export default function Navbar() {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`lg:hidden p-2 rounded-lg transition-colors ${
-              scrolled
+              isSolid
                 ? "text-charcoal-500 hover:bg-beige-100"
                 : "text-white hover:bg-white/10"
             }`}

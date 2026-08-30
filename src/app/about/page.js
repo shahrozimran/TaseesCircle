@@ -2,30 +2,33 @@
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
-import TeamCard from "@/components/ui/TeamCard";
 import Timeline from "@/components/sections/Timeline";
-import { leadershipTeam, coreValues, milestones } from "@/data/team";
+import { founderInfo, communityPillars, coreValues, milestones } from "@/data/team";
 import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
     <>
       {/* Hero */}
       <Hero
-        subtitle="About TaseesCircle"
-        title="Our Story of Faith & Service"
-        description="Founded in 2015, TaseesCircle grew from a small online study circle of 20 families in Pakistan into a cross-continental digital community serving thousands of Muslims in Pakistan and Canada."
+        subtitle="About Ta'sees Circle"
+        title="Our Mission & Founder"
+        description="Founded in August 2026 by Muhammad Maqbool Ahmed Khan, Ta'sees Circle is an authentic digital platform dedicated to introducing a practical Islamic model for living — guided strictly by Quran and Sunnah."
+        primaryCTA={{ label: "Explore Discussions", href: "/discussions" }}
+        secondaryCTA={{ label: "Get Involved", href: "/contact" }}
         height="min-h-[70vh] py-20 md:py-28"
       />
 
-      {/* Our Story */}
+      {/* Our Story / Founder Origin */}
       <section className="section-padding bg-white">
         <div className="section-container">
           <div className="max-w-4xl mx-auto">
             <SectionHeader
-              label="Our Beginning"
-              title="From a Small Circle to a Global Community"
+              label="Our Origin & Purpose"
+              title="A Sole Purpose: Reviving Practical Islamic Living"
+              description="Built to help Muslim families navigate modern economic, workplace, and cultural challenges with uncompromised faith."
             />
             <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
               <motion.div
@@ -36,13 +39,13 @@ export default function AboutPage() {
                 className="space-y-4 sm:space-y-6 text-charcoal-400 leading-relaxed text-sm sm:text-base"
               >
                 <p>
-                  TaseesCircle began in 2015 as a humble digital gathering of 20 families in Pakistan, united by a shared desire to deepen their connection with the Quran and each other. What started as a weekly online study circle quickly grew into something much larger — a movement of hearts seeking knowledge, community, and purpose across borders.
+                  In <strong>August 2026</strong>, <strong>Muhammad Maqbool Ahmed Khan</strong> founded <strong>Ta'sees Circle</strong> to address a pressing reality facing Muslims today: the growing gap between everyday life and authentic Islamic principles. In an era dominated by interest-based economics, workplace compromises, and cultural confusion, Muslims in Pakistan, Canada, and around the globe need clear, actionable guidance on how to live strictly according to Islam.
                 </p>
                 <p>
-                  Our founder, Dr. Muhammad Tariq, envisioned a digital community that would transcend geographic boundaries. By 2019, TaseesCircle had expanded its online platform to serve Muslims across Pakistan and established its Canadian digital community, bringing the warmth and spirit of Islamic brotherhood to Muslim families navigating life in a new land.
+                  Ta'sees Circle was established as an independent digital mission — led with personal commitment without corporate agendas or commercial motives. The platform serves as a beacon of authentic knowledge, offering detailed discussions on earning <em>Rizq e Halal</em>, obtaining riba-free mortgages, maintaining Islamic workplace ethics, and raising children with strong Islamic identity.
                 </p>
                 <p>
-                  Today, TaseesCircle serves over 5,000 members across Pakistan and Canada through our digital platform. We run 15+ active online programs — from Quran academies and youth mentorship circles to Islamic finance guidance and community knowledge blogs. Our mission remains the same as day one: to unite hearts and build thriving Muslim communities rooted in authentic Islamic values.
+                  Every piece of content, discussion paper, and guide published on Ta'sees Circle is grounded in verified Quranic verses and authentic Hadith narrations. This is not just a website; it is an invitation for every Muslim to embrace Islam fully in their daily life, business, and family.
                 </p>
               </motion.div>
             </div>
@@ -50,13 +53,63 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Core Values */}
+      {/* Founder & CEO Spotlight Card */}
       <section className="section-padding bg-beige-50">
         <div className="section-container">
           <SectionHeader
-            label="What We Stand For"
+            label="Leadership & Vision"
+            title="Meet the Founder"
+            description="The driving force behind Ta'sees Circle's mission to connect the Ummah through authentic knowledge."
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-card border border-beige-100 flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-8"
+          >
+            {/* Avatar / Icon Badge */}
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-gold flex items-center justify-center text-white shrink-0 shadow-lg border-4 border-white">
+              <span className="font-heading font-bold text-3xl sm:text-4xl">MK</span>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 text-center md:text-left">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <div>
+                  <h3 className="font-heading font-bold text-charcoal-600 text-2xl sm:text-3xl">
+                    {founderInfo.name}
+                  </h3>
+                  <p className="text-gold font-semibold text-sm sm:text-base">
+                    {founderInfo.role} • <span className="text-charcoal-300 font-normal">Founded {founderInfo.foundedDate}</span>
+                  </p>
+                </div>
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-islamic-green/10 text-islamic-green border border-islamic-green/20 self-center sm:self-auto">
+                  Sole Founder & Leader
+                </span>
+              </div>
+
+              <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed mb-5">
+                {founderInfo.bio}
+              </p>
+
+              {/* Founder Quote */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-beige-50 border border-beige-200 text-charcoal-500 text-xs sm:text-sm italic leading-relaxed border-l-4 border-l-gold">
+                &ldquo;{founderInfo.quote}&rdquo;
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="section-padding bg-white">
+        <div className="section-container">
+          <SectionHeader
+            label="Guiding Principles"
             title="Our Core Values"
-            description="These four pillars guide everything we do at TaseesCircle."
+            description="The four pillars that define our content, discussions, and community engagement."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {coreValues.map((value, i) => {
@@ -68,7 +121,7 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-white rounded-2xl shadow-card card-hover p-6 sm:p-8 text-center border border-beige-100"
+                  className="bg-beige-50 rounded-2xl shadow-card card-hover p-6 sm:p-8 text-center border border-beige-100"
                 >
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4 sm:mb-5">
                     <IconComponent size={24} className="text-gold sm:w-7 sm:h-7" />
@@ -86,7 +139,54 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Vision & Mission */}
+      {/* Community Call to Action — Be Part of the Mission */}
+      <section className="section-padding bg-beige-50">
+        <div className="section-container">
+          <SectionHeader
+            label="Community Participation"
+            title="Be Part of the Community & Support the Mission"
+            description="There are no corporate boundaries here — Ta'sees Circle belongs to every Muslim seeking to live according to Islam."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            {communityPillars.map((pillar, i) => {
+              const IconComponent = Icons[pillar.icon] || Icons.Heart;
+              return (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="bg-white rounded-2xl p-6 sm:p-7 shadow-card card-hover border border-beige-100 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-4">
+                      <IconComponent size={22} className="text-gold" />
+                    </div>
+                    <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed mb-4">
+                      {pillar.description}
+                    </p>
+                  </div>
+
+                  <Link
+                    href="/discussions"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-gold-dark transition-colors mt-auto pt-2"
+                  >
+                    <span>Get Involved</span>
+                    <Icons.ArrowRight size={13} />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Mission Banner */}
       <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto">
@@ -99,10 +199,10 @@ export default function AboutPage() {
             >
               <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Vision</span>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
-                A United Ummah, Empowered by Knowledge
+                A United Ummah Living True Islam
               </h3>
               <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
-                We envision a world where every Muslim has access to authentic Islamic knowledge, meaningful community connections, and the support they need to live a life of purpose and faith — regardless of where they call home.
+                We envision a global Muslim community that holds firmly to the Quran and Sunnah, where every household thrives on halal income, strong spiritual bonds, and unwavering faith.
               </p>
             </motion.div>
 
@@ -115,28 +215,12 @@ export default function AboutPage() {
             >
               <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Mission</span>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
-                Engage, Educate, Empower
+                Educate, Connect, Support
               </h3>
               <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
-                TaseesCircle engages Muslim communities through meaningful programs, educates through authentic Islamic scholarship, and empowers individuals to become leaders of positive change in their families and societies.
+                Ta'sees Circle provides authenticated knowledge discussions, practical fiqh solutions for daily life, and an open digital platform where Muslims in Pakistan, Canada, and beyond can learn and grow together.
               </p>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership Team */}
-      <section className="section-padding bg-white">
-        <div className="section-container">
-          <SectionHeader
-            label="Leadership"
-            title="Meet Our Team"
-            description="Dedicated individuals who guide TaseesCircle's mission with wisdom, passion, and servant leadership."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {leadershipTeam.map((member, i) => (
-              <TeamCard key={member.name} {...member} index={i} />
-            ))}
           </div>
         </div>
       </section>
@@ -146,8 +230,8 @@ export default function AboutPage() {
         <div className="section-container">
           <SectionHeader
             label="Our Journey"
-            title="Milestones Along the Way"
-            description="From a small circle in Lahore to a thriving cross-continental community."
+            title="Milestones Since Launch"
+            description="Established in August 2026 with a commitment to pure Islamic guidance."
           />
           <Timeline milestones={milestones} />
         </div>

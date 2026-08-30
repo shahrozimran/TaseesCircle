@@ -49,11 +49,11 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <Hero
-        subtitle="Welcome to TaseesCircle"
+        subtitle="Welcome to Ta'sees Circle"
         title="Uniting Hearts, Building Communities"
         description="A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith."
-        primaryCTA={{ label: "Pakistan Discussions", href: "/pakistan" }}
-        secondaryCTA={{ label: "Canada Discussions", href: "/canada" }}
+        primaryCTA={{ label: "Pakistan Discussions", href: "/discussions/pakistan" }}
+        secondaryCTA={{ label: "Canada Discussions", href: "/discussions/canada" }}
       />
 
       {/* Mission / Values */}
@@ -62,7 +62,7 @@ export default function HomePage() {
           <SectionHeader
             label="Our Mission"
             title="Rooted in Faith, Driven by Purpose"
-            description="TaseesCircle is a digital platform built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life through online discussions grounded in Quran and Sunnah."
+            description="Ta'sees Circle is a digital platform built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life through online discussions grounded in Quran and Sunnah."
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -127,7 +127,7 @@ export default function HomePage() {
           <SectionHeader
             label="Community Voices"
             title="What Our Members Say"
-            description="Hear from community members whose lives have been touched by TaseesCircle's online knowledge and discussions."
+            description="Hear from community members whose lives have been touched by Ta'sees Circle's online knowledge and discussions."
           />
           <TestimonialSlider testimonials={testimonials} />
         </div>
@@ -159,7 +159,7 @@ export default function HomePage() {
             <SectionHeader
               label="Stay Connected"
               title="Join Our Digital Community"
-              description="Receive weekly updates on new knowledge discussions, online sessions, and inspiring Islamic content from TaseesCircle."
+              description="Receive weekly updates on new knowledge discussions, online sessions, and inspiring Islamic content from Ta'sees Circle."
             />
             <NewsletterForm />
           </div>

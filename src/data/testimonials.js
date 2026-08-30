@@ -7,14 +7,14 @@ export const testimonials = [
     name: "Fatima Zahra",
     location: "Lahore, Pakistan",
     quote:
-      "TaseesCircle has transformed our family's connection to the deen. The online Quran study circles have given my children a deep love for the Book of Allah — without leaving home.",
+      "Ta'sees Circle has transformed our family's connection to the deen. The online Quran study circles have given my children a deep love for the Book of Allah — without leaving home.",
     role: "Online Community Member",
   },
   {
     name: "Ahmed Khalil",
     location: "Toronto, Canada",
     quote:
-      "As a new Muslim, I found a second family at TaseesCircle. The online New Muslim Support Circle gave me the guidance and companionship I was searching for, right from my laptop.",
+      "As a new Muslim, I found a second family at Ta'sees Circle. The online New Muslim Support Circle gave me the guidance and companionship I was searching for, right from my laptop.",
     role: "New Muslim Support Member",
   },
   {
@@ -42,7 +42,7 @@ export const testimonials = [
     name: "James (Ibrahim) Chen",
     location: "Calgary, Canada",
     quote:
-      "The online knowledge blogs and live Q&A sessions on Islamic finance changed how I approach money. TaseesCircle made complex topics accessible with beautiful Quranic guidance.",
+      "The online knowledge blogs and live Q&A sessions on Islamic finance changed how I approach money. Ta'sees Circle made complex topics accessible with beautiful Quranic guidance.",
     role: "Islamic Finance Circle Member",
   },
 ];

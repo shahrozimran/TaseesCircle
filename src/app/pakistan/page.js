@@ -41,7 +41,7 @@ export default function PakistanPage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {pakistanDiscussions.map((discussion, i) => (
-              <DiscussionCard key={i} {...discussion} index={i} />
+              <DiscussionCard key={discussion.slug || i} {...discussion} community="pakistan" index={i} />
             ))}
           </div>
         </div>

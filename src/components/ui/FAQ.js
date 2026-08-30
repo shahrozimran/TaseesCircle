@@ -6,12 +6,12 @@ import { ChevronDown } from "lucide-react";
 
 const faqData = [
   {
-    question: "What is TaseesCircle?",
-    answer: "TaseesCircle is an Islamic community engagement organization dedicated to connecting and serving Muslim communities in Pakistan and Canada. We offer educational programs, community events, youth development, and various support services rooted in Islamic values.",
+    question: "What is Ta'sees Circle?",
+    answer: "Ta'sees Circle is a digital Islamic community platform dedicated to connecting and serving Muslim communities in Pakistan and Canada. We offer knowledge discussions, online circles, and authentic guidance rooted in Islamic values.",
   },
   {
-    question: "How can I join TaseesCircle?",
-    answer: "You can join our community by signing up on our website with your Google account. Once registered, you can access exclusive content, event registrations, and community features. You can also visit any of our centers in Pakistan or Canada.",
+    question: "How can I join Ta'sees Circle?",
+    answer: "You can join our community by signing up on our website with your Google account. Once registered, you can access exclusive content, join live online discussions, and connect with community features across Pakistan and Canada.",
   },
   {
     question: "Are programs open to everyone?",

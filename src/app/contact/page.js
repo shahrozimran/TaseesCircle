@@ -228,7 +228,7 @@ export default function ContactPage() {
           <SectionHeader
             label="Common Questions"
             title="Frequently Asked Questions"
-            description="Find quick answers to the most common questions about TaseesCircle."
+            description="Find quick answers to the most common questions about Ta'sees Circle."
           />
           <FAQ />
         </div>

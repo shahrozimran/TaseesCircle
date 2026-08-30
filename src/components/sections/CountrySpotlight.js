@@ -8,7 +8,7 @@ export default function CountrySpotlight() {
   const countries = [
     {
       name: "Pakistan",
-      href: "/pakistan",
+      href: "/discussions/pakistan",
       description: "Online knowledge blogs on Rizq e Halal, Islamic finance, business ethics, and societal issues — guided by Quran and Hadith, for Muslims across Pakistan.",
       topics: ["Rizq e Halal", "Halal Business", "Fiqh Q&A"],
       gradient: "from-charcoal-600 via-charcoal-500 to-islamic-green/80",
@@ -16,7 +16,7 @@ export default function CountrySpotlight() {
     },
     {
       name: "Canada",
-      href: "/canada",
+      href: "/discussions/canada",
       description: "Online discussions on halal income in Canada, riba-free mortgages, Muslim identity in the West, and raising Islamic families — all grounded in Quran & Sunnah.",
       topics: ["Halal Income", "Riba-Free Living", "Muslim Identity"],
       gradient: "from-charcoal-600 via-charcoal-500 to-gold-dark",

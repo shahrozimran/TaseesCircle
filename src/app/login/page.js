@@ -55,7 +55,7 @@ export default function LoginPage() {
             transition={{ duration: 0.6 }}
           >
             <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">
-              Welcome to TaseesCircle
+              Welcome to Ta'sees Circle
             </span>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-charcoal-600 mt-2 sm:mt-3 mb-3 sm:mb-4">
               Join Our Community

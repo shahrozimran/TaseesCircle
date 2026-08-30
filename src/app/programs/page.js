@@ -103,7 +103,7 @@ export default function ProgramsPage() {
               Volunteer Online
             </h2>
             <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
-              Join hundreds of digital volunteers who dedicate their time and skills to serve the Ummah online. Whether you can moderate a discussion, translate content, or lead an online circle — there&apos;s a place for you at TaseesCircle.
+              Join hundreds of digital volunteers who dedicate their time and skills to serve the Ummah online. Whether you can moderate a discussion, translate content, or lead an online circle — there&apos;s a place for you at Ta'sees Circle.
             </p>
             <Link
               href="/contact"

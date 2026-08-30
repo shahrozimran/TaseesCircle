@@ -2,7 +2,7 @@
 // TaseesCircle — Site Constants
 // ============================================
 
-export const SITE_NAME = "TaseesCircle";
+export const SITE_NAME = "Ta'sees Circle";
 export const SITE_TAGLINE = "Uniting Hearts, Building Communities";
 export const SITE_DESCRIPTION =
   "A digital Islamic community platform connecting Muslims in Pakistan and Canada through online knowledge sharing, discussions, and authentic Islamic guidance.";
@@ -18,7 +18,7 @@ export const NAV_LINKS = [
       { label: "Canada", href: "/canada" },
     ],
   },
-  { label: "Programs", href: "/programs" },
+  { label: "Discussions", href: "/discussions" },
   { label: "Resources", href: "/resources" },
   { label: "Contact", href: "/contact" },
 ];

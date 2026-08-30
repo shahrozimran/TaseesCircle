@@ -24,27 +24,27 @@ const amiri = Amiri({
 
 export const metadata = {
   title: {
-    default: "TaseesCircle — Uniting Hearts, Building Communities",
-    template: "%s | TaseesCircle",
+    default: "Ta'sees Circle — Uniting Hearts, Building Communities",
+    template: "%s | Ta'sees Circle",
   },
   description:
-    "TaseesCircle is an Islamic community engagement platform connecting Muslim communities in Pakistan and Canada through education, programs, and shared values.",
+    "Ta'sees Circle is an Islamic community engagement platform connecting Muslim communities in Pakistan and Canada through education, programs, and shared values.",
   keywords: [
     "Islamic community",
     "Muslim engagement",
-    "TaseesCircle",
+    "Ta'sees Circle",
     "Pakistan",
     "Canada",
     "Quran",
     "Islamic education",
   ],
   openGraph: {
-    title: "TaseesCircle — Uniting Hearts, Building Communities",
+    title: "Ta'sees Circle — Uniting Hearts, Building Communities",
     description:
       "Connecting Muslim communities in Pakistan and Canada through education, programs, and shared values.",
     type: "website",
     locale: "en_US",
-    siteName: "TaseesCircle",
+    siteName: "Ta'sees Circle",
   },
 };
 
