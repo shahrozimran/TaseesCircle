@@ -16,7 +16,7 @@ export default function AboutPage() {
         subtitle="About TaseesCircle"
         title="Our Story of Faith & Service"
         description="Founded in 2015, TaseesCircle grew from a small study circle of 20 families in Lahore into a cross-continental community serving thousands of Muslims in Pakistan and Canada."
-        height="h-[70vh]"
+        height="min-h-[70vh] py-20 md:py-28"
       />
 
       {/* Our Story */}
@@ -27,13 +27,13 @@ export default function AboutPage() {
               label="Our Beginning"
               title="From a Small Circle to a Global Community"
             />
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="space-y-6 text-charcoal-400 leading-relaxed"
+                className="space-y-4 sm:space-y-6 text-charcoal-400 leading-relaxed text-sm sm:text-base"
               >
                 <p>
                   TaseesCircle began in 2015 as a humble gathering of 20 families in Lahore, Pakistan, united by a shared desire to deepen their connection with the Quran and each other. What started as a weekly study circle in a living room quickly grew into something much larger — a movement of hearts seeking knowledge, community, and purpose.
@@ -58,7 +58,7 @@ export default function AboutPage() {
             title="Our Core Values"
             description="These four pillars guide everything we do at TaseesCircle."
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {coreValues.map((value, i) => {
               const IconComponent = Icons[value.icon] || Icons.Star;
               return (
@@ -68,15 +68,15 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-white rounded-2xl shadow-card card-hover p-8 text-center border border-beige-100"
+                  className="bg-white rounded-2xl shadow-card card-hover p-6 sm:p-8 text-center border border-beige-100"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-5">
-                    <IconComponent size={28} className="text-gold" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4 sm:mb-5">
+                    <IconComponent size={24} className="text-gold sm:w-7 sm:h-7" />
                   </div>
-                  <h3 className="font-heading font-bold text-charcoal-600 text-xl mb-3">
+                  <h3 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-2 sm:mb-3">
                     {value.title}
                   </h3>
-                  <p className="text-charcoal-300 text-sm leading-relaxed">
+                  <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
                     {value.description}
                   </p>
                 </motion.div>
@@ -87,9 +87,9 @@ export default function AboutPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="bg-charcoal-600 islamic-pattern py-20">
+      <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -97,11 +97,11 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="text-center md:text-left"
             >
-              <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Our Vision</span>
-              <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mt-3 mb-4">
+              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Vision</span>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
                 A United Ummah, Empowered by Knowledge
               </h3>
-              <p className="text-white/70 leading-relaxed">
+              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
                 We envision a world where every Muslim has access to authentic Islamic knowledge, meaningful community connections, and the support they need to live a life of purpose and faith — regardless of where they call home.
               </p>
             </motion.div>
@@ -113,11 +113,11 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-center md:text-left"
             >
-              <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Our Mission</span>
-              <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mt-3 mb-4">
+              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Mission</span>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
                 Engage, Educate, Empower
               </h3>
-              <p className="text-white/70 leading-relaxed">
+              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
                 TaseesCircle engages Muslim communities through meaningful programs, educates through authentic Islamic scholarship, and empowers individuals to become leaders of positive change in their families and societies.
               </p>
             </motion.div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
             title="Meet Our Team"
             description="Dedicated individuals who guide TaseesCircle's mission with wisdom, passion, and servant leadership."
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {leadershipTeam.map((member, i) => (
               <TeamCard key={member.name} {...member} index={i} />
             ))}

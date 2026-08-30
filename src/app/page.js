@@ -63,7 +63,7 @@ export default function HomePage() {
             description="TaseesCircle is built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life in communities across two nations."
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {values.map((val, i) => (
               <motion.div
                 key={val.title}
@@ -71,15 +71,15 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center p-6 rounded-2xl bg-beige-50 hover:bg-beige-100 transition-colors group"
+                className="text-center p-5 sm:p-6 rounded-2xl bg-beige-50 hover:bg-beige-100 transition-colors group"
               >
-                <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-gold/20 transition-colors">
-                  <val.icon size={24} className="text-gold" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gold/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-gold/20 transition-colors">
+                  <val.icon size={22} className="text-gold sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-2">
+                <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2">
                   {val.title}
                 </h3>
-                <p className="text-charcoal-300 text-sm leading-relaxed">
+                <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
                   {val.description}
                 </p>
               </motion.div>
@@ -111,7 +111,7 @@ export default function HomePage() {
             title="Join Us at Our Next Gathering"
             description="From community iftars to educational seminars, there's always something happening at TaseesCircle."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {featuredEvents.map((event, i) => (
               <EventCard key={i} {...event} index={i} />
             ))}
@@ -132,7 +132,7 @@ export default function HomePage() {
       </section>
 
       {/* Quran Verse */}
-      <section className="bg-charcoal-600 islamic-pattern py-20">
+      <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,10 +140,10 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-2xl md:text-3xl font-arabic text-white/90 leading-relaxed mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4 px-2">
               &ldquo;And hold firmly to the rope of Allah all together and do not become divided.&rdquo;
             </p>
-            <p className="text-gold text-sm font-medium tracking-wide">
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
               — Surah Ali &apos;Imran (3:103)
             </p>
           </motion.div>

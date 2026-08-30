@@ -54,13 +54,13 @@ export default function ContactPage() {
         subtitle="Get in Touch"
         title="Contact Us"
         description="We'd love to hear from you. Whether you have a question, want to volunteer, or just want to say Assalamu Alaikum — reach out!"
-        height="h-[60vh]"
+        height="min-h-[60vh] py-20 md:py-28"
       />
 
       {/* Contact Form + Info */}
       <section className="section-padding bg-white">
         <div className="section-container">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 sm:gap-12">
             {/* Form */}
             <div className="lg:col-span-3">
               <SectionHeader
@@ -73,21 +73,21 @@ export default function ContactPage() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-islamic-green/5 border border-islamic-green/20 rounded-2xl p-8 text-center"
+                  className="bg-islamic-green/5 border border-islamic-green/20 rounded-2xl p-6 sm:p-8 text-center"
                 >
-                  <CheckCircle size={48} className="text-islamic-green mx-auto mb-4" />
-                  <h3 className="font-heading font-bold text-charcoal-600 text-xl mb-2">
+                  <CheckCircle size={44} className="text-islamic-green mx-auto mb-4" />
+                  <h3 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-2">
                     Message Sent Successfully!
                   </h3>
-                  <p className="text-charcoal-300">
+                  <p className="text-charcoal-300 text-sm">
                     JazakAllah Khair for reaching out. We&apos;ll get back to you within 24-48 hours.
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label htmlFor="contact-name" className="block text-sm font-medium text-charcoal-500 mb-2">
+                      <label htmlFor="contact-name" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
                         Full Name
                       </label>
                       <input
@@ -102,7 +102,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="contact-email" className="block text-sm font-medium text-charcoal-500 mb-2">
+                      <label htmlFor="contact-email" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
                         Email Address
                       </label>
                       <input
@@ -118,9 +118,9 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label htmlFor="contact-country" className="block text-sm font-medium text-charcoal-500 mb-2">
+                      <label htmlFor="contact-country" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
                         Country
                       </label>
                       <select
@@ -138,7 +138,7 @@ export default function ContactPage() {
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="contact-subject" className="block text-sm font-medium text-charcoal-500 mb-2">
+                      <label htmlFor="contact-subject" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
                         Subject
                       </label>
                       <input
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="contact-message" className="block text-sm font-medium text-charcoal-500 mb-2">
+                    <label htmlFor="contact-message" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
                       Message
                     </label>
                     <textarea
@@ -172,7 +172,7 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
                   >
                     <Send size={16} />
                     Send Message
@@ -193,8 +193,8 @@ export default function ContactPage() {
               ))}
 
               {/* Social */}
-              <div className="bg-beige-50 rounded-2xl p-6 border border-beige-100">
-                <h4 className="font-heading font-bold text-charcoal-600 mb-4">
+              <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
+                <h4 className="font-heading font-bold text-charcoal-600 mb-4 text-base">
                   Connect on Social Media
                 </h4>
                 <div className="flex gap-3">

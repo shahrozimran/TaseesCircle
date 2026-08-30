@@ -17,7 +17,7 @@ export default function ProgramsPage() {
         title="Engage, Educate, Empower"
         description="Discover our comprehensive range of Islamic education, community development, and service programs designed for every member of the Ummah."
         primaryCTA={{ label: "Get Involved", href: "/contact" }}
-        height="h-[70vh]"
+        height="min-h-[70vh] py-20 md:py-28"
       />
 
       {/* Impact Stats */}
@@ -31,7 +31,7 @@ export default function ProgramsPage() {
           className={`section-padding ${catIndex % 2 === 0 ? "bg-white" : "bg-beige-50"}`}
         >
           <div className="section-container">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
               {/* Category Header */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -43,15 +43,15 @@ export default function ProgramsPage() {
                 {(() => {
                   const IconComp = Icons[category.icon] || Icons.BookOpen;
                   return (
-                    <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-5">
-                      <IconComp size={26} className="text-gold" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-4 sm:mb-5">
+                      <IconComp size={24} className="text-gold sm:w-7 sm:h-7" />
                     </div>
                   );
                 })()}
-                <h2 className="font-heading font-bold text-charcoal-600 text-2xl md:text-3xl mb-3">
+                <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3">
                   {category.title}
                 </h2>
-                <p className="text-charcoal-300 leading-relaxed mb-6">
+                <p className="text-charcoal-300 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
                   {category.description}
                 </p>
                 <Link
@@ -64,7 +64,7 @@ export default function ProgramsPage() {
               </motion.div>
 
               {/* Programs Grid */}
-              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {category.programs.map((program, i) => (
                   <motion.div
                     key={program.title}
@@ -72,12 +72,12 @@ export default function ProgramsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="bg-white rounded-2xl shadow-card card-hover p-6 border border-beige-100"
+                    className="bg-white rounded-2xl shadow-card card-hover p-5 sm:p-6 border border-beige-100"
                   >
-                    <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-3">
+                    <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2 sm:mb-3">
                       {program.title}
                     </h3>
-                    <p className="text-charcoal-300 text-sm leading-relaxed">
+                    <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
                       {program.description}
                     </p>
                   </motion.div>
@@ -89,7 +89,7 @@ export default function ProgramsPage() {
       ))}
 
       {/* Volunteer CTA */}
-      <section className="bg-charcoal-600 islamic-pattern py-20">
+      <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -98,16 +98,16 @@ export default function ProgramsPage() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl mx-auto"
           >
-            <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Make a Difference</span>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mt-3 mb-4">
+            <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Make a Difference</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
               Volunteer With Us
             </h2>
-            <p className="text-white/70 leading-relaxed mb-8">
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
               Join hundreds of volunteers who dedicate their time and skills to serve the community. Whether you can spare an hour a week or want to lead a program, there&apos;s a place for you at TaseesCircle.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-xl hover:scale-[1.03] transition-all"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-xl hover:scale-[1.03] transition-all text-sm sm:text-base"
             >
               <Icons.Heart size={18} />
               Become a Volunteer

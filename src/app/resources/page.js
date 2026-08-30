@@ -23,18 +23,18 @@ export default function ResourcesPage() {
         subtitle="Resources & Learning"
         title="Grow in Knowledge & Faith"
         description="Access our curated collection of Islamic learning materials, from Quran study guides and hadith collections to articles and recommended reading."
-        height="h-[70vh]"
+        height="min-h-[70vh] py-20 md:py-28"
       />
 
       {/* Filter Tabs */}
-      <section className="bg-white border-b border-beige-200 sticky top-0 z-30">
+      <section className="bg-white border-b border-beige-200 sticky top-14 sm:top-16 z-30 shadow-xs">
         <div className="section-container">
-          <div className="flex items-center gap-2 overflow-x-auto py-4 scrollbar-hide">
+          <div className="flex items-center gap-2 overflow-x-auto py-3.5 no-scrollbar scroll-smooth">
             <button
               onClick={() => setActiveCategory("all")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
                 activeCategory === "all"
-                  ? "bg-gold text-white"
+                  ? "bg-gold text-white shadow-sm"
                   : "bg-beige-100 text-charcoal-400 hover:bg-beige-200"
               }`}
             >
@@ -46,9 +46,9 @@ export default function ResourcesPage() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-all ${
                     activeCategory === cat.id
-                      ? "bg-gold text-white"
+                      ? "bg-gold text-white shadow-sm"
                       : "bg-beige-100 text-charcoal-400 hover:bg-beige-200"
                   }`}
                 >
@@ -70,18 +70,18 @@ export default function ResourcesPage() {
             className={`section-padding ${catIndex % 2 === 0 ? "bg-white" : "bg-beige-50"}`}
           >
             <div className="section-container">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center">
-                  <IconComp size={22} className="text-gold" />
+              <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
+                  <IconComp size={20} className="text-gold sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h2 className="font-heading font-bold text-charcoal-600 text-2xl">
+                  <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl">
                     {category.title}
                   </h2>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {category.resources.map((resource, i) => (
                   <ResourceCard
                     key={resource.title}
@@ -97,7 +97,7 @@ export default function ResourcesPage() {
       })}
 
       {/* Daily Hadith */}
-      <section className="bg-charcoal-600 islamic-pattern py-20">
+      <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -106,11 +106,11 @@ export default function ResourcesPage() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto"
           >
-            <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Daily Hadith</span>
-            <p className="text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mt-4 mb-4">
+            <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Daily Hadith</span>
+            <p className="text-lg sm:text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mt-3 sm:mt-4 mb-3 sm:mb-4">
               &ldquo;The best among you are those who learn the Quran and teach it.&rdquo;
             </p>
-            <p className="text-gold text-sm font-medium tracking-wide">
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
               — Prophet Muhammad ﷺ (Sahih Al-Bukhari)
             </p>
           </motion.div>
@@ -128,7 +128,7 @@ export default function ResourcesPage() {
             />
             <a
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
             >
               <Icons.Send size={16} />
               Suggest a Resource
