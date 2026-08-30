@@ -578,21 +578,21 @@ export const pakistanBlogContent = {
 
 export const pakistanNews = [
   {
-    title: "New Discussion Series: 'Rizq e Halal in Modern Pakistan' Launches",
-    date: "August 15, 2026",
+    title: "Platform Launch: Ta'sees Circle Knowledge Hub Founded",
+    date: "August 2026",
     excerpt:
-      "Our Pakistan community has launched a 6-part online discussion series on earning halal livelihood in Pakistan's modern economy, backed by Quran and Hadith references.",
+      "Founded by Muhammad Maqbool Ahmed Khan in August 2026, Ta'sees Circle officially launched its digital knowledge platform serving Muslims in Pakistan.",
   },
   {
-    title: "Online Fiqh Forum Answers 500+ Community Questions",
-    date: "July 28, 2026",
+    title: "New Knowledge Discussion: 'Rizq e Halal in Modern Pakistan' Published",
+    date: "August 2026",
     excerpt:
-      "Our digital fiqh advisory forum has successfully responded to over 500 questions from Pakistani Muslims on topics ranging from halal income to Islamic business law.",
+      "Read our comprehensive discussion on earning pure, halal livelihood in Pakistan's modern economy with Quranic and Hadith references.",
   },
   {
-    title: "Sisters' Online Halaqah Welcomes 300+ Members",
-    date: "June 10, 2026",
+    title: "Community Invitation: Be Part of This Sadaqah-e-Jariyah Mission",
+    date: "August 2026",
     excerpt:
-      "The Sisters' Online Halaqah has grown to over 300 active participants across Pakistan, making it one of the largest women's Islamic knowledge circles in the country.",
+      "Invite your family and friends to participate in sharing authenticated Islamic knowledge for the benefit of the Ummah.",
   },
 ];

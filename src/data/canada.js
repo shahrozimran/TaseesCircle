@@ -558,21 +558,21 @@ export const canadaBlogContent = {
 
 export const canadaNews = [
   {
-    title: "New Series: 'Muslim Life in Canada' Discussion Hub Launched",
-    date: "August 20, 2026",
+    title: "Canada Hub Launched for Canadian Muslims",
+    date: "August 2026",
     excerpt:
-      "Our Canadian community has launched a comprehensive online discussion series addressing the real challenges of Muslim life in Canada — from halal income to Islamic identity.",
+      "Ta'sees Circle extends its digital knowledge platform to Canadian Muslims, addressing halal living, mortgages, and identity in the West.",
   },
   {
-    title: "Halal Finance Webinar Draws 800+ Canadian Participants",
-    date: "August 5, 2026",
+    title: "New Discussion: 'Halal Salary & Workplace Fiqh in Canada'",
+    date: "August 2026",
     excerpt:
-      "Our live webinar on halal mortgages and riba-free investing in Canada attracted over 800 participants, making it our most attended online session ever.",
+      "Explore our detailed guide on evaluating workplace benefits, career choices, and income purity in North America.",
   },
   {
-    title: "New Muslim Online Support Group Expands Across Canada",
-    date: "July 15, 2026",
+    title: "Join the Sadaqah-e-Jariyah Mission in Canada",
+    date: "August 2026",
     excerpt:
-      "Our digital support group for new Muslims and those exploring Islam now serves members from over 20 Canadian cities, with weekly online sessions and 24/7 chat support.",
+      "Help spread authentic Islamic guidance across Canada by participating in knowledge sharing and community support.",
   },
 ];

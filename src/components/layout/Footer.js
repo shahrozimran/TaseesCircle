@@ -128,7 +128,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Globe size={16} className="text-gold mt-0.5 shrink-0" />
                 <span className="text-charcoal-200 text-sm leading-snug">
-                  Digital Community — Pakistan &amp; Canada
+                  Ta&apos;sees Circle — Digital Community (Pakistan &amp; Canada)
                 </span>
               </li>
               <li className="flex items-start gap-3">

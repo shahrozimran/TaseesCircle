@@ -26,9 +26,38 @@ export async function generateMetadata({ params }) {
     return { title: "Discussion Not Found — Ta'sees Circle" };
   }
 
+  const canonicalUrl = `https://taseescircle.com/discussions/${community}/${slug}`;
+
   return {
-    title: `${article.title} | Ta'sees Circle Discussions`,
+    title: `${article.title} | Ta'sees Circle`,
     description: article.intro.slice(0, 160),
+    keywords: [
+      article.category,
+      ...(article.tags || []),
+      "Ta'sees Circle",
+      "Quran reference",
+      "Hadith guidance",
+      community === "canada" ? "Canada Muslims" : "Pakistan Muslims",
+    ],
+    authors: [{ name: article.author || "Muhammad Maqbool Ahmed Khan" }],
+    publisher: "Ta'sees Circle",
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: article.title,
+      description: article.intro.slice(0, 160),
+      url: canonicalUrl,
+      siteName: "Ta'sees Circle",
+      type: "article",
+      publishedTime: article.publishDate,
+      authors: [article.author || "Muhammad Maqbool Ahmed Khan"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.intro.slice(0, 160),
+    },
   };
 }
 
@@ -49,11 +78,34 @@ export default async function BlogDetailPage({ params }) {
     relatedSlugs.includes(d.slug)
   );
 
-  const communityName = community === "canada" ? "Canada" : "Pakistan";
-  const communityHubUrl = `/discussions/${community}`;
+  const jsonLdArticle = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.intro,
+    articleSection: article.category,
+    inLanguage: "en",
+    author: {
+      "@type": "Person",
+      name: article.author || "Muhammad Maqbool Ahmed Khan",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Ta'sees Circle",
+      url: "https://taseescircle.com",
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://taseescircle.com/discussions/${community}/${slug}`,
+    },
+  };
 
   return (
     <main className="min-h-screen bg-beige-50 pt-24 sm:pt-28 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+      />
       {/* Breadcrumb & Navigation Bar */}
       <div className="bg-white border-b border-beige-200 py-3.5 mb-8">
         <div className="section-container flex items-center gap-2 text-xs sm:text-sm text-charcoal-300 overflow-x-auto whitespace-nowrap">
