@@ -15,7 +15,7 @@ export default function ProgramsPage() {
       <Hero
         subtitle="Programs & Services"
         title="Engage, Educate, Empower"
-        description="Discover our comprehensive range of Islamic education, community development, and service programs designed for every member of the Ummah."
+        description="Discover our comprehensive range of online Islamic education, community development, and knowledge-sharing programs — designed for every member of the Ummah, accessible from anywhere."
         primaryCTA={{ label: "Get Involved", href: "/contact" }}
         height="min-h-[70vh] py-20 md:py-28"
       />
@@ -88,7 +88,7 @@ export default function ProgramsPage() {
         </section>
       ))}
 
-      {/* Volunteer CTA */}
+      {/* Digital Volunteer CTA */}
       <section className="bg-charcoal-600 islamic-pattern py-14 sm:py-20">
         <div className="section-container text-center">
           <motion.div
@@ -100,17 +100,17 @@ export default function ProgramsPage() {
           >
             <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Make a Difference</span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
-              Volunteer With Us
+              Volunteer Online
             </h2>
             <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
-              Join hundreds of volunteers who dedicate their time and skills to serve the community. Whether you can spare an hour a week or want to lead a program, there&apos;s a place for you at TaseesCircle.
+              Join hundreds of digital volunteers who dedicate their time and skills to serve the Ummah online. Whether you can moderate a discussion, translate content, or lead an online circle — there&apos;s a place for you at TaseesCircle.
             </p>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-xl hover:scale-[1.03] transition-all text-sm sm:text-base"
             >
               <Icons.Heart size={18} />
-              Become a Volunteer
+              Become a Digital Volunteer
             </Link>
           </motion.div>
         </div>

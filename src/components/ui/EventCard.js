@@ -1,9 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, Monitor } from "lucide-react";
 
-export default function EventCard({ title, date, location, description, type, index = 0 }) {
+export default function EventCard({ title, date, location, platform, description, type, index = 0 }) {
+  // Support both old "location" field and new "platform" field
+  const displayPlatform = platform || location;
+
   const typeColors = {
     Celebration: "bg-gold/10 text-gold",
     Workshop: "bg-islamic-green/10 text-islamic-green",
@@ -11,6 +14,10 @@ export default function EventCard({ title, date, location, description, type, in
     Competition: "bg-charcoal-400/10 text-charcoal-400",
     Fundraiser: "bg-gold/10 text-gold",
     Education: "bg-islamic-green/10 text-islamic-green",
+    Webinar: "bg-gold/10 text-gold",
+    "Live Q&A": "bg-islamic-green/10 text-islamic-green",
+    Discussion: "bg-charcoal-400/10 text-charcoal-400",
+    "Panel Discussion": "bg-beige-400/20 text-beige-600",
   };
 
   return (
@@ -39,10 +46,12 @@ export default function EventCard({ title, date, location, description, type, in
           <Calendar size={14} className="text-gold shrink-0" />
           {date}
         </div>
-        <div className="flex items-center gap-2 text-sm text-charcoal-400">
-          <MapPin size={14} className="text-gold shrink-0" />
-          {location}
-        </div>
+        {displayPlatform && (
+          <div className="flex items-center gap-2 text-sm text-charcoal-400">
+            <Monitor size={14} className="text-gold shrink-0" />
+            {displayPlatform}
+          </div>
+        )}
       </div>
     </motion.div>
   );

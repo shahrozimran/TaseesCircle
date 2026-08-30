@@ -2,23 +2,23 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, Hash } from "lucide-react";
 
 export default function CountrySpotlight() {
   const countries = [
     {
       name: "Pakistan",
       href: "/pakistan",
-      description: "Quran study circles, Zakat distribution, youth tarbiyah, and vibrant community gatherings across Lahore, Islamabad, and Karachi.",
-      cities: ["Lahore", "Islamabad", "Karachi"],
+      description: "Online knowledge blogs on Rizq e Halal, Islamic finance, business ethics, and societal issues — guided by Quran and Hadith, for Muslims across Pakistan.",
+      topics: ["Rizq e Halal", "Halal Business", "Fiqh Q&A"],
       gradient: "from-charcoal-600 via-charcoal-500 to-islamic-green/80",
       emoji: "🇵🇰",
     },
     {
       name: "Canada",
       href: "/canada",
-      description: "Weekend Islamic school, youth mentoring, interfaith dialogue, and new Muslim support across Toronto, Vancouver, and Calgary.",
-      cities: ["Toronto", "Vancouver", "Calgary"],
+      description: "Online discussions on halal income in Canada, riba-free mortgages, Muslim identity in the West, and raising Islamic families — all grounded in Quran & Sunnah.",
+      topics: ["Halal Income", "Riba-Free Living", "Muslim Identity"],
       gradient: "from-charcoal-600 via-charcoal-500 to-gold-dark",
       emoji: "🇨🇦",
     },
@@ -51,22 +51,22 @@ export default function CountrySpotlight() {
                   {country.description}
                 </p>
 
-                {/* Cities */}
+                {/* Topic badges */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-5 sm:mb-6">
-                  {country.cities.map((city) => (
+                  {country.topics.map((topic) => (
                     <span
-                      key={city}
+                      key={topic}
                       className="inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[11px] sm:text-xs font-medium bg-white/10 text-white/90"
                     >
-                      <MapPin size={10} />
-                      {city}
+                      <Hash size={9} />
+                      {topic}
                     </span>
                   ))}
                 </div>
 
                 {/* CTA */}
                 <span className="inline-flex items-center gap-2 text-gold-light font-medium text-xs sm:text-sm group-hover:gap-3 transition-all">
-                  Explore Community
+                  Read Discussions
                   <ArrowRight size={14} className="sm:w-4 sm:h-4" />
                 </span>
               </div>

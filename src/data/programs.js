@@ -7,21 +7,21 @@ export const programCategories = [
     id: "education",
     title: "Islamic Education",
     description:
-      "Comprehensive learning programs for all ages, from Quran memorization to advanced Islamic studies.",
+      "Comprehensive online learning programs for all ages, from Quran memorization to advanced Islamic studies — accessible from anywhere.",
     icon: "BookOpen",
     color: "gold",
     programs: [
       {
-        title: "Quran Academy",
-        description: "Structured Quran memorization and tajweed program with certified instructors.",
+        title: "Online Quran Academy",
+        description: "Structured Quran memorization and tajweed program with certified instructors via live video sessions.",
       },
       {
         title: "Arabic Language Course",
-        description: "Classical and conversational Arabic for understanding the Quran and Islamic texts.",
+        description: "Classical and conversational Arabic for understanding the Quran and Islamic texts — self-paced and live online.",
       },
       {
         title: "Islamic Studies Certificate",
-        description: "12-month comprehensive program covering fiqh, aqeedah, seerah, and hadith sciences.",
+        description: "12-month comprehensive online program covering fiqh, aqeedah, seerah, and hadith sciences.",
       },
     ],
   },
@@ -29,21 +29,21 @@ export const programCategories = [
     id: "youth",
     title: "Youth Development",
     description:
-      "Empowering the next generation with Islamic identity, leadership skills, and community engagement.",
+      "Empowering the next generation with Islamic identity, leadership skills, and community engagement — all through our digital platform.",
     icon: "Users",
     color: "islamic-green",
     programs: [
       {
-        title: "Young Leaders Program",
-        description: "Leadership training combining Islamic values with practical skills for ages 16-25.",
+        title: "Young Leaders Online Program",
+        description: "Leadership training combining Islamic values with practical skills for ages 16-25, conducted via live online sessions.",
       },
       {
-        title: "Summer Islamic Camp",
-        description: "Week-long summer camp with outdoor activities, Islamic workshops, and community building.",
+        title: "Online Summer Learning Series",
+        description: "Interactive summer program with Islamic workshops, virtual activities, and community building for Muslim youth.",
       },
       {
-        title: "Career Mentorship",
-        description: "Connecting youth with Muslim professionals for career guidance and networking.",
+        title: "Digital Career Mentorship",
+        description: "Connecting youth with Muslim professionals for career guidance and networking through our online platform.",
       },
     ],
   },
@@ -51,21 +51,21 @@ export const programCategories = [
     id: "women",
     title: "Women's Programs",
     description:
-      "Dedicated programs for Muslim women, creating spaces for learning, growth, and sisterhood.",
+      "Dedicated online circles for Muslim women, creating safe digital spaces for learning, growth, and sisterhood.",
     icon: "HeartHandshake",
     color: "beige-400",
     programs: [
       {
-        title: "Sisters' Study Circle",
-        description: "Weekly halaqah covering Quran tafseer, hadith, and practical Islamic guidance.",
+        title: "Sisters' Online Study Circle",
+        description: "Weekly online halaqah covering Quran tafseer, hadith, and practical Islamic guidance in a supportive digital space.",
       },
       {
-        title: "Women's Health & Wellness",
-        description: "Workshops on physical, mental, and spiritual wellness from an Islamic perspective.",
+        title: "Women's Wellness Webinars",
+        description: "Online workshops on physical, mental, and spiritual wellness from an Islamic perspective.",
       },
       {
-        title: "Entrepreneurship Workshop",
-        description: "Business skills training for Muslim women looking to start halal businesses.",
+        title: "Halal Entrepreneurship Circle",
+        description: "Online business skills training for Muslim women looking to start or grow halal businesses.",
       },
     ],
   },
@@ -73,39 +73,39 @@ export const programCategories = [
     id: "community",
     title: "Community Service",
     description:
-      "Serving humanity through charitable works, disaster relief, and community support programs.",
+      "Serving humanity through digital coordination of charitable works, online fundraising, and community support programs.",
     icon: "Heart",
     color: "charcoal-400",
     programs: [
       {
-        title: "Food Bank & Distribution",
-        description: "Regular halal food distribution to families in need across our community centers.",
+        title: "Online Sadaqah & Zakat Fund",
+        description: "Transparent digital collection and distribution of Zakat and Sadaqah to eligible recipients.",
       },
       {
-        title: "Refugee Support Program",
-        description: "Comprehensive support for Muslim refugees including housing, language, and job assistance.",
+        title: "Refugee Digital Support",
+        description: "Online support for Muslim refugees including digital language resources, job assistance, and community connection.",
       },
       {
-        title: "Zakat & Sadaqah Fund",
-        description: "Transparent collection and distribution of Zakat to eligible recipients.",
+        title: "Rizq e Halal Advisory",
+        description: "Free online Q&A sessions with Islamic finance scholars on halal income, business ethics, and avoiding riba.",
       },
     ],
   },
   {
-    id: "interfaith",
-    title: "Interfaith Engagement",
+    id: "knowledge",
+    title: "Knowledge & Discussion",
     description:
-      "Building bridges of understanding with other faith communities through dialogue and shared service.",
+      "Deep-dive online discussions on real-world Islamic challenges, backed by Quran and Hadith — open to all community members.",
     icon: "Globe",
     color: "gold",
     programs: [
       {
-        title: "Interfaith Dialogue Series",
-        description: "Monthly conversations with leaders from diverse religious and cultural backgrounds.",
+        title: "Rizq e Halal Discussion Series",
+        description: "Weekly online discussions on lawful livelihood in modern economies, guided by Quran and Hadith references.",
       },
       {
-        title: "Open Mosque Days",
-        description: "Welcoming neighbors to learn about Islam through tours, Q&A sessions, and shared meals.",
+        title: "Islamic Finance Online Q&A",
+        description: "Live Q&A sessions with scholars on riba-free banking, halal investing, and Shariah-compliant mortgages.",
       },
     ],
   },
@@ -113,7 +113,7 @@ export const programCategories = [
 
 export const impactStats = [
   { label: "Students Educated", value: 1200, suffix: "+" },
-  { label: "Families Served", value: 3500, suffix: "+" },
-  { label: "Programs Active", value: 15, suffix: "" },
-  { label: "Volunteers", value: 500, suffix: "+" },
+  { label: "Families Supported", value: 3500, suffix: "+" },
+  { label: "Online Programs", value: 15, suffix: "" },
+  { label: "Digital Volunteers", value: 500, suffix: "+" },
 ];

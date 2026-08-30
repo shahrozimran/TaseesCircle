@@ -15,7 +15,7 @@ export default function AboutPage() {
       <Hero
         subtitle="About TaseesCircle"
         title="Our Story of Faith & Service"
-        description="Founded in 2015, TaseesCircle grew from a small study circle of 20 families in Lahore into a cross-continental community serving thousands of Muslims in Pakistan and Canada."
+        description="Founded in 2015, TaseesCircle grew from a small online study circle of 20 families in Pakistan into a cross-continental digital community serving thousands of Muslims in Pakistan and Canada."
         height="min-h-[70vh] py-20 md:py-28"
       />
 
@@ -36,13 +36,13 @@ export default function AboutPage() {
                 className="space-y-4 sm:space-y-6 text-charcoal-400 leading-relaxed text-sm sm:text-base"
               >
                 <p>
-                  TaseesCircle began in 2015 as a humble gathering of 20 families in Lahore, Pakistan, united by a shared desire to deepen their connection with the Quran and each other. What started as a weekly study circle in a living room quickly grew into something much larger — a movement of hearts seeking knowledge, community, and purpose.
+                  TaseesCircle began in 2015 as a humble digital gathering of 20 families in Pakistan, united by a shared desire to deepen their connection with the Quran and each other. What started as a weekly online study circle quickly grew into something much larger — a movement of hearts seeking knowledge, community, and purpose across borders.
                 </p>
                 <p>
-                  Our founder, Dr. Muhammad Tariq, envisioned a community that would transcend geographic boundaries. By 2019, TaseesCircle had expanded to three cities across Pakistan and established its first Canadian chapter in Toronto, bringing the warmth and spirit of Islamic brotherhood to Muslim families navigating life in a new land.
+                  Our founder, Dr. Muhammad Tariq, envisioned a digital community that would transcend geographic boundaries. By 2019, TaseesCircle had expanded its online platform to serve Muslims across Pakistan and established its Canadian digital community, bringing the warmth and spirit of Islamic brotherhood to Muslim families navigating life in a new land.
                 </p>
                 <p>
-                  Today, TaseesCircle serves over 5,000 members across Pakistan and Canada. We run 15+ active programs ranging from Quran academies and youth mentorship to interfaith dialogue and community service initiatives. Our mission remains the same as day one: to unite hearts and build thriving Muslim communities rooted in authentic Islamic values.
+                  Today, TaseesCircle serves over 5,000 members across Pakistan and Canada through our digital platform. We run 15+ active online programs — from Quran academies and youth mentorship circles to Islamic finance guidance and community knowledge blogs. Our mission remains the same as day one: to unite hearts and build thriving Muslim communities rooted in authentic Islamic values.
                 </p>
               </motion.div>
             </div>

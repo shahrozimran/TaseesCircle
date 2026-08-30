@@ -3,27 +3,14 @@
 import { useState } from "react";
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
-import LocationCard from "@/components/ui/LocationCard";
+
 import FAQ from "@/components/ui/FAQ";
 import { motion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
 import { FacebookIcon, InstagramIcon, YoutubeIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { SOCIAL_LINKS } from "@/lib/constants";
 
-const allOffices = [
-  {
-    city: "Lahore, Pakistan",
-    address: "42-B, Gulberg III, Main Boulevard, Lahore, Punjab",
-    phone: "+92 42 3571 0000",
-    email: "lahore@taseescircle.org",
-  },
-  {
-    city: "Toronto, Canada",
-    address: "2150 Islington Avenue, Suite 200, Toronto, ON M9P 3V4",
-    phone: "+1 (416) 555-0100",
-    email: "toronto@taseescircle.org",
-  },
-];
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -184,13 +171,26 @@ export default function ContactPage() {
             {/* Sidebar Info */}
             <div className="lg:col-span-2 space-y-6">
               <SectionHeader
-                label="Our Offices"
-                title="Visit Us"
+                label="Connect With Us"
+                title="Online Community"
                 align="left"
               />
-              {allOffices.map((office, i) => (
-                <LocationCard key={office.city} {...office} index={i} />
-              ))}
+
+              {/* Email */}
+              <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
+                <h4 className="font-heading font-bold text-charcoal-600 mb-1.5 text-base">
+                  Email Us
+                </h4>
+                <p className="text-charcoal-300 text-xs sm:text-sm mb-3">
+                  We typically respond within 24–48 hours.
+                </p>
+                <a
+                  href="mailto:info@taseescircle.org"
+                  className="text-gold font-medium text-sm hover:underline break-all"
+                >
+                  info@taseescircle.org
+                </a>
+              </div>
 
               {/* Social */}
               <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">

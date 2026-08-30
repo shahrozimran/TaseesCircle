@@ -4,6 +4,33 @@
 
 export const resourceCategories = [
   {
+    id: "rizq",
+    title: "Rizq e Halal",
+    icon: "Coins",
+    resources: [
+      {
+        title: "The Islamic Guide to Halal Livelihood",
+        description: "A comprehensive guide on earning halal rizq in modern economies — covering employment, business, and investments through the lens of Quran and Sunnah.",
+        type: "Guide",
+      },
+      {
+        title: "Riba-Free Finance: A Practical Overview",
+        description: "Understanding and avoiding riba (interest) in daily financial life, with Shariah-compliant alternatives explained clearly.",
+        type: "Article",
+      },
+      {
+        title: "Halal Business Ethics in Islam",
+        description: "Scholarly exploration of Islamic business principles: honesty in trade, fair wages, and avoiding haram transactions.",
+        type: "Study Guide",
+      },
+      {
+        title: "Quran & Hadith on Wealth and Rizq",
+        description: "A curated collection of Quranic verses and authentic hadith on the blessings of halal wealth, contentment, and seeking provision.",
+        type: "Collection",
+      },
+    ],
+  },
+  {
     id: "quran",
     title: "Quran Study",
     icon: "BookOpen",
@@ -15,7 +42,7 @@ export const resourceCategories = [
       },
       {
         title: "Tajweed Rules Made Simple",
-        description: "Step-by-step guide to correct Quran recitation with audio examples.",
+        description: "Step-by-step online guide to correct Quran recitation with audio examples.",
         type: "Guide",
       },
       {

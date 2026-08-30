@@ -5,18 +5,18 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import ProgramCard from "@/components/ui/ProgramCard";
 import EventCard from "@/components/ui/EventCard";
 import ScholarCard from "@/components/ui/ScholarCard";
-import LocationCard from "@/components/ui/LocationCard";
+import DiscussionCard from "@/components/ui/DiscussionCard";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import {
   canadaHero,
-  canadaOffices,
   canadaPrograms,
-  canadaEvents,
+  canadaSessions,
   canadaScholars,
+  canadaDiscussions,
   canadaNews,
 } from "@/data/canada";
 import { motion } from "framer-motion";
-import { Newspaper } from "lucide-react";
+import { Newspaper, MessageSquare } from "lucide-react";
 
 export default function CanadaPage() {
   return (
@@ -26,18 +26,34 @@ export default function CanadaPage() {
         subtitle={canadaHero.subtitle}
         title={canadaHero.title}
         description={canadaHero.description}
-        primaryCTA={{ label: "View Programs", href: "#programs" }}
-        secondaryCTA={{ label: "Upcoming Events", href: "#events" }}
+        primaryCTA={{ label: "Browse Discussions", href: "#discussions" }}
+        secondaryCTA={{ label: "Join Online Circle", href: "#programs" }}
         height="min-h-[75vh] py-20 md:py-28"
       />
 
-      {/* Programs */}
-      <section id="programs" className="section-padding bg-white">
+      {/* Knowledge Discussions */}
+      <section id="discussions" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeader
-            label="Our Programs"
-            title="Programs in Canada"
-            description="From weekend Islamic schools to interfaith dialogue, explore our programs serving Canadian Muslim communities."
+            label="Knowledge Discussions"
+            title="Halal Life in Canada — Islamic Guidance"
+            description="Practical Islamic discussions on halal income, riba-free mortgages, Muslim identity, and raising families in Canada — all backed by Quran and authentic Hadith."
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {canadaDiscussions.map((discussion, i) => (
+              <DiscussionCard key={i} {...discussion} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Online Programs */}
+      <section id="programs" className="section-padding bg-beige-50">
+        <div className="section-container">
+          <SectionHeader
+            label="Online Programs"
+            title="Digital Circles for Canadian Muslims"
+            description="From Islamic learning to halal finance guidance — join our digital programs serving Muslims across Canada."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {canadaPrograms.map((program, i) => (
@@ -47,29 +63,29 @@ export default function CanadaPage() {
         </div>
       </section>
 
-      {/* Events */}
-      <section id="events" className="section-padding bg-beige-50">
+      {/* Online Sessions */}
+      <section id="sessions" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeader
-            label="Upcoming Events"
-            title="Events in Canada"
-            description="Join us at our upcoming community gatherings, workshops, and events across Canada."
+            label="Upcoming Online Sessions"
+            title="Live Webinars & Q&A Sessions"
+            description="Join our upcoming live sessions on halal mortgages, Rizq e Halal in Canada, and more — accessible from anywhere in Canada."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {canadaEvents.map((event, i) => (
-              <EventCard key={event.title} {...event} index={i} />
+            {canadaSessions.map((session, i) => (
+              <EventCard key={session.title} {...session} index={i} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Scholars */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-beige-50">
         <div className="section-container">
           <SectionHeader
             label="Our Scholars"
             title="Community Leaders & Educators"
-            description="Meet the dedicated scholars and professionals who guide our Canadian community."
+            description="Meet the dedicated scholars and professionals who guide our Canadian digital community with wisdom and authentic Islamic knowledge."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {canadaScholars.map((scholar, i) => (
@@ -89,22 +105,22 @@ export default function CanadaPage() {
             transition={{ duration: 0.6 }}
           >
             <p className="text-lg sm:text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4">
-              &ldquo;Whoever emigrates in the way of Allah will find on the earth many alternative locations and abundance.&rdquo;
+              &ldquo;And whoever fears Allah — He will make for him a way out and will provide for him from where he does not expect.&rdquo;
             </p>
             <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
-              — Surah An-Nisa (4:100)
+              — Surah At-Talaq (65:2-3)
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Community News */}
+      {/* Community Updates */}
       <section className="section-padding bg-beige-50">
         <div className="section-container">
           <SectionHeader
             label="Latest Updates"
             title="Community News"
-            description="Stay informed about the latest developments and achievements from our Canadian chapters."
+            description="Stay informed about the latest discussions, new online sessions, and achievements from our Canadian digital community."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {canadaNews.map((news, i) => (
@@ -132,18 +148,25 @@ export default function CanadaPage() {
         </div>
       </section>
 
-      {/* Offices */}
+      {/* Join Discussion CTA */}
       <section className="section-padding bg-white">
         <div className="section-container">
-          <SectionHeader
-            label="Find Us"
-            title="Our Canadian Offices"
-            description="Visit any of our community centers across Canada."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {canadaOffices.map((office, i) => (
-              <LocationCard key={office.city} {...office} index={i} />
-            ))}
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+              <MessageSquare size={24} className="text-gold" />
+            </div>
+            <SectionHeader
+              label="Join the Discussion"
+              title="Canada Community Online"
+              description="Have a question about halal income in Canada, Islamic finance, or Muslim life in the West? Join our online circles and get guidance from qualified scholars."
+            />
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
+            >
+              <MessageSquare size={16} />
+              Join Discussion Circle
+            </a>
           </div>
         </div>
       </section>
@@ -155,7 +178,7 @@ export default function CanadaPage() {
             <SectionHeader
               label="Stay Connected"
               title="Canada Community Updates"
-              description="Subscribe to receive weekly updates from our Canadian chapters."
+              description="Subscribe to receive new discussions, online session announcements, and Islamic guidance tailored for Canadian Muslims."
             />
             <NewsletterForm />
           </div>

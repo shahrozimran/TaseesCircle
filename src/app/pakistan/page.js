@@ -5,18 +5,18 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import ProgramCard from "@/components/ui/ProgramCard";
 import EventCard from "@/components/ui/EventCard";
 import ScholarCard from "@/components/ui/ScholarCard";
-import LocationCard from "@/components/ui/LocationCard";
+import DiscussionCard from "@/components/ui/DiscussionCard";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import {
   pakistanHero,
-  pakistanOffices,
   pakistanPrograms,
-  pakistanEvents,
+  pakistanSessions,
   pakistanScholars,
+  pakistanDiscussions,
   pakistanNews,
 } from "@/data/pakistan";
 import { motion } from "framer-motion";
-import { Newspaper } from "lucide-react";
+import { Newspaper, MessageSquare } from "lucide-react";
 
 export default function PakistanPage() {
   return (
@@ -26,18 +26,34 @@ export default function PakistanPage() {
         subtitle={pakistanHero.subtitle}
         title={pakistanHero.title}
         description={pakistanHero.description}
-        primaryCTA={{ label: "View Programs", href: "#programs" }}
-        secondaryCTA={{ label: "Upcoming Events", href: "#events" }}
+        primaryCTA={{ label: "Browse Discussions", href: "#discussions" }}
+        secondaryCTA={{ label: "Online Programs", href: "#programs" }}
         height="min-h-[75vh] py-20 md:py-28"
       />
 
-      {/* Programs */}
-      <section id="programs" className="section-padding bg-white">
+      {/* Knowledge Discussions */}
+      <section id="discussions" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeader
-            label="Our Programs"
-            title="Programs in Pakistan"
-            description="From Quran study circles to youth development, explore our community programs serving Muslims across Pakistan."
+            label="Knowledge Discussions"
+            title="Rizq e Halal & Societal Issues"
+            description="Deep Islamic discussions on earning halal livelihood in Pakistan, avoiding riba, business ethics, and building a life of barakah — all grounded in Quran and authentic Hadith."
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {pakistanDiscussions.map((discussion, i) => (
+              <DiscussionCard key={i} {...discussion} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Online Programs */}
+      <section id="programs" className="section-padding bg-beige-50">
+        <div className="section-container">
+          <SectionHeader
+            label="Online Programs"
+            title="Digital Learning Circles"
+            description="From online Quran tafseer circles to Rizq e Halal Q&A sessions — join our digital programs for Muslims across Pakistan."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {pakistanPrograms.map((program, i) => (
@@ -47,29 +63,29 @@ export default function PakistanPage() {
         </div>
       </section>
 
-      {/* Events */}
-      <section id="events" className="section-padding bg-beige-50">
+      {/* Online Sessions */}
+      <section id="sessions" className="section-padding bg-white">
         <div className="section-container">
           <SectionHeader
-            label="Upcoming Events"
-            title="Events in Pakistan"
-            description="Join us at our upcoming gatherings, workshops, and celebrations across Pakistan."
+            label="Upcoming Online Sessions"
+            title="Live Webinars & Q&A Sessions"
+            description="Join our upcoming live sessions on Rizq e Halal, Islamic finance, and more — accessible from anywhere in Pakistan."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {pakistanEvents.map((event, i) => (
-              <EventCard key={event.title} {...event} index={i} />
+            {pakistanSessions.map((session, i) => (
+              <EventCard key={session.title} {...session} index={i} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Scholars */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-beige-50">
         <div className="section-container">
           <SectionHeader
             label="Our Scholars"
             title="Guiding Lights of Knowledge"
-            description="Meet the scholars who guide our community with wisdom and authentic Islamic scholarship."
+            description="Meet the scholars who guide our online community with wisdom, authentic Islamic scholarship, and Quran & Hadith references."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {pakistanScholars.map((scholar, i) => (
@@ -89,22 +105,22 @@ export default function PakistanPage() {
             transition={{ duration: 0.6 }}
           >
             <p className="text-lg sm:text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4">
-              &ldquo;Indeed, Allah is with those who fear Him and those who are doers of good.&rdquo;
+              &ldquo;And eat of what Allah has provided for you, lawful and good. And fear Allah, in Whom you are believers.&rdquo;
             </p>
             <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
-              — Surah An-Nahl (16:128)
+              — Surah Al-Ma&apos;idah (5:88)
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Community News */}
+      {/* Community Updates */}
       <section className="section-padding bg-beige-50">
         <div className="section-container">
           <SectionHeader
             label="Latest Updates"
             title="Community News"
-            description="Stay informed about the latest developments and achievements from our Pakistan chapters."
+            description="Stay informed about the latest developments and new discussions from our Pakistan digital community."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {pakistanNews.map((news, i) => (
@@ -132,18 +148,25 @@ export default function PakistanPage() {
         </div>
       </section>
 
-      {/* Offices */}
+      {/* Join Discussion CTA */}
       <section className="section-padding bg-white">
         <div className="section-container">
-          <SectionHeader
-            label="Find Us"
-            title="Our Pakistan Offices"
-            description="Visit any of our community centers across Pakistan."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {pakistanOffices.map((office, i) => (
-              <LocationCard key={office.city} {...office} index={i} />
-            ))}
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-4">
+              <MessageSquare size={24} className="text-gold" />
+            </div>
+            <SectionHeader
+              label="Join the Discussion"
+              title="Pakistan Community Online"
+              description="Have a question about Rizq e Halal, Islamic business, or any societal issue? Join our online discussion circles and get guidance from qualified scholars."
+            />
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
+            >
+              <MessageSquare size={16} />
+              Join Discussion Circle
+            </a>
           </div>
         </div>
       </section>
@@ -155,7 +178,7 @@ export default function PakistanPage() {
             <SectionHeader
               label="Stay Connected"
               title="Pakistan Community Updates"
-              description="Subscribe to receive weekly updates from our Pakistan chapters."
+              description="Subscribe to receive new discussions, online session announcements, and Islamic knowledge from our Pakistan community."
             />
             <NewsletterForm />
           </div>

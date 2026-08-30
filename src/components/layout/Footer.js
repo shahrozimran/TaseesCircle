@@ -1,8 +1,7 @@
 import Link from "next/link";
 import {
   Mail,
-  MapPin,
-  Phone,
+  Globe,
   Heart,
 } from "lucide-react";
 import { FacebookIcon, InstagramIcon, YoutubeIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
@@ -25,8 +24,7 @@ export default function Footer() {
               <span className="font-heading font-bold text-xl">{SITE_NAME}</span>
             </div>
             <p className="text-charcoal-200 text-sm leading-relaxed mb-6 max-w-sm">
-              {SITE_TAGLINE}. Connecting Muslim communities in Pakistan and Canada
-              through education, worship, and service.
+              {SITE_TAGLINE}. A digital Islamic platform connecting Muslim communities in Pakistan and Canada through online knowledge, discussions, and authentic Islamic guidance.
             </p>
             {/* Social Icons with Touch Friendly Targets */}
             <div className="flex items-center gap-3">
@@ -136,9 +134,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3.5">
               <li className="flex items-start gap-3">
-                <MapPin size={16} className="text-gold mt-0.5 shrink-0" />
+                <Globe size={16} className="text-gold mt-0.5 shrink-0" />
                 <span className="text-charcoal-200 text-sm leading-snug">
-                  Lahore, Pakistan & Toronto, Canada
+                  Digital Community — Pakistan &amp; Canada
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -149,12 +147,6 @@ export default function Footer() {
                 >
                   info@taseescircle.org
                 </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone size={16} className="text-gold mt-0.5 shrink-0" />
-                <span className="text-charcoal-200 text-sm">
-                  +92 42 3571 0000
-                </span>
               </li>
             </ul>
           </div>

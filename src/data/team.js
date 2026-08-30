@@ -7,44 +7,44 @@ export const leadershipTeam = [
     name: "Dr. Muhammad Tariq",
     role: "Founder & Chairman",
     description:
-      "A visionary community leader with 30 years of experience in Islamic education and non-profit management. Dr. Tariq founded TaseesCircle with the dream of connecting Muslim communities across borders.",
+      "A visionary community leader with 30 years of experience in Islamic education. Dr. Tariq founded TaseesCircle with the dream of connecting Muslim communities across borders through a unified digital platform.",
   },
   {
     name: "Sister Amina Malik",
     role: "Executive Director",
     description:
-      "With expertise in organizational development and community engagement, Sister Amina oversees the day-to-day operations of TaseesCircle across both countries.",
+      "With expertise in digital community development and Islamic outreach, Sister Amina oversees the platform's operations and online programs across both communities.",
   },
   {
     name: "Sheikh Yusuf Al-Qasim",
     role: "Director of Religious Affairs",
     description:
-      "A graduate of Al-Azhar University, Sheikh Yusuf provides spiritual guidance and ensures all programs align with authentic Islamic teachings.",
+      "A graduate of Al-Azhar University, Sheikh Yusuf provides spiritual guidance and ensures all online discussions and programs align with authentic Islamic teachings.",
   },
   {
     name: "Br. Ahmed Hassan",
-    role: "Head of Operations — Pakistan",
+    role: "Head of Community — Pakistan",
     description:
-      "Born in Lahore, Ahmed manages all TaseesCircle operations across Pakistan, coordinating programs and community outreach in three major cities.",
+      "Born in Lahore, Ahmed manages all TaseesCircle digital programs and online circles for the Pakistani community, fostering meaningful connections across the country.",
   },
   {
     name: "Sr. Sarah Thompson",
-    role: "Head of Operations — Canada",
+    role: "Head of Community — Canada",
     description:
-      "A Canadian convert to Islam, Sarah brings a unique perspective to community building and oversees all Canadian programs and partnerships.",
+      "A Canadian convert to Islam, Sarah brings a unique perspective to digital community building and oversees all Canadian programs and online partnerships.",
   },
   {
     name: "Br. Bilal Chaudhry",
     role: "Director of Youth Programs",
     description:
-      "A passionate youth advocate, Bilal designs and runs youth engagement programs that have impacted over 1,000 young Muslims in both countries.",
+      "A passionate youth advocate, Bilal designs and runs digital youth engagement programs that have impacted over 1,000 young Muslims across both communities.",
   },
 ];
 
 export const coreValues = [
   {
     title: "Unity (Ummah)",
-    description: "We believe in the strength of a united community, transcending borders and backgrounds.",
+    description: "We believe in the strength of a united community, transcending borders and backgrounds through digital connection.",
     icon: "Users",
   },
   {
@@ -54,22 +54,22 @@ export const coreValues = [
   },
   {
     title: "Service (Khidmah)",
-    description: "We serve humanity with compassion, following the prophetic tradition of selfless giving.",
+    description: "We serve humanity with compassion online and offline, following the prophetic tradition of selfless giving.",
     icon: "Heart",
   },
   {
     title: "Faith (Iman)",
-    description: "We nurture strong faith as the cornerstone of a meaningful life and a thriving community.",
+    description: "We nurture strong faith as the cornerstone of a meaningful life and a thriving digital community.",
     icon: "Star",
   },
 ];
 
 export const milestones = [
-  { year: "2015", title: "Founded in Lahore", description: "TaseesCircle begins as a small study circle of 20 families in Lahore, Pakistan." },
-  { year: "2017", title: "Expanded to 3 Pakistani Cities", description: "Opened community centers in Islamabad and Karachi to serve growing demand." },
-  { year: "2019", title: "Launched in Canada", description: "Established our first Canadian chapter in Toronto with 50 founding families." },
-  { year: "2020", title: "Virtual Programs", description: "Pivoted to online learning during the pandemic, reaching 2,000+ participants worldwide." },
-  { year: "2022", title: "5 Community Centers", description: "Reached five active community centers across Pakistan and Canada." },
-  { year: "2024", title: "Youth Leadership Program", description: "Launched the flagship Youth Tarbiyah program serving 500+ young Muslims." },
-  { year: "2026", title: "5,000+ Members", description: "TaseesCircle community grows to over 5,000 active members across both countries." },
+  { year: "2015", title: "Founded Online", description: "TaseesCircle launches as a digital study circle of 20 families in Pakistan, meeting weekly via video call." },
+  { year: "2017", title: "Platform Launched", description: "Launched our dedicated online platform, expanding our digital reach to hundreds of Muslim families across Pakistan." },
+  { year: "2019", title: "Canada Community Launched", description: "Established our Canadian online community, welcoming 50 founding families from across Canada." },
+  { year: "2020", title: "2,000+ Online Participants", description: "Digital-first approach proved its power — reached over 2,000 participants worldwide across all online circles." },
+  { year: "2022", title: "Knowledge Blog Platform", description: "Launched our Rizq e Halal and Islamic knowledge blog series, addressing real-world challenges with Quran & Hadith guidance." },
+  { year: "2024", title: "Youth Digital Program", description: "Launched the flagship Youth Tarbiyah Online Program, serving 500+ young Muslims in Pakistan and Canada." },
+  { year: "2026", title: "5,000+ Members", description: "TaseesCircle digital community grows to over 5,000 active members — united across borders, guided by one faith." },
 ];

@@ -5,40 +5,42 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import CountrySpotlight from "@/components/sections/CountrySpotlight";
 import StatsBar from "@/components/ui/StatsBar";
 import TestimonialSlider from "@/components/ui/TestimonialSlider";
-import EventCard from "@/components/ui/EventCard";
+import DiscussionCard from "@/components/ui/DiscussionCard";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import { STATS } from "@/lib/constants";
 import { testimonials } from "@/data/testimonials";
-import { pakistanEvents } from "@/data/pakistan";
-import { canadaEvents } from "@/data/canada";
+import { pakistanDiscussions } from "@/data/pakistan";
+import { canadaDiscussions } from "@/data/canada";
 import { motion } from "framer-motion";
 import { BookOpen, Users, Heart, Star } from "lucide-react";
 
-const featuredEvents = [
-  ...pakistanEvents.slice(0, 2),
-  ...canadaEvents.slice(0, 2),
+const featuredDiscussions = [
+  pakistanDiscussions[0],
+  pakistanDiscussions[2],
+  canadaDiscussions[0],
+  canadaDiscussions[1],
 ];
 
 const values = [
   {
     icon: BookOpen,
     title: "Knowledge",
-    description: "Seeking and sharing authentic Islamic knowledge to illuminate hearts and minds.",
+    description: "Seeking and sharing authentic Islamic knowledge through online discussions, blogs, and Quran & Hadith references.",
   },
   {
     icon: Users,
     title: "Unity",
-    description: "Building bridges across borders, uniting the Ummah through shared purpose.",
+    description: "Building bridges across borders, uniting the Ummah through shared digital purpose and meaningful discussion.",
   },
   {
     icon: Heart,
     title: "Service",
-    description: "Serving humanity with compassion, following the Sunnah of our beloved Prophet ﷺ.",
+    description: "Serving the Ummah online with compassion, following the Sunnah of our beloved Prophet ﷺ.",
   },
   {
     icon: Star,
     title: "Faith",
-    description: "Nurturing strong Iman as the foundation of a meaningful life and thriving community.",
+    description: "Nurturing strong Iman as the foundation of a meaningful life and a thriving digital community.",
   },
 ];
 
@@ -49,9 +51,9 @@ export default function HomePage() {
       <Hero
         subtitle="Welcome to TaseesCircle"
         title="Uniting Hearts, Building Communities"
-        description="An Islamic community engagement platform connecting Muslim communities in Pakistan and Canada through education, worship, and service."
-        primaryCTA={{ label: "Explore Pakistan", href: "/pakistan" }}
-        secondaryCTA={{ label: "Explore Canada", href: "/canada" }}
+        description="A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith."
+        primaryCTA={{ label: "Pakistan Discussions", href: "/pakistan" }}
+        secondaryCTA={{ label: "Canada Discussions", href: "/canada" }}
       />
 
       {/* Mission / Values */}
@@ -60,7 +62,7 @@ export default function HomePage() {
           <SectionHeader
             label="Our Mission"
             title="Rooted in Faith, Driven by Purpose"
-            description="TaseesCircle is built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life in communities across two nations."
+            description="TaseesCircle is a digital platform built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life through online discussions grounded in Quran and Sunnah."
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -94,7 +96,7 @@ export default function HomePage() {
           <SectionHeader
             label="Our Communities"
             title="Two Nations, One Ummah"
-            description="Explore our vibrant communities in Pakistan and Canada, each with unique programs and events tailored to local needs."
+            description="Explore our digital knowledge hubs for Pakistan and Canada — each with discussions and blogs tailored to the challenges Muslims face in each community."
           />
           <CountrySpotlight />
         </div>
@@ -103,17 +105,17 @@ export default function HomePage() {
       {/* Stats Bar */}
       <StatsBar stats={STATS} />
 
-      {/* Upcoming Events */}
+      {/* Featured Discussions */}
       <section className="section-padding bg-white">
         <div className="section-container">
           <SectionHeader
-            label="Upcoming Events"
-            title="Join Us at Our Next Gathering"
-            description="From community iftars to educational seminars, there's always something happening at TaseesCircle."
+            label="Featured Discussions"
+            title="Knowledge Rooted in Quran & Hadith"
+            description="From earning Rizq e Halal in Pakistan to navigating Islamic finance in Canada — our community discusses real challenges with authentic Islamic guidance."
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {featuredEvents.map((event, i) => (
-              <EventCard key={i} {...event} index={i} />
+            {featuredDiscussions.map((discussion, i) => (
+              <DiscussionCard key={i} {...discussion} index={i} />
             ))}
           </div>
         </div>
@@ -125,7 +127,7 @@ export default function HomePage() {
           <SectionHeader
             label="Community Voices"
             title="What Our Members Say"
-            description="Hear from community members whose lives have been touched by TaseesCircle."
+            description="Hear from community members whose lives have been touched by TaseesCircle's online knowledge and discussions."
           />
           <TestimonialSlider testimonials={testimonials} />
         </div>
@@ -156,8 +158,8 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto text-center">
             <SectionHeader
               label="Stay Connected"
-              title="Join Our Newsletter"
-              description="Receive weekly updates on events, programs, and inspiring Islamic content from TaseesCircle."
+              title="Join Our Digital Community"
+              description="Receive weekly updates on new knowledge discussions, online sessions, and inspiring Islamic content from TaseesCircle."
             />
             <NewsletterForm />
           </div>

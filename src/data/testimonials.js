@@ -7,42 +7,42 @@ export const testimonials = [
     name: "Fatima Zahra",
     location: "Lahore, Pakistan",
     quote:
-      "TaseesCircle has transformed our family's connection to the deen. The Quran study circles have given my children a deep love for the Book of Allah.",
-    role: "Community Member",
+      "TaseesCircle has transformed our family's connection to the deen. The online Quran study circles have given my children a deep love for the Book of Allah — without leaving home.",
+    role: "Online Community Member",
   },
   {
     name: "Ahmed Khalil",
     location: "Toronto, Canada",
     quote:
-      "As a new Muslim, I found a second family at TaseesCircle. The New Muslim Support Circle gave me the guidance and companionship I was searching for.",
+      "As a new Muslim, I found a second family at TaseesCircle. The online New Muslim Support Circle gave me the guidance and companionship I was searching for, right from my laptop.",
     role: "New Muslim Support Member",
   },
   {
     name: "Dr. Hina Rasheed",
     location: "Islamabad, Pakistan",
     quote:
-      "The Sisters' Halaqah is the highlight of my week. It's a space where I can learn, reflect, and grow alongside inspiring Muslim women.",
+      "The Sisters' Online Halaqah is the highlight of my week. It's a digital space where I can learn, reflect, and grow alongside inspiring Muslim women from across Pakistan.",
     role: "Sisters' Halaqah Member",
   },
   {
     name: "Omar Syed",
     location: "Vancouver, Canada",
     quote:
-      "The Youth Mentorship Program connected me with a mentor who helped me navigate my career while staying true to my Islamic values. I'm forever grateful.",
-    role: "Youth Program Graduate",
+      "The discussion on Rizq e Halal in Canada opened my eyes to how to navigate my career Islamically. The Quran and Hadith references made everything so clear and grounded.",
+    role: "Community Discussion Participant",
   },
   {
     name: "Amira Bibi",
     location: "Karachi, Pakistan",
     quote:
-      "TaseesCircle's Zakat distribution reached our family during our most difficult time. They didn't just give financial aid — they gave us dignity and hope.",
-    role: "Zakat Recipient",
+      "The online knowledge sessions on halal livelihood gave me the confidence to make better financial decisions for my family, guided by authentic Islamic principles.",
+    role: "Knowledge Circle Member",
   },
   {
     name: "James (Ibrahim) Chen",
     location: "Calgary, Canada",
     quote:
-      "The Interfaith Dialogue series opened my heart to Islam before I converted. Now I help organize the events that changed my life.",
-    role: "Interfaith Volunteer",
+      "The online knowledge blogs and live Q&A sessions on Islamic finance changed how I approach money. TaseesCircle made complex topics accessible with beautiful Quranic guidance.",
+    role: "Islamic Finance Circle Member",
   },
 ];
