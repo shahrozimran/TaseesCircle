@@ -19,6 +19,7 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
@@ -26,8 +27,9 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     // Perform security validation & sanitization
     const sanitizedEmail = formData.email.trim();
@@ -49,11 +51,33 @@ export default function ContactPage() {
       return;
     }
 
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", country: "", subject: "", message: "" });
-    }, 4000);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sanitizedData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMessage(data.error || "Failed to send message. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      setLoading(false);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: "", email: "", country: "", subject: "", message: "" });
+      }, 4000);
+    } catch (err) {
+      setLoading(false);
+      setErrorMessage("Network error. Please try again later.");
+    }
   };
 
   return (
