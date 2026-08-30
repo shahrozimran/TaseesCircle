@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TaseesCircle — Islamic Community Engagement Platform
 
-## Getting Started
+An elegant, modern Islamic community engagement website connecting Muslim communities in **Pakistan** and **Canada** through education, programs, and shared values.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- **Dual Community Hubs**: Dedicated, localized content for **Pakistan** (Lahore, Islamabad, Karachi) and **Canada** (Toronto, Vancouver, Calgary).
+- **Comprehensive Page Architecture**:
+  - `Home`: Mission statement, dual country spotlight, stats counter, upcoming events, community voices testimonial slider, newsletter subscription.
+  - `About Us`: Organization story, core values, vision & mission, leadership team, interactive timeline.
+  - `Pakistan`: Local programs, events, scholar profiles, community news, office locations.
+  - `Canada`: Local programs, events, scholar profiles, community news, office locations.
+  - `Programs`: Categorized Islamic education, youth development, women's programs, community service, interfaith initiatives.
+  - `Resources`: Filterable Quran study guides, Hadith collections, articles, recommended reading.
+  - `Contact`: Interactive contact form, office locations, social media links, FAQ accordion.
+  - `Login`: Google OAuth authentication via Supabase.
+- **Design System**: Warm beige, pure white, and charcoal palette with gold accents, custom SVG Islamic geometric patterns, glassmorphism cards, and Framer Motion micro-animations.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS v3 & PostCSS
+- **Authentication**: Supabase Auth (`@supabase/supabase-js` & `@supabase/ssr`) with Google OAuth
+- **Animations**: Framer Motion
+- **Icons**: Lucide React & Custom SVG Social Icons
+- **Fonts**: Playfair Display (Headings), Inter (Body), Amiri (Arabic Calligraphy)
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/shahrozimran/TaseesCircle.git
+
+# Navigate into the project directory
+cd TaseesCircle/tasees-circle
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Environment Setup
 
-## Learn More
+Create a `.env.local` file in the root directory:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).

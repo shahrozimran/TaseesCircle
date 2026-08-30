@@ -1,0 +1,157 @@
+"use client";
+
+import Hero from "@/components/sections/Hero";
+import SectionHeader from "@/components/ui/SectionHeader";
+import TeamCard from "@/components/ui/TeamCard";
+import Timeline from "@/components/sections/Timeline";
+import { leadershipTeam, coreValues, milestones } from "@/data/team";
+import { motion } from "framer-motion";
+import * as Icons from "lucide-react";
+
+export default function AboutPage() {
+  return (
+    <>
+      {/* Hero */}
+      <Hero
+        subtitle="About TaseesCircle"
+        title="Our Story of Faith & Service"
+        description="Founded in 2015, TaseesCircle grew from a small study circle of 20 families in Lahore into a cross-continental community serving thousands of Muslims in Pakistan and Canada."
+        height="h-[70vh]"
+      />
+
+      {/* Our Story */}
+      <section className="section-padding bg-white">
+        <div className="section-container">
+          <div className="max-w-4xl mx-auto">
+            <SectionHeader
+              label="Our Beginning"
+              title="From a Small Circle to a Global Community"
+            />
+            <div className="prose prose-lg max-w-none">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="space-y-6 text-charcoal-400 leading-relaxed"
+              >
+                <p>
+                  TaseesCircle began in 2015 as a humble gathering of 20 families in Lahore, Pakistan, united by a shared desire to deepen their connection with the Quran and each other. What started as a weekly study circle in a living room quickly grew into something much larger — a movement of hearts seeking knowledge, community, and purpose.
+                </p>
+                <p>
+                  Our founder, Dr. Muhammad Tariq, envisioned a community that would transcend geographic boundaries. By 2019, TaseesCircle had expanded to three cities across Pakistan and established its first Canadian chapter in Toronto, bringing the warmth and spirit of Islamic brotherhood to Muslim families navigating life in a new land.
+                </p>
+                <p>
+                  Today, TaseesCircle serves over 5,000 members across Pakistan and Canada. We run 15+ active programs ranging from Quran academies and youth mentorship to interfaith dialogue and community service initiatives. Our mission remains the same as day one: to unite hearts and build thriving Muslim communities rooted in authentic Islamic values.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="section-padding bg-beige-50">
+        <div className="section-container">
+          <SectionHeader
+            label="What We Stand For"
+            title="Our Core Values"
+            description="These four pillars guide everything we do at TaseesCircle."
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {coreValues.map((value, i) => {
+              const IconComponent = Icons[value.icon] || Icons.Star;
+              return (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="bg-white rounded-2xl shadow-card card-hover p-8 text-center border border-beige-100"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center mx-auto mb-5">
+                    <IconComponent size={28} className="text-gold" />
+                  </div>
+                  <h3 className="font-heading font-bold text-charcoal-600 text-xl mb-3">
+                    {value.title}
+                  </h3>
+                  <p className="text-charcoal-300 text-sm leading-relaxed">
+                    {value.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Vision & Mission */}
+      <section className="bg-charcoal-600 islamic-pattern py-20">
+        <div className="section-container">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center md:text-left"
+            >
+              <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Our Vision</span>
+              <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mt-3 mb-4">
+                A United Ummah, Empowered by Knowledge
+              </h3>
+              <p className="text-white/70 leading-relaxed">
+                We envision a world where every Muslim has access to authentic Islamic knowledge, meaningful community connections, and the support they need to live a life of purpose and faith — regardless of where they call home.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center md:text-left"
+            >
+              <span className="text-gold text-sm uppercase tracking-[0.2em] font-medium">Our Mission</span>
+              <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mt-3 mb-4">
+                Engage, Educate, Empower
+              </h3>
+              <p className="text-white/70 leading-relaxed">
+                TaseesCircle engages Muslim communities through meaningful programs, educates through authentic Islamic scholarship, and empowers individuals to become leaders of positive change in their families and societies.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team */}
+      <section className="section-padding bg-white">
+        <div className="section-container">
+          <SectionHeader
+            label="Leadership"
+            title="Meet Our Team"
+            description="Dedicated individuals who guide TaseesCircle's mission with wisdom, passion, and servant leadership."
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {leadershipTeam.map((member, i) => (
+              <TeamCard key={member.name} {...member} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section className="section-padding bg-beige-50">
+        <div className="section-container">
+          <SectionHeader
+            label="Our Journey"
+            title="Milestones Along the Way"
+            description="From a small circle in Lahore to a thriving cross-continental community."
+          />
+          <Timeline milestones={milestones} />
+        </div>
+      </section>
+    </>
+  );
+}
