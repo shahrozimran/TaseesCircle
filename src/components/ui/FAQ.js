@@ -26,8 +26,8 @@ const faqData = [
     answer: "Our Zakat distribution follows strict Islamic guidelines. All Zakat funds are allocated to eligible categories as defined in the Quran. We maintain full transparency with annual audited reports available to all donors.",
   },
   {
-    question: "Do you offer online programs?",
-    answer: "Yes, many of our programs are available online including Quran study circles, Islamic courses, and youth mentorship sessions. Check our Programs page for current online offerings.",
+    question: "Do you offer online circles?",
+    answer: "Yes, our discussions and knowledge circles are available online including Quran study insights, Islamic finance Q&As, and community guidance. Check our Discussions page to participate.",
   },
 ];
 

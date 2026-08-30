@@ -110,14 +110,6 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/programs"
-                  className="text-charcoal-200 hover:text-gold text-sm transition-colors block py-0.5"
-                >
-                  Programs & Services
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/resources"
                   className="text-charcoal-200 hover:text-gold text-sm transition-colors block py-0.5"
                 >

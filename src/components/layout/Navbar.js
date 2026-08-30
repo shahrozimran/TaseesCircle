@@ -17,7 +17,6 @@ const heroRoutes = [
   "/discussions/canada",
   "/pakistan",
   "/canada",
-  "/programs",
   "/resources",
   "/contact",
 ];

@@ -2,14 +2,12 @@
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
-import ProgramCard from "@/components/ui/ProgramCard";
 import EventCard from "@/components/ui/EventCard";
 import ScholarCard from "@/components/ui/ScholarCard";
 import DiscussionCard from "@/components/ui/DiscussionCard";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import {
   canadaHero,
-  canadaPrograms,
   canadaSessions,
   canadaScholars,
   canadaDiscussions,
@@ -27,7 +25,7 @@ export default function CanadaPage() {
         title={canadaHero.title}
         description={canadaHero.description}
         primaryCTA={{ label: "Browse Discussions", href: "#discussions" }}
-        secondaryCTA={{ label: "Join Online Circle", href: "#programs" }}
+        secondaryCTA={{ label: "Live Sessions", href: "#sessions" }}
         height="min-h-[75vh] py-20 md:py-28"
       />
 
@@ -47,21 +45,7 @@ export default function CanadaPage() {
         </div>
       </section>
 
-      {/* Online Programs */}
-      <section id="programs" className="section-padding bg-beige-50">
-        <div className="section-container">
-          <SectionHeader
-            label="Online Programs"
-            title="Digital Circles for Canadian Muslims"
-            description="From Islamic learning to halal finance guidance — join our digital programs serving Muslims across Canada."
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {canadaPrograms.map((program, i) => (
-              <ProgramCard key={program.title} {...program} index={i} />
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Online Sessions */}
       <section id="sessions" className="section-padding bg-white">
