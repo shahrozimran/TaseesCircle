@@ -22,6 +22,15 @@ export function useAuth() {
     return data;
   }, []);
 
+  const refetchProfile = useCallback(async () => {
+    if (user?.id) {
+      const data = await fetchProfile(user.id);
+      setProfile(data);
+      return data;
+    }
+    return null;
+  }, [user?.id, fetchProfile]);
+
   useEffect(() => {
     const supabase = createClient();
 
@@ -144,6 +153,13 @@ export function useAuth() {
     setProfile(null);
   };
 
+  // Check if profile details (full_name, city, country) are present in database
+  const isProfileComplete = !!(
+    profile?.full_name?.trim() &&
+    profile?.city?.trim() &&
+    profile?.country?.trim()
+  );
+
   return {
     user,
     profile,
@@ -153,6 +169,8 @@ export function useAuth() {
     signUpWithEmail,
     resetPassword,
     signOut,
+    refetchProfile,
+    isProfileComplete,
     isAdmin: profile?.role === "super_admin",
   };
 }

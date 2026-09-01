@@ -1,10 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { usePathname, useRouter } from "next/navigation";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
-  const { user, profile, loading, signOut } = useAuth();
+  const { user, profile, loading, signOut, isProfileComplete } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Enforce mandatory profile completion: if incomplete and trying to open other pages, lock to /dashboard/profile
+  useEffect(() => {
+    if (!loading && user && !isProfileComplete) {
+      if (pathname !== "/dashboard/profile") {
+        router.push("/dashboard/profile?setup=required");
+      }
+    }
+  }, [user, isProfileComplete, loading, pathname, router]);
 
   if (loading) {
     return (
@@ -18,7 +31,6 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  // Middleware handles redirect, but guard here as well
   if (!user) return null;
 
   return (
@@ -28,6 +40,7 @@ export default function DashboardLayout({ children }) {
         user={user}
         profile={profile}
         signOut={signOut}
+        isProfileComplete={isProfileComplete}
       />
 
       {/* Main Content Area */}
