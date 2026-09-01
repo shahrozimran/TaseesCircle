@@ -23,6 +23,24 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
+export const DASHBOARD_NAV_LINKS = [
+  { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
+  { label: "My Circle", href: "/dashboard/my-circle", icon: "CircleDot", requiresCircle: true },
+  { label: "Register Masjid", href: "/dashboard/register-masjid", icon: "Plus", hideIfCircle: true },
+  { label: "Join Masjid", href: "/dashboard/join-masjid", icon: "Link", hideIfCircle: true },
+  { label: "Notifications", href: "/dashboard/notifications", icon: "Bell" },
+  { label: "Contact Support", href: "/dashboard/support", icon: "MessageSquare" },
+  { label: "Profile", href: "/dashboard/profile", icon: "UserCircle" },
+];
+
+export const ADMIN_NAV_LINKS = [
+  { label: "Overview", href: "/admin", icon: "LayoutDashboard" },
+  { label: "Masjid Approvals", href: "/admin/approvals", icon: "CheckCircle" },
+  { label: "Support Tickets", href: "/admin/tickets", icon: "Ticket" },
+  { label: "All Circles", href: "/admin/circles", icon: "CircleDot" },
+  { label: "Users", href: "/admin/users", icon: "Users" },
+];
+
 export const SOCIAL_LINKS = {
   facebook: "https://facebook.com/taseescircle",
   instagram: "https://instagram.com/taseescircle",
