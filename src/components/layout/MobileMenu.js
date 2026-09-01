@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown, LogIn, LogOut } from "lucide-react";
+import { ChevronDown, LogIn, LogOut, LayoutDashboard } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -54,6 +54,14 @@ export default function MobileMenu({ isOpen, onClose, pathname }) {
               <p className="text-xs text-charcoal-300">Signed in as</p>
               <p className="font-heading font-bold text-charcoal-600 text-base">{fullName}</p>
               <p className="text-xs text-charcoal-400 truncate">{user.email}</p>
+              <Link
+                href="/dashboard"
+                onClick={onClose}
+                className="mt-3 flex items-center justify-center gap-2 w-full px-4 py-2 bg-gradient-gold text-white text-xs font-semibold rounded-lg shadow-sm"
+              >
+                <LayoutDashboard size={14} />
+                Go to Dashboard
+              </Link>
             </div>
           )}
 

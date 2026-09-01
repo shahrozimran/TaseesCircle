@@ -138,9 +138,8 @@ export default function AdminLoginClient() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin_access"
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white placeholder:text-white/20 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
                 />
               </div>
             </div>
@@ -155,10 +154,9 @@ export default function AdminLoginClient() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="taseescircleadmin"
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-12 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white placeholder:text-white/20 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+                  className="w-full pl-10 pr-12 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
                 />
                 <button
                   type="button"

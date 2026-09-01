@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, LogIn } from "lucide-react";
+import { Menu, X, ChevronDown, LogIn, LayoutDashboard } from "lucide-react";
 import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import MobileMenu from "./MobileMenu";
 import UserMenu from "@/components/auth/UserMenu";
@@ -39,6 +39,11 @@ export default function Navbar() {
     setMobileOpen(false);
     setDropdownOpen(null);
   }, [pathname]);
+
+  // Hide public navbar inside dashboard or admin views to prevent double-header conflict
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+    return null;
+  }
 
   const isActive = (href) => {
     if (href === "/") return pathname === "/";
@@ -140,9 +145,18 @@ export default function Navbar() {
               </div>
             ))}
 
-            {/* Auth Button or User Menu */}
+            {/* Logged-in State: Dashboard Button + User Menu */}
             {user ? (
-              <UserMenu scrolled={isSolid} />
+              <div className="flex items-center gap-2 ml-4">
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-gold text-white text-sm font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all"
+                >
+                  <LayoutDashboard size={16} />
+                  Dashboard
+                </Link>
+                <UserMenu scrolled={isSolid} />
+              </div>
             ) : (
               <Link
                 href="/login"
@@ -174,6 +188,7 @@ export default function Navbar() {
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
         pathname={pathname}
+        user={user}
       />
     </>
   );

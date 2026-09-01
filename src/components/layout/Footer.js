@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Mail,
   Globe,
@@ -8,7 +11,13 @@ import { FacebookIcon, InstagramIcon, YoutubeIcon, WhatsAppIcon } from "@/compon
 import { SITE_NAME, SITE_TAGLINE, NAV_LINKS, SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  // Hide footer inside dashboard or admin views
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <footer className="bg-charcoal-600 text-white islamic-pattern border-t border-white/10">

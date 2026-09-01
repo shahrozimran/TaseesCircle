@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { User, LogOut, ChevronDown } from "lucide-react";
+import { User, LogOut, ChevronDown, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function UserMenu({ scrolled }) {
   const { user, signOut } = useAuth();
@@ -26,7 +27,7 @@ export default function UserMenu({ scrolled }) {
   const fullName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0];
 
   return (
-    <div className="relative ml-4" ref={menuRef}>
+    <div className="relative ml-2" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${
@@ -48,7 +49,7 @@ export default function UserMenu({ scrolled }) {
             {fullName.charAt(0).toUpperCase()}
           </div>
         )}
-        <span className="text-xs font-medium max-w-[100px] truncate">{fullName}</span>
+        <span className="text-xs font-medium max-w-[100px] truncate hidden sm:inline-block">{fullName}</span>
         <ChevronDown size={14} className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
@@ -60,16 +61,36 @@ export default function UserMenu({ scrolled }) {
             <p className="text-xs text-charcoal-400 truncate">{user.email}</p>
           </div>
 
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              signOut();
-            }}
-            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+          <Link
+            href="/dashboard"
+            onClick={() => setIsOpen(false)}
+            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-500 hover:bg-beige-50 transition-colors font-medium"
           >
-            <LogOut size={16} />
-            Sign Out
-          </button>
+            <LayoutDashboard size={16} className="text-gold" />
+            Go to Dashboard
+          </Link>
+
+          <Link
+            href="/dashboard/profile"
+            onClick={() => setIsOpen(false)}
+            className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-400 hover:bg-beige-50 transition-colors"
+          >
+            <User size={16} />
+            Profile Settings
+          </Link>
+
+          <div className="border-t border-beige-100 mt-1 pt-1">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                signOut();
+              }}
+              className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+            >
+              <LogOut size={16} />
+              Sign Out
+            </button>
+          </div>
         </div>
       )}
     </div>

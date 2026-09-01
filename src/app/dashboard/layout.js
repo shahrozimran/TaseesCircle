@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardTopbar from "@/components/dashboard/DashboardTopbar";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function DashboardLayout({ children }) {
-  const { user, profile, loading, signOut, isAdmin } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, profile, loading, signOut } = useAuth();
 
   if (loading) {
     return (
@@ -21,44 +18,22 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  // Middleware handles redirect, but just in case
+  // Middleware handles redirect, but guard here as well
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-beige-50 flex">
-      {/* Sidebar */}
-      <DashboardSidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+    <div className="min-h-screen bg-beige-50 flex flex-col">
+      {/* Top Navigation Header */}
+      <DashboardHeader
         user={user}
         profile={profile}
-        isAdmin={isAdmin}
+        signOut={signOut}
       />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen lg:ml-64">
-        {/* Topbar */}
-        <DashboardTopbar
-          user={user}
-          profile={profile}
-          onMenuToggle={() => setSidebarOpen(true)}
-          signOut={signOut}
-          isAdmin={isAdmin}
-        />
-
-        {/* Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 pt-20 sm:pt-22 lg:pt-24">
-          {children}
-        </main>
-      </div>
-
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        {children}
+      </main>
     </div>
   );
 }
