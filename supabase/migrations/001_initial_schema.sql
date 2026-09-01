@@ -566,3 +566,18 @@ CREATE POLICY "Super admins can read all actions" ON public.admin_actions
 -- ENABLE REALTIME for notifications
 -- ============================================
 ALTER PUBLICATION supabase_realtime ADD TABLE public.notifications;
+
+
+-- ============================================
+-- SUPER ADMIN CREDENTIAL SETUP:
+-- Username: admin_access
+-- Email: admin_access@taseescircle.com
+-- Password: taseescircleadmin
+--
+-- Note: After creating the user in Supabase Auth,
+-- run this statement to set super_admin role:
+-- ============================================
+UPDATE public.profiles
+SET role = 'super_admin'
+WHERE email = 'admin_access@taseescircle.com';
+

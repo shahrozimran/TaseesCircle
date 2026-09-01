@@ -134,10 +134,10 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-gold mt-0.5 shrink-0" />
                 <a
-                  href="mailto:info@taseescircle.org"
+                  href="mailto:info@taseescircle.com"
                   className="text-charcoal-200 hover:text-gold text-sm transition-colors break-all"
                 >
-                  info@taseescircle.org
+                  <span>info@taseescircle.com</span>
                 </a>
               </li>
             </ul>

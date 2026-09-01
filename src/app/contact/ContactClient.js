@@ -242,10 +242,10 @@ export default function ContactClient() {
                   Reach out to us via email for any inquiries or support.
                 </p>
                 <a
-                  href="mailto:info@taseescircle.org"
+                  href="mailto:info@taseescircle.com"
                   className="text-gold font-semibold text-xs sm:text-sm hover:underline"
                 >
-                  info@taseescircle.org
+                  info@taseescircle.com
                 </a>
               </div>
 

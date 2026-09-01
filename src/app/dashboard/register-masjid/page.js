@@ -112,7 +112,7 @@ export default function RegisterMasjidPage() {
 
       if (existing) {
         setError(
-          `A circle for this masjid already exists ("${existing.name}"). Please contact Ta'sees Circle at info@taseescircle.org for more information.`
+          `A circle for this masjid already exists ("${existing.name}"). Please contact Ta'sees Circle at info@taseescircle.com for more information.`
         );
         setCurrentStep(0);
         return;

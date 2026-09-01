@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Shield, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { Shield, User, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 export default function AdminLoginClient() {
   const { user, profile, loading, signInWithEmail, signOut } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -34,14 +34,18 @@ export default function AdminLoginClient() {
     setSubmitting(true);
 
     try {
-      const { data, error: authError } = await signInWithEmail(email, password);
+      // Map username to email format if plain username provided
+      const inputVal = username.trim();
+      const loginEmail = inputVal.includes("@") ? inputVal : `${inputVal}@taseescircle.com`;
+
+      const { data, error: authError } = await signInWithEmail(loginEmail, password);
       if (authError) {
-        setError(authError.message);
+        setError("Invalid username or password.");
         setSubmitting(false);
         return;
       }
 
-      // Explicitly check profile role in database
+      // Verify super_admin role in profiles database table
       const supabase = createClient();
       if (supabase && data?.user) {
         const { data: userProfile } = await supabase
@@ -103,10 +107,10 @@ export default function AdminLoginClient() {
               <Shield size={28} className="text-red-400" />
             </div>
             <h1 className="font-heading font-bold text-white text-xl sm:text-2xl">
-              Admin Portal
+              Admin Authentication
             </h1>
             <p className="text-white/40 text-xs sm:text-sm mt-1">
-              Ta&apos;sees Circle — Database Credentials Required
+              Super Admin Database Access
             </p>
           </div>
 
@@ -122,19 +126,19 @@ export default function AdminLoginClient() {
             </motion.div>
           )}
 
-          {/* Email/Password Form ONLY */}
+          {/* Login Form */}
           <form onSubmit={handleAdminLogin} className="space-y-4">
             <div>
               <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5">
-                Admin Email
+                Username
               </label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20" />
+                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20" />
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@taseescircle.org"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin_access"
                   required
                   className="w-full pl-10 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white placeholder:text-white/20 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
                 />
@@ -143,7 +147,7 @@ export default function AdminLoginClient() {
 
             <div>
               <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5">
-                Admin Password
+                Password
               </label>
               <div className="relative">
                 <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20" />
@@ -151,7 +155,7 @@ export default function AdminLoginClient() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="taseescircleadmin"
                   required
                   minLength={6}
                   className="w-full pl-10 pr-12 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white placeholder:text-white/20 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
@@ -175,7 +179,7 @@ export default function AdminLoginClient() {
                 <Loader2 size={16} className="animate-spin" />
               ) : (
                 <>
-                  Authenticate Admin
+                  Log In to Admin Dashboard
                   <ArrowRight size={16} />
                 </>
               )}
@@ -186,7 +190,7 @@ export default function AdminLoginClient() {
           <p className="text-center text-[10px] text-white/20 mt-8 leading-relaxed">
             Strict Database Verification Enforced.
             <br />
-            Only authorized admin accounts in `profiles` table can access.
+            Only specified Super Admin credentials can access.
           </p>
         </div>
 
