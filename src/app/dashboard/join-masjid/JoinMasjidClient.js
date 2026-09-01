@@ -246,7 +246,7 @@ export default function JoinMasjidClient() {
               : "text-charcoal-300 hover:text-charcoal-400"
           }`}
         >
-          🔑 Join by Code
+          Join by Code
         </button>
         <button
           onClick={() => { setActiveTab("referral"); setError(""); setReferralResult(null); }}
@@ -256,7 +256,7 @@ export default function JoinMasjidClient() {
               : "text-charcoal-300 hover:text-charcoal-400"
           }`}
         >
-          🤝 Join by Referral
+          Join by Referral
         </button>
       </div>
 
@@ -372,7 +372,7 @@ export default function JoinMasjidClient() {
             >
               <div className="mb-3 px-3 py-2 bg-gold/10 rounded-lg">
                 <p className="text-xs text-gold font-medium">
-                  👋 You were invited by <span className="font-bold">{referralResult.profiles?.full_name || "a member"}</span>
+                  You were invited by <span className="font-bold">{referralResult.profiles?.full_name || "a member"}</span>
                 </p>
               </div>
               <div className="flex items-start justify-between">
@@ -410,7 +410,7 @@ export default function JoinMasjidClient() {
       {/* Info Box */}
       <div className="mt-6 bg-beige-50 border border-beige-200 rounded-xl p-4">
         <p className="text-xs text-charcoal-300 leading-relaxed">
-          💡 <span className="font-medium">Don&apos;t have a code?</span> Ask your Masjid community leader for the unique circle code or a referral link. Each person can only be part of one circle at a time.
+          <span className="font-medium">Don&apos;t have a code?</span> Ask your Masjid community leader for the unique circle code or a referral link. Each person can only be part of one circle at a time.
         </p>
       </div>
     </div>

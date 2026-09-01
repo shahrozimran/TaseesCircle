@@ -12,7 +12,9 @@ import {
   MessageSquare,
   Clock,
   CheckCircle,
-  AlertCircle,
+  XCircle,
+  Mail,
+  UserPlus,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -76,13 +78,13 @@ export default function DashboardPage() {
     }
   }, [user?.id, profile?.current_masjid_id]);
 
-  const getTypeIcon = (type) => {
+  const renderTypeIcon = (type) => {
     switch (type) {
-      case "approval": return "✅";
-      case "rejection": return "❌";
-      case "ticket_response": return "📩";
-      case "member_joined": return "👋";
-      default: return "🔔";
+      case "approval": return <CheckCircle size={16} className="text-green-500" />;
+      case "rejection": return <XCircle size={16} className="text-red-500" />;
+      case "ticket_response": return <Mail size={16} className="text-blue-500" />;
+      case "member_joined": return <UserPlus size={16} className="text-gold" />;
+      default: return <Bell size={16} className="text-gold" />;
     }
   };
 
@@ -110,7 +112,7 @@ export default function DashboardPage() {
         transition={{ duration: 0.4 }}
       >
         <h1 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-charcoal-600">
-          Assalamu Alaikum, {fullName} 👋
+          Assalamu Alaikum, {fullName}
         </h1>
         <p className="text-sm text-charcoal-300 mt-1">
           Welcome to your Ta&apos;sees Circle dashboard. May Allah bless your day.
@@ -266,7 +268,9 @@ export default function DashboardPage() {
                   !notif.is_read ? "bg-gold/5" : ""
                 }`}
               >
-                <span className="text-base shrink-0 mt-0.5">{getTypeIcon(notif.type)}</span>
+                <div className="w-6 h-6 rounded-full bg-beige-100 flex items-center justify-center shrink-0 mt-0.5">
+                  {renderTypeIcon(notif.type)}
+                </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm ${!notif.is_read ? "font-semibold text-charcoal-600" : "text-charcoal-400"}`}>
                     {notif.title}

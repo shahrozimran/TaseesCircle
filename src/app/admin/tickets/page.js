@@ -75,7 +75,7 @@ export default function AdminTicketsPage() {
       if (ticket?.user_id) {
         await supabase.from("notifications").insert({
           user_id: ticket.user_id,
-          title: "Support Response Received 📩",
+          title: "Support Response Received",
           message: `Your support query "${ticket.subject}" has been responded to. The response has been sent to your email.`,
           type: "ticket_response",
           link: "/dashboard/notifications",
@@ -174,7 +174,7 @@ export default function AdminTicketsPage() {
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
                     <User size={12} /> {ticket.profiles?.full_name} ({ticket.profiles?.email})
                     {ticket.masjids?.name && (
-                      <span className="ml-2">· 🕌 {ticket.masjids.name}</span>
+                      <span className="ml-2">· Masjid: {ticket.masjids.name}</span>
                     )}
                   </p>
                   <p className="text-[11px] text-charcoal-200 mt-0.5 flex items-center gap-1">

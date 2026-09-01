@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { createClient } from "@/lib/supabase/client";
-import { Bell, CheckCheck } from "lucide-react";
+import { Bell, CheckCheck, CheckCircle, XCircle, Mail, UserPlus } from "lucide-react";
 
 export default function NotificationsPage() {
   const { user } = useAuth();
@@ -41,13 +41,13 @@ export default function NotificationsPage() {
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
   };
 
-  const getTypeIcon = (type) => {
+  const renderTypeIcon = (type) => {
     switch (type) {
-      case "approval": return "✅";
-      case "rejection": return "❌";
-      case "ticket_response": return "📩";
-      case "member_joined": return "👋";
-      default: return "🔔";
+      case "approval": return <CheckCircle size={18} className="text-green-500" />;
+      case "rejection": return <XCircle size={18} className="text-red-500" />;
+      case "ticket_response": return <Mail size={18} className="text-blue-500" />;
+      case "member_joined": return <UserPlus size={18} className="text-gold" />;
+      default: return <Bell size={18} className="text-gold" />;
     }
   };
 
@@ -121,7 +121,9 @@ export default function NotificationsPage() {
                   !notif.is_read ? "bg-gold/5" : ""
                 }`}
               >
-                <span className="text-xl shrink-0 mt-0.5">{getTypeIcon(notif.type)}</span>
+                <div className="w-8 h-8 rounded-full bg-beige-100 flex items-center justify-center shrink-0 mt-0.5">
+                  {renderTypeIcon(notif.type)}
+                </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm ${!notif.is_read ? "font-semibold text-charcoal-600" : "text-charcoal-400"}`}>
                     {notif.title}

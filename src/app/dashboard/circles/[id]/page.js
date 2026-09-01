@@ -177,9 +177,9 @@ export default function CircleViewPage({ params }) {
       {/* Tabs */}
       <div className="flex rounded-xl bg-beige-100 p-1 overflow-x-auto">
         {[
-          { key: "content", label: "📋 Content Feed" },
-          { key: "contact", label: "📩 Contact" },
-          { key: "members", label: `👥 Members (${members.length})` },
+          { key: "content", label: "Content Feed" },
+          { key: "contact", label: "Contact" },
+          { key: "members", label: `Members (${members.length})` },
         ].map((tab) => (
           <button
             key={tab.key}

@@ -89,7 +89,7 @@ export default function AdminApprovalsPage() {
         // Send notification to creator
         await supabase.from("notifications").insert({
           user_id: masjidData.created_by,
-          title: "Masjid Approved! ✅",
+          title: "Masjid Approved!",
           message: `Your Masjid "${masjidData.name}" has been approved. Your circle code is: ${uniqueCode}. Share this code with your community to start building your circle.`,
           type: "approval",
           link: "/dashboard/my-circle",
