@@ -20,14 +20,16 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function DashboardPage() {
-  const { user, profile } = useAuth();
+  const { user, profile, refetchProfile } = useAuth();
   const [masjidData, setMasjidData] = useState(null);
   const [pendingMasjid, setPendingMasjid] = useState(null);
   const [recentNotifications, setRecentNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  // resolvedMasjidId: either from profile or from fallback masjid_members lookup
+  const [resolvedMasjidId, setResolvedMasjidId] = useState(null);
 
   const fullName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
-  const hasCircle = !!profile?.current_masjid_id;
+  const hasCircle = !!(profile?.current_masjid_id || resolvedMasjidId);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -38,12 +40,34 @@ export default function DashboardPage() {
       }
 
       try {
-        // Fetch user's masjid if they have one
-        if (profile?.current_masjid_id) {
+        let activeMasjidId = profile?.current_masjid_id;
+
+        // ── FALLBACK HEAL ──────────────────────────────────────────────
+        // If profile.current_masjid_id is null (stale due to old RLS bug),
+        // check masjid_members directly. If a row exists, the admin already
+        // approved the masjid but the trigger never ran on the old broken path.
+        if (!activeMasjidId) {
+          const { data: membership } = await supabase
+            .from("masjid_members")
+            .select("masjid_id")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+          if (membership?.masjid_id) {
+            activeMasjidId = membership.masjid_id;
+            setResolvedMasjidId(activeMasjidId);
+            // Heal the profile so future loads are correct
+            refetchProfile();
+          }
+        }
+        // ────────────────────────────────────────────────────────────────
+
+        // Fetch user's masjid
+        if (activeMasjidId) {
           const { data: masjid } = await supabase
             .from("masjids")
             .select("*, circles(*)")
-            .eq("id", profile.current_masjid_id)
+            .eq("id", activeMasjidId)
             .single();
           setMasjidData(masjid);
         }
@@ -76,7 +100,7 @@ export default function DashboardPage() {
     if (user?.id) {
       fetchDashboardData();
     }
-  }, [user?.id, profile?.current_masjid_id]);
+  }, [user?.id, profile?.current_masjid_id, refetchProfile]);
 
   const renderTypeIcon = (type) => {
     switch (type) {

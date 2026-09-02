@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export default function MyCirclePage() {
-  const { user, profile } = useAuth();
+  const { user, profile, refetchProfile } = useAuth();
   const router = useRouter();
   const [masjid, setMasjid] = useState(null);
   const [members, setMembers] = useState([]);
@@ -23,23 +23,39 @@ export default function MyCirclePage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
-    if (!profile?.current_masjid_id) {
-      if (profile !== null && profile !== undefined) {
-        router.push("/dashboard");
-      }
-      return;
-    }
-
     const fetchData = async () => {
       const supabase = createClient();
       if (!supabase) return;
 
       try {
+        let activeMasjidId = profile?.current_masjid_id;
+
+        // ── FALLBACK HEAL ──────────────────────────────────────────────
+        // If current_masjid_id is null, check masjid_members directly.
+        // This heals profiles stale from the old RLS bug.
+        if (!activeMasjidId) {
+          const { data: membership } = await supabase
+            .from("masjid_members")
+            .select("masjid_id")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+          if (membership?.masjid_id) {
+            activeMasjidId = membership.masjid_id;
+            refetchProfile(); // update profile in background
+          } else {
+            // Truly no circle — redirect to dashboard
+            router.push("/dashboard");
+            return;
+          }
+        }
+        // ────────────────────────────────────────────────────────────────
+
         // Fetch masjid data
         const { data: masjidData } = await supabase
           .from("masjids")
           .select("*")
-          .eq("id", profile.current_masjid_id)
+          .eq("id", activeMasjidId)
           .single();
         setMasjid(masjidData);
 
@@ -47,7 +63,7 @@ export default function MyCirclePage() {
         const { data: circleData } = await supabase
           .from("circles")
           .select("*")
-          .eq("masjid_id", profile.current_masjid_id)
+          .eq("masjid_id", activeMasjidId)
           .maybeSingle();
         setCircle(circleData);
 
@@ -58,7 +74,7 @@ export default function MyCirclePage() {
             id, role, join_method, joined_at,
             profiles (id, full_name, avatar_url, email)
           `)
-          .eq("masjid_id", profile.current_masjid_id)
+          .eq("masjid_id", activeMasjidId)
           .order("joined_at", { ascending: true });
         setMembers(memberData || []);
       } catch (err) {
@@ -68,8 +84,11 @@ export default function MyCirclePage() {
       }
     };
 
-    fetchData();
-  }, [profile, router]);
+    if (user?.id && profile !== null && profile !== undefined) {
+      fetchData();
+    }
+  }, [profile, user?.id, router, refetchProfile]);
+
 
   const isAdmin = members.find((m) => m.profiles?.id === user?.id)?.role === "admin";
   const isMod = members.find((m) => m.profiles?.id === user?.id)?.role === "moderator";

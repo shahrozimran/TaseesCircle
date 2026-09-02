@@ -48,61 +48,36 @@ export default function AdminApprovalsPage() {
       const supabase = createClient();
       if (!supabase) return;
 
-      // Generate unique code using the database function
+      // Generate unique code
       const { data: codeResult } = await supabase.rpc("generate_unique_code");
       const uniqueCode = codeResult || masjidId.substring(0, 6).toUpperCase();
 
-      // Update masjid status
-      const { error: updateError } = await supabase
-        .from("masjids")
-        .update({
-          status: "approved",
-          unique_code: uniqueCode,
-          approved_at: new Date().toISOString(),
-        })
-        .eq("id", masjidId);
+      // Use the SECURITY DEFINER RPC function which atomically:
+      // 1. Approves the masjid + sets unique_code
+      // 2. Creates the circle
+      // 3. Adds creator as admin member (bypasses RLS — this was the bug)
+      // 4. Sends approval notification to creator
+      // 5. Logs the admin action
+      const { data: result, error: rpcError } = await supabase.rpc(
+        "approve_masjid_and_add_creator",
+        {
+          p_masjid_id:   masjidId,
+          p_admin_id:    user.id,
+          p_unique_code: uniqueCode,
+        }
+      );
 
-      if (updateError) {
-        console.error("Approval error:", updateError);
+      if (rpcError) {
+        console.error("Approval RPC error:", rpcError);
+        alert(`Approval failed: ${rpcError.message}`);
         return;
       }
 
-      // Get masjid data for circle creation
-      const masjidData = masjids.find((m) => m.id === masjidId);
-
-      // Create circle
-      await supabase.from("circles").insert({
-        masjid_id: masjidId,
-        name: masjidData?.name || "Circle",
-        description: masjidData?.description || null,
-      });
-
-      // Add creator as admin member
-      if (masjidData?.created_by) {
-        await supabase.from("masjid_members").insert({
-          masjid_id: masjidId,
-          user_id: masjidData.created_by,
-          role: "admin",
-          join_method: "creator",
-        });
-
-        // Send notification to creator
-        await supabase.from("notifications").insert({
-          user_id: masjidData.created_by,
-          title: "Masjid Approved!",
-          message: `Your Masjid "${masjidData.name}" has been approved. Your circle code is: ${uniqueCode}. Share this code with your community to start building your circle.`,
-          type: "approval",
-          link: "/dashboard/my-circle",
-        });
+      if (!result?.success) {
+        console.error("Approval failed:", result?.error);
+        alert(`Approval failed: ${result?.error || "Unknown error"}`);
+        return;
       }
-
-      // Log admin action
-      await supabase.from("admin_actions").insert({
-        admin_id: user.id,
-        masjid_id: masjidId,
-        action_type: "approve_masjid",
-        notes: `Approved masjid "${masjidData?.name}" with code ${uniqueCode}`,
-      });
 
       fetchMasjids();
     } catch (err) {
