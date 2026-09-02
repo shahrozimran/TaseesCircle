@@ -63,7 +63,7 @@ BEGIN
 
   IF NOT v_member_exists THEN
     INSERT INTO public.masjid_members (masjid_id, user_id, role, join_method)
-    VALUES (p_masjid_id, v_masjid.created_by, 'admin', 'creator');
+    VALUES (p_masjid_id, v_masjid.created_by, 'moderator', 'creator');
     -- Note: the on_member_joined trigger fires here and sets profiles.current_masjid_id
   END IF;
 
@@ -124,9 +124,9 @@ BEGIN
         WHERE mm.masjid_id = m.id AND mm.user_id = m.created_by
       )
   LOOP
-    -- Add creator as admin member
+    -- Add creator as moderator member
     INSERT INTO public.masjid_members (masjid_id, user_id, role, join_method)
-    VALUES (r.masjid_id, r.created_by, 'admin', 'creator')
+    VALUES (r.masjid_id, r.created_by, 'moderator', 'creator')
     ON CONFLICT DO NOTHING;
     -- The trigger will update profiles.current_masjid_id
 
