@@ -27,7 +27,14 @@ const CATEGORY_CONFIG = {
   general:      { label: "General",      color: "bg-slate-50  text-slate-600  border-slate-200"      },
 };
 
-function RoleBadge({ role }) {
+function RoleBadge({ role, email }) {
+  if (email === "admin_access@taseescircle.com" || role === "super_admin") {
+    return (
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
+        <Shield size={9} /> TaseesCircle Admin
+      </span>
+    );
+  }
   if (role === "admin") {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
@@ -138,14 +145,30 @@ export default function AdminCircleDetailPage({ params }) {
         }))
       );
 
-      // 3. Fetch Circle Members
-      const { data: membersData } = await supabase
-        .from("masjid_members")
-        .select("*, profiles(id, full_name, email, avatar_url, city, country)")
-        .eq("masjid_id", masjidId)
-        .order("joined_at", { ascending: true });
+      let finalMembers = membersData || [];
+      const hasTaseesAdmin = finalMembers.some(
+        (m) => m.profiles?.email === "admin_access@taseescircle.com"
+      );
+      if (!hasTaseesAdmin) {
+        finalMembers = [
+          {
+            id: "taseescircle-system-admin",
+            masjid_id: masjidId,
+            joined_at: circleData.created_at || new Date().toISOString(),
+            join_method: "system",
+            role: "admin",
+            profiles: {
+              id: "taseescircle-admin-id",
+              full_name: "TaseesCircle System Admin",
+              avatar_url: null,
+              email: "admin_access@taseescircle.com",
+            },
+          },
+          ...finalMembers,
+        ];
+      }
 
-      setMembers(membersData || []);
+      setMembers(finalMembers);
 
       // 4. Fetch Daily Prayer Reports for Circle
       const { data: reportsData } = await supabase
@@ -716,7 +739,7 @@ export default function AdminCircleDetailPage({ params }) {
                         <p className="text-sm font-bold text-charcoal-600 truncate">
                           {member.profiles?.full_name || "Anonymous Member"}
                         </p>
-                        <RoleBadge role={member.role} />
+                        <RoleBadge role={member.role} email={member.profiles?.email} />
                       </div>
                       <p className="text-xs text-charcoal-300 truncate mt-0.5">{member.profiles?.email}</p>
                       <p className="text-[11px] text-charcoal-200 mt-0.5">
@@ -734,27 +757,31 @@ export default function AdminCircleDetailPage({ params }) {
                       <Eye size={13} className="text-islamic-green" /> View Prayer Log
                     </button>
 
-                    {/* Change Role Dropdown */}
-                    <select
-                      value={member.role}
-                      disabled={updatingMemberId === member.id}
-                      onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                      className="px-3 py-1.5 bg-white border border-beige-300 rounded-lg text-xs font-semibold text-charcoal-600 focus:border-gold outline-none"
-                    >
-                      <option value="admin">Circle Admin</option>
-                      <option value="moderator">Moderator</option>
-                      <option value="member">Member</option>
-                    </select>
+                    {member.profiles?.email !== "admin_access@taseescircle.com" && (
+                      <>
+                        {/* Change Role Dropdown */}
+                        <select
+                          value={member.role}
+                          disabled={updatingMemberId === member.id}
+                          onChange={(e) => handleRoleChange(member.id, e.target.value)}
+                          className="px-3 py-1.5 bg-white border border-beige-300 rounded-lg text-xs font-semibold text-charcoal-600 focus:border-gold outline-none"
+                        >
+                          <option value="admin">Circle Admin</option>
+                          <option value="moderator">Moderator</option>
+                          <option value="member">Member</option>
+                        </select>
 
-                    {/* Remove Member Button */}
-                    <button
-                      onClick={() => handleRemoveMember(member.id, member.profiles?.full_name)}
-                      disabled={updatingMemberId === member.id}
-                      title="Remove Member from Circle"
-                      className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg border border-red-200 transition-colors disabled:opacity-50"
-                    >
-                      <UserX size={15} />
-                    </button>
+                        {/* Remove Member Button */}
+                        <button
+                          onClick={() => handleRemoveMember(member.id, member.profiles?.full_name)}
+                          disabled={updatingMemberId === member.id}
+                          title="Remove Member from Circle"
+                          className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg border border-red-200 transition-colors disabled:opacity-50"
+                        >
+                          <UserX size={15} />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}
@@ -969,7 +996,7 @@ export default function AdminCircleDetailPage({ params }) {
             <div className="bg-white rounded-2xl border border-beige-200 p-5">
               <p className="text-xs text-charcoal-300 font-semibold uppercase">Admins / Mods</p>
               <p className="text-3xl font-bold text-amber-600 mt-2">
-                {members.filter((m) => m.role === "admin" || m.role === "moderator").length}
+                {members.filter((m) => m.role === "admin" || m.role === "moderator" || m.profiles?.email === "admin_access@taseescircle.com").length}
               </p>
             </div>
             <div className="bg-white rounded-2xl border border-beige-200 p-5">

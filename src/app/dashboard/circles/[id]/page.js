@@ -31,11 +31,18 @@ const CATEGORY_CONFIG = {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function RoleBadge({ role }) {
+function RoleBadge({ role, email }) {
+  if (email === "admin_access@taseescircle.com" || role === "super_admin") {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
+        <Shield size={9} /> TaseesCircle Admin
+      </span>
+    );
+  }
   if (role === "admin")
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
-        <Crown size={9} /> Admin
+        <Crown size={9} /> Circle Admin
       </span>
     );
   if (role === "moderator")
@@ -464,8 +471,8 @@ function MembersTab({ members, userId, canManage, onRoleChange }) {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <RoleBadge role={member.role} />
-                  {canManage && !isMe && (
+                  <RoleBadge role={member.role} email={member.profiles?.email} />
+                  {canManage && !isMe && member.profiles?.email !== "admin_access@taseescircle.com" && (
                     <select
                       value={member.role}
                       disabled={loading === member.id}
@@ -541,8 +548,8 @@ function AdminTab({ masjid, circle, members }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {[
           { label: "Total Members", value: members.length,                                     icon: <Users size={18} className="text-gold" />,          bg: "bg-gold/10" },
-          { label: "Admins",        value: members.filter((m) => m.role === "admin").length,    icon: <Crown size={18} className="text-amber-500" />,       bg: "bg-amber-50" },
-          { label: "Moderators",    value: members.filter((m) => m.role === "moderator").length, icon: <Shield size={18} className="text-blue-500" />,       bg: "bg-blue-50" },
+          { label: "Admins",        value: members.filter((m) => m.role === "admin" || m.profiles?.email === "admin_access@taseescircle.com").length,    icon: <Crown size={18} className="text-amber-500" />,       bg: "bg-amber-50" },
+          { label: "Moderators",    value: members.filter((m) => m.role === "moderator" && m.profiles?.email !== "admin_access@taseescircle.com").length, icon: <Shield size={18} className="text-blue-500" />,       bg: "bg-blue-50" },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-2xl border border-beige-200 p-5">
             <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-3`}>
@@ -643,6 +650,28 @@ export default function CircleViewPage({ params }) {
               full_name:  profile?.full_name  || user.user_metadata?.full_name || "You",
               avatar_url: profile?.avatar_url || null,
               email:      user.email           || "",
+            },
+          },
+          ...finalMembers,
+        ];
+      }
+      // ── TASEESCIRCLE DEFAULT ADMIN INJECTION ─────────────────────────
+      const hasTaseesAdmin = finalMembers.some(
+        (m) => m.profiles?.email === "admin_access@taseescircle.com"
+      );
+      if (!hasTaseesAdmin) {
+        finalMembers = [
+          {
+            id: "taseescircle-system-admin",
+            masjid_id: circleData.masjids.id,
+            joined_at: circleData.created_at || new Date().toISOString(),
+            join_method: "system",
+            role: "admin",
+            profiles: {
+              id: "taseescircle-admin-id",
+              full_name: "TaseesCircle System Admin",
+              avatar_url: null,
+              email: "admin_access@taseescircle.com",
             },
           },
           ...finalMembers,
