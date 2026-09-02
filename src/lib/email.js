@@ -106,11 +106,27 @@ export async function sendNewQueryAlert(ticket, user) {
     </p>
   `;
 
+  const plainText = `
+New Support Query Received
+
+From: ${user.full_name || "Unknown User"} (${user.email})
+Subject: ${ticket.subject}
+Message: ${ticket.message}
+Priority: ${ticket.priority?.toUpperCase() || "MEDIUM"}
+
+Log in to your admin dashboard to view and respond.
+  `.trim();
+
   await transporter.sendMail({
     from: `"TaseesCircle Support" <${process.env.GMAIL_USER}>`,
+    replyTo: user.email || process.env.GMAIL_USER,
     to: adminEmail,
     subject: `[New Query] ${ticket.subject} — from ${user.full_name || user.email}`,
+    text: plainText,
     html: brandedEmail(`New Query: ${ticket.subject}`, bodyHtml),
+    headers: {
+      "X-Auto-Response-Suppress": "OOF, AutoReply",
+    },
   });
 }
 
@@ -147,10 +163,30 @@ export async function sendQueryResponse(ticket, response, userEmail, userName) {
     </p>
   `;
 
+  const plainText = `
+Response to Your Query: ${ticket.subject}
+
+Dear ${userName || "Valued Member"},
+
+The TaseesCircle team has responded to your support query:
+
+"${response.response_message}"
+
+You can also view this response in the "My Queries" section of your TaseesCircle dashboard.
+
+Regards,
+TaseesCircle Team
+  `.trim();
+
   await transporter.sendMail({
     from: `"TaseesCircle Support" <${process.env.GMAIL_USER}>`,
+    replyTo: process.env.GMAIL_USER,
     to: userEmail,
     subject: `Re: ${ticket.subject} — TaseesCircle Support`,
+    text: plainText,
     html: brandedEmail(`Response to your query: ${ticket.subject}`, bodyHtml),
+    headers: {
+      "X-Auto-Response-Suppress": "OOF, AutoReply",
+    },
   });
 }

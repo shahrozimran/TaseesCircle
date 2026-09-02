@@ -7,7 +7,28 @@ import { createClient } from "@/lib/supabase/client";
 import {
   MessageSquare, Send, CheckCircle, AlertCircle, Loader2,
   Mail, Shield, Clock, Inbox, RefreshCw, ChevronDown, ChevronUp,
+  AlertTriangle,
 } from "lucide-react";
+
+// ─── Spam Folder Warning Note ────────────────────────────────────────────────
+function SpamFolderNote({ className = "" }) {
+  return (
+    <div className={`p-4 bg-amber-50/90 border border-amber-200/80 rounded-xl flex items-start gap-3 text-left ${className}`}>
+      <AlertTriangle size={18} className="text-amber-600 shrink-0 mt-0.5" />
+      <div className="text-xs text-amber-900 leading-relaxed">
+        <p className="font-bold text-amber-950 mb-0.5 flex items-center gap-1">
+          📬 Check Your Email Spam / Junk Folder
+        </p>
+        <p className="text-amber-800">
+          Our response will be sent from <strong>taseescircle@gmail.com</strong>. Automated emails may occasionally be placed in your <strong>Spam or Junk folder</strong>.
+        </p>
+        <p className="mt-1 font-semibold text-amber-900">
+          💡 Tip: If our email goes to Spam, open it and click <strong>&quot;Report as Not Spam&quot;</strong> so all future replies land directly in your Primary Inbox!
+        </p>
+      </div>
+    </div>
+  );
+}
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
 function StatusBadge({ status }) {
@@ -189,14 +210,17 @@ function MyQueriesTab({ userId }) {
                           ))}
                         </div>
                       ) : (
-                        <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
-                          <Clock size={16} className="text-amber-500 shrink-0 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-medium text-charcoal-500">Awaiting Response</p>
-                            <p className="text-[11px] text-charcoal-300 mt-0.5">
-                              Our team will review your query and reply via email. You&apos;ll also be notified here.
-                            </p>
+                        <div className="space-y-3">
+                          <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
+                            <Clock size={16} className="text-amber-500 shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-medium text-charcoal-500">Awaiting Response</p>
+                              <p className="text-[11px] text-charcoal-300 mt-0.5">
+                                Our team will review your query and reply via email. You&apos;ll also be notified here.
+                              </p>
+                            </div>
                           </div>
+                          <SpamFolderNote />
                         </div>
                       )}
                     </div>
@@ -274,9 +298,10 @@ function SendQueryTab({ user, profile }) {
         <p className="text-sm text-charcoal-400 mb-2 leading-relaxed">
           Your query has been submitted and the TaseesCircle team has been notified via email.
         </p>
-        <p className="text-sm text-charcoal-400 mb-6 leading-relaxed">
+        <p className="text-sm text-charcoal-400 mb-5 leading-relaxed">
           You&apos;ll receive a response via email at <strong>{profile?.email || user?.email}</strong> and it will appear in the <strong>My Queries</strong> tab.
         </p>
+        <SpamFolderNote className="mb-6" />
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={() => setSuccess(false)}
@@ -401,6 +426,9 @@ function SendQueryTab({ user, profile }) {
             <strong>{profile?.email || user?.email || "your registered email"}</strong>.
           </p>
         </div>
+
+        {/* Spam folder warning note */}
+        <SpamFolderNote />
 
         <button
           type="submit"
