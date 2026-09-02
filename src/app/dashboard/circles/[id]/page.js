@@ -605,16 +605,56 @@ export default function CircleViewPage({ params }) {
         (postsData || []).map((p) => ({ ...p, reactions: p.circle_post_reactions || [] }))
       );
 
-      // Members
+      // Members — primary list query
       const { data: memberData } = await supabase
         .from("masjid_members")
         .select("*, profiles(id, full_name, avatar_url, email)")
         .eq("masjid_id", circleData.masjids.id)
         .order("joined_at", { ascending: true });
-      setMembers(memberData || []);
 
-      const my = (memberData || []).find((m) => m.profiles?.id === user.id);
+      // ── Also fetch OUR OWN row directly (bypasses list RLS edge cases) ──
+      const { data: myMemberRow } = await supabase
+        .from("masjid_members")
+        .select("id, role, masjid_id, joined_at, join_method")
+        .eq("user_id", user.id)
+        .eq("masjid_id", circleData.masjids.id)
+        .maybeSingle();
+
+      let finalMembers = memberData || [];
+
+      // ── CREATOR SELF-INJECTION FALLBACK ───────────────────────────────
+      // If the member list is empty but we know we belong here
+      // (profile.current_masjid_id matches this circle's masjid),
+      // inject ourselves so the UI never shows 0 members to the creator.
+      const belongsHere = profile?.current_masjid_id === circleData.masjids.id;
+      const alreadyInList = finalMembers.some((m) => m.profiles?.id === user.id);
+
+      if (!alreadyInList && (myMemberRow || belongsHere)) {
+        // Build a synthetic member entry from known data
+        finalMembers = [
+          {
+            id:          myMemberRow?.id         || "self-synthetic",
+            masjid_id:   circleData.masjids.id,
+            joined_at:   myMemberRow?.joined_at  || new Date().toISOString(),
+            join_method: myMemberRow?.join_method || "creator",
+            role:        myMemberRow?.role        || "moderator",
+            profiles: {
+              id:         user.id,
+              full_name:  profile?.full_name  || user.user_metadata?.full_name || "You",
+              avatar_url: profile?.avatar_url || null,
+              email:      user.email           || "",
+            },
+          },
+          ...finalMembers,
+        ];
+      }
+      // ────────────────────────────────────────────────────────────────────
+
+      setMembers(finalMembers);
+
+      const my = finalMembers.find((m) => m.profiles?.id === user.id);
       if (my) setUserRole(my.role);
+      else if (myMemberRow?.role) setUserRole(myMemberRow.role);
     } catch (err) {
       console.error("Circle fetch error:", err);
     } finally {
