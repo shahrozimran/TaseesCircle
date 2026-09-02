@@ -10,14 +10,16 @@ export default function DashboardLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Enforce mandatory profile completion: if incomplete and trying to open other pages, lock to /dashboard/profile
+  // Enforce mandatory profile completion: if incomplete and trying to open other pages, lock to /dashboard/profile.
+  // `loading=false` guarantees the profile fetch has finished, so `profile===null`
+  // means the row doesn't exist yet — treat it as incomplete.
   useEffect(() => {
     if (!loading && user && !isProfileComplete) {
       if (pathname !== "/dashboard/profile") {
         router.push("/dashboard/profile?setup=required");
       }
     }
-  }, [user, isProfileComplete, loading, pathname, router]);
+  }, [user, profile, isProfileComplete, loading, pathname, router]);
 
   if (loading) {
     return (

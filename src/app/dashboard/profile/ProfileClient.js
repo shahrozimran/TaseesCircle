@@ -1,16 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { createClient } from "@/lib/supabase/client";
-import { User, Save, CheckCircle, AlertCircle, Loader2, LogOut, Lock } from "lucide-react";
+import { Save, CheckCircle, AlertCircle, Loader2, LogOut, Lock } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ProfileClient() {
   const { user, profile, signOut, refetchProfile, isProfileComplete } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  // Track whether we are in the middle of saving so the layout guard won't
+  // redirect us away while we're completing the save + refetch cycle.
+  const isSavingRef = useRef(false);
 
   const isSetupRequired = searchParams.get("setup") === "required" || !isProfileComplete;
 
@@ -35,22 +38,26 @@ export default function ProfileClient() {
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
+    isSavingRef.current = true;
     setError("");
     setSaved(false);
 
     if (!fullName.trim()) {
       setError("Please enter your Full Name.");
       setSaving(false);
+      isSavingRef.current = false;
       return;
     }
     if (!city.trim()) {
       setError("Please enter your City.");
       setSaving(false);
+      isSavingRef.current = false;
       return;
     }
     if (!country.trim()) {
       setError("Please enter your Country.");
       setSaving(false);
+      isSavingRef.current = false;
       return;
     }
 
@@ -70,18 +77,33 @@ export default function ProfileClient() {
 
       if (updateError) {
         setError(updateError.message);
+        isSavingRef.current = false;
         return;
       }
 
-      await refetchProfile();
+      // Wait for the profile to be fully refreshed in the auth context
+      // so isProfileComplete reflects the new data before we navigate.
+      const updatedProfile = await refetchProfile();
+
+      // Double-check the returned data is complete before navigating
+      const profileIsNowComplete = !!(
+        updatedProfile?.full_name?.trim() &&
+        updatedProfile?.city?.trim() &&
+        updatedProfile?.country?.trim()
+      );
+
       setSaved(true);
 
       setTimeout(() => {
         setSaved(false);
-        router.push("/dashboard");
+        isSavingRef.current = false;
+        if (profileIsNowComplete) {
+          router.push("/dashboard");
+        }
       }, 1500);
     } catch {
       setError("An unexpected error occurred. Please try again.");
+      isSavingRef.current = false;
     } finally {
       setSaving(false);
     }
