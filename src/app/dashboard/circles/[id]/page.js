@@ -31,14 +31,7 @@ const CATEGORY_CONFIG = {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function RoleBadge({ role, email }) {
-  if (email === "admin_access@taseescircle.com" || role === "super_admin") {
-    return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
-        <Shield size={9} /> TaseesCircle Admin
-      </span>
-    );
-  }
+function RoleBadge({ role }) {
   if (role === "admin")
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
@@ -494,7 +487,7 @@ function MembersTab({ members, userId, canManage, onRoleChange }) {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <RoleBadge role={member.role} email={member.profiles?.email} />
+                  <RoleBadge role={member.role} />
                   {canManage && !isMe && member.profiles?.email !== "admin_access@taseescircle.com" && (
                     <select
                       value={member.role}
@@ -678,29 +671,12 @@ export default function CircleViewPage({ params }) {
           ...finalMembers,
         ];
       }
-      // ── TASEESCIRCLE DEFAULT ADMIN INJECTION ─────────────────────────
-      const hasTaseesAdmin = finalMembers.some(
-        (m) => m.profiles?.email === "admin_access@taseescircle.com"
+      // Filter out system admin accounts — they should never appear in
+      // the user/moderator-facing member list.
+      finalMembers = finalMembers.filter(
+        (m) => m.profiles?.email !== "admin_access@taseescircle.com"
+          && m.profiles?.role !== "super_admin"
       );
-      if (!hasTaseesAdmin) {
-        finalMembers = [
-          {
-            id: "taseescircle-system-admin",
-            masjid_id: circleData.masjids.id,
-            joined_at: circleData.created_at || new Date().toISOString(),
-            join_method: "system",
-            role: "admin",
-            profiles: {
-              id: "taseescircle-admin-id",
-              full_name: "TaseesCircle System Admin",
-              avatar_url: null,
-              email: "admin_access@taseescircle.com",
-            },
-          },
-          ...finalMembers,
-        ];
-      }
-      // ────────────────────────────────────────────────────────────────────
 
       setMembers(finalMembers);
 

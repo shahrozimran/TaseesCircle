@@ -76,7 +76,14 @@ export default function MyCirclePage() {
           `)
           .eq("masjid_id", activeMasjidId)
           .order("joined_at", { ascending: true });
-        setMembers(memberData || []);
+        // Filter out system admin accounts — should never show in user-facing member list
+        setMembers(
+          (memberData || []).filter(
+            (m) =>
+              m.profiles?.email !== "admin_access@taseescircle.com" &&
+              m.profiles?.role !== "super_admin"
+          )
+        );
       } catch (err) {
         console.error("Error fetching circle data:", err);
       } finally {

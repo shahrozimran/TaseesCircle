@@ -26,6 +26,7 @@ export default function AdminUsersPage() {
           masjids(name),
           masjid_members(role, masjid_id)
         `)
+        .neq("role", "super_admin")
         .order("created_at", { ascending: false })
         .limit(100);
 
@@ -34,6 +35,7 @@ export default function AdminUsersPage() {
         const { data: directProfiles } = await supabase
           .from("profiles")
           .select("*")
+          .neq("role", "super_admin")
           .order("created_at", { ascending: false })
           .limit(100);
 
@@ -79,7 +81,7 @@ export default function AdminUsersPage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">Users</h1>
-        <p className="text-sm text-charcoal-300 mt-1">All registered users ({users.length} total)</p>
+        <p className="text-sm text-charcoal-300 mt-1">All member accounts ({users.length} total)</p>
       </motion.div>
 
       {/* Search */}

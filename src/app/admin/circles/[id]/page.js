@@ -27,14 +27,7 @@ const CATEGORY_CONFIG = {
   general:      { label: "General",      color: "bg-slate-50  text-slate-600  border-slate-200"      },
 };
 
-function RoleBadge({ role, email }) {
-  if (email === "admin_access@taseescircle.com" || role === "super_admin") {
-    return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
-        <Shield size={9} /> TaseesCircle Admin
-      </span>
-    );
-  }
+function RoleBadge({ role }) {
   if (role === "admin") {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
@@ -154,30 +147,14 @@ export default function AdminCircleDetailPage({ params }) {
 
       if (memErr) console.error("Error fetching members:", memErr);
 
-      let finalMembers = membersData || [];
-      const hasTaseesAdmin = finalMembers.some(
-        (m) => m.profiles?.email === "admin_access@taseescircle.com"
+      // Filter out system admin accounts from circle member list
+      setMembers(
+        (membersData || []).filter(
+          (m) =>
+            m.profiles?.email !== "admin_access@taseescircle.com" &&
+            m.profiles?.role !== "super_admin"
+        )
       );
-      if (!hasTaseesAdmin) {
-        finalMembers = [
-          {
-            id: "taseescircle-system-admin",
-            masjid_id: masjidId,
-            joined_at: circleData.created_at || new Date().toISOString(),
-            join_method: "system",
-            role: "admin",
-            profiles: {
-              id: "taseescircle-admin-id",
-              full_name: "TaseesCircle System Admin",
-              avatar_url: null,
-              email: "admin_access@taseescircle.com",
-            },
-          },
-          ...finalMembers,
-        ];
-      }
-
-      setMembers(finalMembers);
 
       // 4. Fetch Daily Prayer Reports for Circle
       const { data: reportsData } = await supabase
@@ -782,7 +759,16 @@ export default function AdminCircleDetailPage({ params }) {
             </div>
 
             <div className="divide-y divide-beige-50">
-              {filteredMembers.map((member) => (
+              {filteredMembers.length === 0 ? (
+                <div className="p-12 text-center">
+                  <Users size={32} className="text-beige-300 mx-auto mb-3" />
+                  <p className="text-sm font-semibold text-charcoal-400">No Members Yet</p>
+                  <p className="text-xs text-charcoal-300 mt-1">
+                    No one has joined this circle using the join code yet.
+                  </p>
+                </div>
+              ) : (
+                filteredMembers.map((member) => (
                 <div
                   key={member.id}
                   className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-beige-50/70 transition-colors"
@@ -794,7 +780,7 @@ export default function AdminCircleDetailPage({ params }) {
                         <p className="text-sm font-bold text-charcoal-600 truncate">
                           {member.profiles?.full_name || "Anonymous Member"}
                         </p>
-                        <RoleBadge role={member.role} email={member.profiles?.email} />
+                        <RoleBadge role={member.role} />
                       </div>
                       <p className="text-xs text-charcoal-300 truncate mt-0.5">{member.profiles?.email}</p>
                       <p className="text-[11px] text-charcoal-200 mt-0.5">
@@ -839,7 +825,8 @@ export default function AdminCircleDetailPage({ params }) {
                     )}
                   </div>
                 </div>
-              ))}
+              ))
+              )}
             </div>
           </div>
         </motion.div>
