@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { ADMIN_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import {
   LayoutDashboard, CheckCircle, Ticket, CircleDot, Users,
-  X, Shield, ArrowLeft,
+  X, Shield,
 } from "lucide-react";
 
 const iconMap = {
@@ -95,18 +95,6 @@ export default function AdminLayout({ children }) {
             })}
           </div>
         </nav>
-
-        {/* Back to Dashboard */}
-        <div className="p-3 border-t border-white/10">
-          <Link
-            href="/dashboard"
-            onClick={() => setSidebarOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:text-white hover:bg-white/5 transition-all"
-          >
-            <ArrowLeft size={18} />
-            Back to Dashboard
-          </Link>
-        </div>
       </aside>
 
       {/* Main Content */}
