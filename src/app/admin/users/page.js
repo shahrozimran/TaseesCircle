@@ -19,15 +19,26 @@ export default function AdminUsersPage() {
       const supabase = createClient();
       if (!supabase) return;
 
-      const { data } = await supabase
+      let { data, error } = await supabase
         .from("profiles")
         .select(`
           *,
-          masjids!profiles_current_masjid_id_fkey(name),
-          masjid_members!masjid_members_user_id_fkey(role, masjid_id)
+          masjids(name),
+          masjid_members(role, masjid_id)
         `)
         .order("created_at", { ascending: false })
         .limit(100);
+
+      if (error || !data || data.length === 0) {
+        if (error) console.warn("Profiles join query error, performing direct fetch:", error.message);
+        const { data: directProfiles } = await supabase
+          .from("profiles")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(100);
+
+        data = directProfiles || [];
+      }
 
       setUsers(data || []);
       setLoading(false);

@@ -145,6 +145,15 @@ export default function AdminCircleDetailPage({ params }) {
         }))
       );
 
+      // 3. Fetch Circle Members
+      const { data: membersData, error: memErr } = await supabase
+        .from("masjid_members")
+        .select("*, profiles(id, full_name, avatar_url, email)")
+        .eq("masjid_id", masjidId)
+        .order("joined_at", { ascending: true });
+
+      if (memErr) console.error("Error fetching members:", memErr);
+
       let finalMembers = membersData || [];
       const hasTaseesAdmin = finalMembers.some(
         (m) => m.profiles?.email === "admin_access@taseescircle.com"
