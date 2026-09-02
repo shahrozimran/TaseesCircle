@@ -98,6 +98,16 @@ function PostCard({ post, userId, circleId, onReact }) {
 
   const catCfg = CATEGORY_CONFIG[post.category] || CATEGORY_CONFIG.general;
 
+  const isTaseesPost =
+    post.profiles?.email === "admin_access@taseescircle.com" ||
+    post.profiles?.role === "super_admin" ||
+    !post.profiles?.full_name ||
+    post.profiles?.full_name === "Unknown";
+
+  const authorName = isTaseesPost
+    ? "TaseesCircle Admin"
+    : post.profiles?.full_name || "Circle Member";
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 12 }}
@@ -115,10 +125,23 @@ function PostCard({ post, userId, circleId, onReact }) {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <Avatar src={post.profiles?.avatar_url} name={post.profiles?.full_name} size="sm" />
+            {isTaseesPost ? (
+              <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center text-white shadow-xs ring-2 ring-white shrink-0">
+                <Shield size={16} />
+              </div>
+            ) : (
+              <Avatar src={post.profiles?.avatar_url} name={post.profiles?.full_name} size="sm" />
+            )}
             <div>
-              <p className="text-sm font-semibold text-charcoal-600">{post.profiles?.full_name || "Unknown"}</p>
-              <p className="text-[11px] text-charcoal-300 flex items-center gap-1">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-charcoal-600">{authorName}</p>
+                {isTaseesPost && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
+                    <Shield size={9} /> Official Announcement
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-charcoal-300 flex items-center gap-1 mt-0.5">
                 <Clock size={10} />
                 {new Date(post.created_at).toLocaleDateString("en-PK", {
                   day: "numeric", month: "short", year: "numeric",
@@ -600,7 +623,7 @@ export default function CircleViewPage({ params }) {
         .from("circle_posts")
         .select(`
           *,
-          profiles(full_name, avatar_url),
+          profiles(full_name, avatar_url, email, role),
           circle_post_reactions(user_id, reaction)
         `)
         .eq("circle_id", circleId)

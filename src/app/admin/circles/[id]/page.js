@@ -131,7 +131,7 @@ export default function AdminCircleDetailPage({ params }) {
         .from("circle_posts")
         .select(`
           *,
-          profiles(full_name, avatar_url, email),
+          profiles(full_name, avatar_url, email, role),
           circle_post_reactions(user_id, reaction)
         `)
         .eq("circle_id", circleId)
@@ -609,6 +609,16 @@ export default function AdminCircleDetailPage({ params }) {
             <div className="space-y-4">
               {posts.map((post) => {
                 const catCfg = CATEGORY_CONFIG[post.category] || CATEGORY_CONFIG.general;
+                const isTaseesPost =
+                  post.profiles?.email === "admin_access@taseescircle.com" ||
+                  post.profiles?.role === "super_admin" ||
+                  !post.profiles?.full_name ||
+                  post.profiles?.full_name === "Unknown";
+
+                const authorName = isTaseesPost
+                  ? "TaseesCircle Admin"
+                  : post.profiles?.full_name || "Circle Member";
+
                 return (
                   <motion.article
                     key={post.id}
@@ -630,12 +640,23 @@ export default function AdminCircleDetailPage({ params }) {
                     <div className="p-6">
                       <div className="flex items-start justify-between gap-4 mb-3">
                         <div className="flex items-center gap-3">
-                          <Avatar src={post.profiles?.avatar_url} name={post.profiles?.full_name} size="sm" />
+                          {isTaseesPost ? (
+                            <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center text-white shadow-xs ring-2 ring-white shrink-0">
+                              <Shield size={16} />
+                            </div>
+                          ) : (
+                            <Avatar src={post.profiles?.avatar_url} name={post.profiles?.full_name} size="sm" />
+                          )}
                           <div>
-                            <p className="text-sm font-bold text-charcoal-600">
-                              {post.profiles?.full_name || "Unknown Author"}
-                            </p>
-                            <p className="text-[11px] text-charcoal-300 flex items-center gap-1">
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-bold text-charcoal-600">{authorName}</p>
+                              {isTaseesPost && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
+                                  <Shield size={9} /> Official Announcement
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-charcoal-300 flex items-center gap-1 mt-0.5">
                               <Clock size={11} />
                               {new Date(post.created_at).toLocaleDateString("en-PK", {
                                 day: "numeric",
