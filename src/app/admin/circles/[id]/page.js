@@ -266,6 +266,10 @@ export default function AdminCircleDetailPage({ params }) {
     setUpdatingMemberId(memberId);
     const supabase = createClient();
     if (supabase) {
+      const targetMember = members.find((m) => m.id === memberId);
+      const roleName = newRole === "admin" ? "Circle Admin" : newRole === "moderator" ? "Circle Moderator" : "Circle Member";
+      const circleTitle = circle?.masjids?.name || circle?.name || "Circle";
+
       const { error } = await supabase
         .from("masjid_members")
         .update({ role: newRole })
@@ -275,6 +279,27 @@ export default function AdminCircleDetailPage({ params }) {
         setMembers((prev) =>
           prev.map((m) => (m.id === memberId ? { ...m, role: newRole } : m))
         );
+
+        // Send in-app notification to member
+        if (targetMember?.user_id) {
+          await supabase.from("notifications").insert({
+            user_id: targetMember.user_id,
+            title: "Role Updated",
+            message: `Your role in ${circleTitle} has been updated to ${roleName} by TaseesCircle Admin.`,
+            type: "general",
+            link: `/dashboard/circles/${circleId}`,
+          });
+        }
+
+        // Log admin audit action
+        if (user?.id) {
+          await supabase.from("admin_actions").insert({
+            admin_id: user.id,
+            masjid_id: circle?.masjids?.id || null,
+            action_type: "update_role",
+            notes: `Changed role of ${targetMember?.profiles?.full_name || targetMember?.profiles?.email || memberId} to ${newRole} in ${circleTitle}`,
+          });
+        }
       } else {
         alert("Failed to update role: " + error.message);
       }

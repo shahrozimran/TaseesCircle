@@ -235,7 +235,6 @@ function MyQueriesTab({ userId }) {
   );
 }
 
-// ─── Send Query Tab ───────────────────────────────────────────────────────────
 function SendQueryTab({ user, profile }) {
   const [recipient, setRecipient] = useState("tasees_admin");
   const [subject,   setSubject]   = useState("");
@@ -244,6 +243,29 @@ function SendQueryTab({ user, profile }) {
   const [submitting, setSubmitting] = useState(false);
   const [error,      setError]      = useState("");
   const [success,    setSuccess]    = useState(false);
+  const [userRole,   setUserRole]   = useState("member");
+
+  useEffect(() => {
+    async function checkUserRole() {
+      if (!user?.id || !profile?.current_masjid_id) return;
+      const supabase = createClient();
+      if (!supabase) return;
+      const { data } = await supabase
+        .from("masjid_members")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("masjid_id", profile.current_masjid_id)
+        .maybeSingle();
+
+      if (data?.role) {
+        setUserRole(data.role);
+      }
+    }
+    checkUserRole();
+  }, [user?.id, profile?.current_masjid_id]);
+
+  const isModeratorOrAdmin = userRole === "admin" || userRole === "moderator";
+  const canSendToModerator = profile?.current_masjid_id && !isModeratorOrAdmin;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -262,7 +284,7 @@ function SendQueryTab({ user, profile }) {
         body: JSON.stringify({
           subject:   subject.trim(),
           message:   message.trim(),
-          recipient,
+          recipient: isModeratorOrAdmin ? "tasees_admin" : recipient,
           priority,
           masjid_id: profile?.current_masjid_id || null,
         }),
@@ -347,19 +369,23 @@ function SendQueryTab({ user, profile }) {
 
             <button
               type="button"
-              onClick={() => setRecipient("moderator")}
-              disabled={!profile?.current_masjid_id}
+              onClick={() => canSendToModerator && setRecipient("moderator")}
+              disabled={!canSendToModerator}
               className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
-                recipient === "moderator" ? "border-gold bg-gold/5" : "border-beige-200 hover:border-beige-300"
-              } ${!profile?.current_masjid_id ? "opacity-50 cursor-not-allowed" : ""}`}
+                recipient === "moderator" && canSendToModerator ? "border-gold bg-gold/5" : "border-beige-200 hover:border-beige-300"
+              } ${!canSendToModerator ? "opacity-50 cursor-not-allowed bg-beige-50/50" : ""}`}
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${recipient === "moderator" ? "bg-gold/20" : "bg-beige-100"}`}>
-                <Shield size={18} className={recipient === "moderator" ? "text-gold" : "text-charcoal-300"} />
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${recipient === "moderator" && canSendToModerator ? "bg-gold/20" : "bg-beige-100"}`}>
+                <Shield size={18} className={recipient === "moderator" && canSendToModerator ? "text-gold" : "text-charcoal-300"} />
               </div>
               <div>
                 <p className="text-sm font-semibold text-charcoal-600">Circle Moderator</p>
                 <p className="text-[11px] text-charcoal-300">
-                  {profile?.current_masjid_id ? "Your circle's moderator" : "Join a circle first"}
+                  {isModeratorOrAdmin
+                    ? "You are the Circle Admin/Moderator"
+                    : profile?.current_masjid_id
+                    ? "Your circle's moderator"
+                    : "Join a circle first"}
                 </p>
               </div>
             </button>

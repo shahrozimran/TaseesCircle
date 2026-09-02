@@ -42,6 +42,23 @@ export async function POST(request) {
       return NextResponse.json({ error: "Invalid subject or message content." }, { status: 400 });
     }
 
+    // Prevent Circle Admin/Moderator from sending a query to themselves
+    if (sanitized.recipient === "moderator" && sanitized.masjid_id) {
+      const { data: memberRole } = await supabase
+        .from("masjid_members")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("masjid_id", sanitized.masjid_id)
+        .maybeSingle();
+
+      if (memberRole?.role === "admin" || memberRole?.role === "moderator") {
+        return NextResponse.json(
+          { error: "As a Circle Admin/Moderator, you cannot send queries to yourself. Please select TaseesCircle as the recipient." },
+          { status: 400 }
+        );
+      }
+    }
+
     // 3. Fetch user profile (for email + name in alert)
     const { data: profile } = await supabase
       .from("profiles")

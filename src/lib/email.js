@@ -190,3 +190,78 @@ TaseesCircle Team
     },
   });
 }
+
+// ─── 3. Role Change: super admin changed role → sent to user ─────────────────
+/**
+ * @param {string} userEmail
+ * @param {string} userName
+ * @param {string} circleName
+ * @param {string} newRole - 'admin' | 'moderator' | 'member'
+ */
+export async function sendRoleChangeNotification(userEmail, userName, circleName, newRole) {
+  const transporter = createTransporter();
+
+  const roleTitle = newRole === "admin"
+    ? "Circle Admin"
+    : newRole === "moderator"
+    ? "Circle Moderator"
+    : "Circle Member";
+
+  const isPromotion = newRole === "admin" || newRole === "moderator";
+
+  const bodyHtml = `
+    <p class="title">${isPromotion ? "🎉 Role Appointment Update" : "ℹ️ Circle Role Update"}</p>
+    <p class="subtitle">Your role in <strong>${circleName}</strong> has been updated.</p>
+
+    <div class="card">
+      <div class="label">Circle</div>
+      <div class="value">${circleName}</div>
+    </div>
+
+    <div class="response-card">
+      <div class="response-label">🌿 New Assigned Role</div>
+      <div class="value" style="color:#2c2c2c; font-weight: 700;">${roleTitle}</div>
+    </div>
+
+    <hr />
+    <p style="font-size:13px; color:#666;">
+      ${
+        isPromotion
+          ? "As a " + roleTitle + ", you now have access to circle announcements, post moderation, and circle management tools."
+          : "Your access permissions have been updated to regular Circle Member."
+      }
+    </p>
+    <p style="font-size:13px; color:#666; margin-top:4px;">
+      Log in to your TaseesCircle dashboard to view your updated circle controls.
+    </p>
+  `;
+
+  const plainText = `
+Role Update Notification for ${circleName}
+
+Dear ${userName || "Valued Member"},
+
+Your role in ${circleName} has been updated to: ${roleTitle}.
+
+${
+  isPromotion
+    ? "You now have access to create announcements and manage circle content."
+    : "Your permissions have been updated to regular Circle Member."
+}
+
+Regards,
+TaseesCircle Team
+  `.trim();
+
+  await transporter.sendMail({
+    from: `"TaseesCircle Admin" <${process.env.GMAIL_USER}>`,
+    replyTo: process.env.GMAIL_USER,
+    to: userEmail,
+    subject: `Role Update: ${roleTitle} in ${circleName} — TaseesCircle`,
+    text: plainText,
+    html: brandedEmail(`Role Update — ${roleTitle}`, bodyHtml),
+    headers: {
+      "X-Auto-Response-Suppress": "OOF, AutoReply",
+    },
+  });
+}
