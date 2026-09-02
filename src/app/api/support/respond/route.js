@@ -45,13 +45,30 @@ export async function POST(request) {
       .from("support_tickets")
       .select(`
         *,
-        profiles!support_tickets_user_id_fkey(id, full_name, email)
+        profiles(id, full_name, email)
       `)
       .eq("id", ticketId)
       .single();
 
     if (ticketError || !ticket) {
       return NextResponse.json({ error: "Ticket not found." }, { status: 404 });
+    }
+
+    // Resolve target user email robustly
+    let userEmail = Array.isArray(ticket.profiles) ? ticket.profiles[0]?.email : ticket.profiles?.email;
+    let userName = Array.isArray(ticket.profiles) ? ticket.profiles[0]?.full_name : ticket.profiles?.full_name;
+
+    if (!userEmail && ticket.user_id) {
+      const { data: userProfile } = await supabase
+        .from("profiles")
+        .select("full_name, email")
+        .eq("id", ticket.user_id)
+        .maybeSingle();
+
+      if (userProfile?.email) {
+        userEmail = userProfile.email;
+        userName = userProfile.full_name;
+      }
     }
 
     // 4. Insert response
@@ -98,13 +115,14 @@ export async function POST(request) {
 
     // 8. Send email to user — non-blocking
     let emailSent = false;
-    if (ticket.profiles?.email) {
+    if (userEmail) {
       try {
+        console.log(`[Support Respond API] Sending email to user (${userEmail})...`);
         await sendQueryResponse(
           ticket,
           { response_message: sanitizedResponse },
-          ticket.profiles.email,
-          ticket.profiles.full_name || "Valued Member"
+          userEmail,
+          userName || "Valued Member"
         );
         emailSent = true;
 
@@ -113,9 +131,12 @@ export async function POST(request) {
           .from("ticket_responses")
           .update({ email_sent: true })
           .eq("id", responseRecord.id);
+        console.log(`[Support Respond API] Email successfully sent to ${userEmail}`);
       } catch (emailErr) {
-        console.error("User response email failed:", emailErr.message);
+        console.error("❌ User response email sending failed:", emailErr);
       }
+    } else {
+      console.warn(`⚠️ Cannot send response email: Could not resolve email for user_id ${ticket.user_id}`);
     }
 
     return NextResponse.json({ success: true, emailSent }, { status: 200 });

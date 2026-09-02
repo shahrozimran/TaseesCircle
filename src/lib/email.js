@@ -2,10 +2,12 @@ import nodemailer from "nodemailer";
 
 // ─── Transporter ──────────────────────────────────────────────────────────────
 function createTransporter() {
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
+  const user = process.env.GMAIL_USER?.trim();
+  const rawPass = process.env.GMAIL_APP_PASSWORD;
+  const pass = rawPass ? rawPass.replace(/\s+/g, "").trim() : "";
 
   if (!user || !pass) {
+    console.error("❌ Gmail SMTP Error: GMAIL_USER or GMAIL_APP_PASSWORD is not configured properly.", { user: !!user, pass: !!pass });
     throw new Error("Gmail SMTP credentials are not configured in environment variables.");
   }
 
