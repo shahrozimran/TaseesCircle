@@ -732,8 +732,28 @@ export default function CircleViewPage({ params }) {
   const handleRoleChange = async (memberId, newRole) => {
     const supabase = createClient();
     if (!supabase) return;
-    await supabase.from("masjid_members").update({ role: newRole }).eq("id", memberId);
-    setMembers((prev) => prev.map((m) => m.id === memberId ? { ...m, role: newRole } : m));
+
+    const { data, error } = await supabase.rpc("update_circle_member_role", {
+      p_member_id: memberId,
+      p_new_role: newRole,
+    });
+
+    if (error || data?.success === false) {
+      alert(error?.message || data?.error || "Failed to update role");
+      return;
+    }
+
+    if (data?.transferred) {
+      setMembers((prev) =>
+        prev.map((m) => {
+          if (m.id === memberId) return { ...m, role: "admin" };
+          if (m.role === "admin") return { ...m, role: "moderator" };
+          return m;
+        })
+      );
+    } else {
+      setMembers((prev) => prev.map((m) => (m.id === memberId ? { ...m, role: newRole } : m)));
+    }
   };
 
   // ── Loading / Not Found ────────────────────────────────────────────────────

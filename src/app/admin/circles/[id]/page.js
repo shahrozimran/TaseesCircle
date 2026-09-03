@@ -247,6 +247,7 @@ export default function AdminCircleDetailPage({ params }) {
   };
 
   // Handle Role Change for Member
+  // Handle Role Change for Member — uses guarded RPC
   const handleRoleChange = async (memberId, newRole) => {
     setUpdatingMemberId(memberId);
     const supabase = createClient();
@@ -255,44 +256,58 @@ export default function AdminCircleDetailPage({ params }) {
       const roleName = newRole === "admin" ? "Circle Admin" : newRole === "moderator" ? "Circle Moderator" : "Circle Member";
       const circleTitle = circle?.masjids?.name || circle?.name || "Circle";
 
-      const { error } = await supabase
-        .from("masjid_members")
-        .update({ role: newRole })
-        .eq("id", memberId);
+      const { data, error } = await supabase.rpc("update_circle_member_role", {
+        p_member_id: memberId,
+        p_new_role: newRole,
+      });
 
-      if (!error) {
+      if (error || data?.success === false) {
+        alert(error?.message || data?.error || "Failed to update role");
+        setUpdatingMemberId(null);
+        return;
+      }
+
+      // Update members in state
+      if (data?.transferred) {
+        // Single Admin rule: if new admin set, old admin becomes moderator
+        setMembers((prev) =>
+          prev.map((m) => {
+            if (m.id === memberId) return { ...m, role: "admin" };
+            if (m.role === "admin") return { ...m, role: "moderator" };
+            return m;
+          })
+        );
+      } else {
         setMembers((prev) =>
           prev.map((m) => (m.id === memberId ? { ...m, role: newRole } : m))
         );
+      }
 
-        // Send in-app notification to member
-        if (targetMember?.user_id) {
-          await supabase.from("notifications").insert({
-            user_id: targetMember.user_id,
-            title: "Role Updated",
-            message: `Your role in ${circleTitle} has been updated to ${roleName} by TaseesCircle Admin.`,
-            type: "general",
-            link: `/dashboard/circles/${circleId}`,
-          });
-        }
+      // Send in-app notification to member
+      if (targetMember?.user_id) {
+        await supabase.from("notifications").insert({
+          user_id: targetMember.user_id,
+          title: "Role Updated",
+          message: `Your role in ${circleTitle} has been updated to ${roleName} by TaseesCircle Admin.`,
+          type: "general",
+          link: `/dashboard/circles/${circleId}`,
+        });
+      }
 
-        // Log admin audit action
-        if (user?.id) {
-          await supabase.from("admin_actions").insert({
-            admin_id: user.id,
-            masjid_id: circle?.masjids?.id || null,
-            action_type: "update_role",
-            notes: `Changed role of ${targetMember?.profiles?.full_name || targetMember?.profiles?.email || memberId} to ${newRole} in ${circleTitle}`,
-          });
-        }
-      } else {
-        alert("Failed to update role: " + error.message);
+      // Log admin audit action
+      if (user?.id) {
+        await supabase.from("admin_actions").insert({
+          admin_id: user.id,
+          masjid_id: circle?.masjids?.id || null,
+          action_type: "update_role",
+          notes: `Changed role of ${targetMember?.profiles?.full_name || targetMember?.profiles?.email || memberId} to ${newRole} in ${circleTitle}`,
+        });
       }
     }
     setUpdatingMemberId(null);
   };
 
-  // Handle Remove Member
+  // Handle Remove Member — guarded against deleting sole leader
   const handleRemoveMember = async (memberId, memberName) => {
     if (!confirm(`Are you sure you want to remove ${memberName} from this circle?`)) return;
     setUpdatingMemberId(memberId);
@@ -302,7 +317,7 @@ export default function AdminCircleDetailPage({ params }) {
       if (!error) {
         setMembers((prev) => prev.filter((m) => m.id !== memberId));
       } else {
-        alert("Failed to remove member: " + error.message);
+        alert(error.message || "Failed to remove member. A circle must always have at least 1 Admin or Moderator.");
       }
     }
     setUpdatingMemberId(null);
