@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { BookOpen, Users, Heart, Star, Shield, Mail, Lock, User, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { safeRedirect } from "@/lib/utils/safeRedirect";
 
 const benefits = [
   { icon: BookOpen, text: "Access exclusive Islamic learning materials" },
@@ -18,7 +19,7 @@ export default function LoginClient() {
   const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const redirectTo = safeRedirect(searchParams.get("redirect"));
 
   // Form state
   const [authMode, setAuthMode] = useState("login"); // "login" | "signup"
@@ -303,9 +304,10 @@ export default function LoginClient() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-200 hover:text-charcoal-400 transition-colors"
                         >
-                          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                          {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                         </button>
                       </div>
                     </div>

@@ -5,15 +5,24 @@ export async function updateSession(request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Skip if Supabase not configured
+  // Guard against missing or placeholder env vars
   if (
     !supabaseUrl ||
     !supabaseKey ||
     supabaseUrl === "your_supabase_project_url" ||
     supabaseKey === "your_supabase_anon_key"
   ) {
+    const pathname = request.nextUrl.pathname;
+    // Fail CLOSED for protected routes — return 503 instead of passing through (M-05)
+    if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+      return NextResponse.json(
+        { error: "Service unavailable. Required configuration is missing." },
+        { status: 503 }
+      );
+    }
     return NextResponse.next({ request });
   }
+
 
   let supabaseResponse = NextResponse.next({
     request,

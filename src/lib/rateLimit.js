@@ -1,7 +1,19 @@
 /**
  * In-Memory Sliding Window Rate Limiter for Next.js App Router
  * Tracks request counts per client IP within a configurable time window.
+ *
+ * NOTE (M-02): Prefer using the rightmost x-forwarded-for entry (platform-appended)
+ * to prevent IP spoofing. Use the extractIp() helper in your routes.
  */
+
+/** Extracts the platform-trusted client IP from request headers. */
+export function extractIp(request) {
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIp    = request.headers.get("x-real-ip");
+  return forwarded
+    ? forwarded.split(",").at(-1).trim()
+    : realIp || "127.0.0.1";
+}
 
 const rateLimitMap = new Map();
 

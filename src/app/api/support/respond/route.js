@@ -117,7 +117,7 @@ export async function POST(request) {
     let emailSent = false;
     if (userEmail) {
       try {
-        console.log(`[Support Respond API] Sending email to user (${userEmail})...`);
+        console.log(`[Support Respond API] Sending email to user...`);
         await sendQueryResponse(
           ticket,
           { response_message: sanitizedResponse },
@@ -131,7 +131,7 @@ export async function POST(request) {
           .from("ticket_responses")
           .update({ email_sent: true })
           .eq("id", responseRecord.id);
-        console.log(`[Support Respond API] Email successfully sent to ${userEmail}`);
+        console.log(`[Support Respond API] Email successfully sent to user`);
       } catch (emailErr) {
         console.error("❌ User response email sending failed:", emailErr);
       }

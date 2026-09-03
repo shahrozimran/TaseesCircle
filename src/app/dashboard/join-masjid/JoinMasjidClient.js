@@ -131,7 +131,7 @@ export default function JoinMasjidClient() {
     }
   };
 
-  const handleJoin = async (masjidId, method, referralId) => {
+  const handleJoin = async (method) => {
     setJoining(true);
     setError("");
 
@@ -139,54 +139,38 @@ export default function JoinMasjidClient() {
       const supabase = createClient();
       if (!supabase) return;
 
-      // Check 1-user-1-circle rule
-      const { data: existingMember } = await supabase
-        .from("masjid_members")
-        .select("id")
-        .eq("user_id", user.id)
-        .maybeSingle();
+      let result;
 
-      if (existingMember) {
-        setError("You are already part of a circle. You must leave your current circle before joining another.");
-        return;
-      }
-
-      // Join the masjid
-      const { error: joinError } = await supabase
-        .from("masjid_members")
-        .insert({
-          masjid_id: masjidId,
-          user_id: user.id,
-          role: "member",
-          join_method: method,
-          referred_by: referralId || null,
+      if (method === "code") {
+        // Use transactional RPC — enforces role=member, validates approved masjid (C-04)
+        const { data, error: rpcError } = await supabase.rpc("join_masjid_by_code", {
+          p_code: code.trim().toUpperCase(),
         });
-
-      if (joinError) {
-        if (joinError.code === "23505") {
-          setError("You are already a member of this circle.");
-        } else {
-          setError(joinError.message);
-        }
-        return;
+        if (rpcError) throw new Error(rpcError.message);
+        result = data;
+      } else {
+        // Use transactional RPC — atomically consumes referral + inserts member (H-05, H-06)
+        const { data, error: rpcError } = await supabase.rpc("join_masjid_by_referral", {
+          p_referral_code: referralCode.trim(),
+        });
+        if (rpcError) throw new Error(rpcError.message);
+        result = data;
       }
 
-      // Update referral status if applicable
-      if (referralId && referralResult) {
-        await supabase
-          .from("referrals")
-          .update({ status: "accepted", referred_user_id: user.id })
-          .eq("id", referralResult.id);
+      if (!result?.success) {
+        setError(result?.error || "Failed to join. Please try again.");
+        return;
       }
 
       setSuccess("You have successfully joined the circle! Redirecting...");
       setTimeout(() => router.push("/dashboard/my-circle"), 2000);
-    } catch {
-      setError("An unexpected error occurred. Please try again.");
+    } catch (err) {
+      setError(err.message || "An unexpected error occurred. Please try again.");
     } finally {
       setJoining(false);
     }
   };
+
 
   if (success) {
     return (
@@ -313,7 +297,7 @@ export default function JoinMasjidClient() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleJoin(searchResult.id, "code", null)}
+                  onClick={() => handleJoin("code")}
                   disabled={joining}
                   className="flex items-center gap-2 px-5 py-2.5 bg-islamic-green text-white text-sm font-medium rounded-xl hover:bg-islamic-green-light transition-all disabled:opacity-50"
                 >
@@ -388,7 +372,7 @@ export default function JoinMasjidClient() {
                   </p>
                 </div>
                 <button
-                  onClick={() => handleJoin(referralResult.masjid_id, "referral", referralResult.referrer_id)}
+                  onClick={() => handleJoin("referral")}
                   disabled={joining}
                   className="flex items-center gap-2 px-5 py-2.5 bg-islamic-green text-white text-sm font-medium rounded-xl hover:bg-islamic-green-light transition-all disabled:opacity-50"
                 >

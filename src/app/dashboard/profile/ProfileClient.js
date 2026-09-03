@@ -8,7 +8,7 @@ import { Save, CheckCircle, AlertCircle, Loader2, LogOut, Lock } from "lucide-re
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ProfileClient() {
-  const { user, profile, signOut, refetchProfile, isProfileComplete } = useAuth();
+  const { user, profile, signOut, refreshProfile, refetchProfile, isProfileComplete } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   // Track whether we are in the middle of saving so the layout guard won't
@@ -81,9 +81,9 @@ export default function ProfileClient() {
         return;
       }
 
-      // Wait for the profile to be fully refreshed in the auth context
-      // so isProfileComplete reflects the new data before we navigate.
-      const updatedProfile = await refetchProfile();
+      // Refresh the shared auth context so isProfileComplete is current before
+      // the layout guard re-evaluates (H-08). Use refreshProfile (canonical name).
+      const updatedProfile = await (refreshProfile || refetchProfile)();
 
       // Double-check the returned data is complete before navigating
       const profileIsNowComplete = !!(

@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
-import { sanitizeInput, validateEmail } from "@/lib/security";
+import { normaliseInput, validateEmail } from "@/lib/security";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export async function POST(request) {
   try {
-    // 1. Extract IP Address from headers
+    // 1. Extract IP — trust rightmost entry in x-forwarded-for (M-02)
     const forwarded = request.headers.get("x-forwarded-for");
-    const realIp = request.headers.get("x-real-ip");
-    const ip = forwarded ? forwarded.split(",")[0].trim() : realIp || "127.0.0.1";
+    const realIp    = request.headers.get("x-real-ip");
+    const ip = forwarded
+      ? forwarded.split(",").at(-1).trim()
+      : realIp || "127.0.0.1";
 
-    // 2. Check Rate Limit: Max 5 submissions per IP every 15 minutes
+    // 2. Rate limit: max 5 per IP per 15 minutes
     const rateCheck = checkRateLimit(ip, 5, 15 * 60 * 1000);
 
     if (!rateCheck.success) {
@@ -30,7 +33,7 @@ export async function POST(request) {
       );
     }
 
-    // 3. Parse and sanitize body
+    // 3. Parse and normalise body
     const body = await request.json();
     const { name, email, country, subject, message } = body;
 
@@ -38,22 +41,40 @@ export async function POST(request) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    const sanitizedData = {
-      name: sanitizeInput(name, 100),
-      email: email.trim(),
-      country: sanitizeInput(country, 50),
-      subject: sanitizeInput(subject, 150),
-      message: sanitizeInput(message, 2000),
+    const normalisedData = {
+      name:    normaliseInput(name, 100),
+      email:   email.trim().toLowerCase(),
+      country: normaliseInput(country, 50),
+      subject: normaliseInput(subject, 150),
+      message: normaliseInput(message, 2000),
     };
 
-    if (!sanitizedData.name || !sanitizedData.subject || !sanitizedData.message) {
+    if (!normalisedData.name || !normalisedData.subject || !normalisedData.message) {
       return NextResponse.json(
         { error: "Required fields are missing or invalid." },
         { status: 400 }
       );
     }
 
-    // 4. Return success with rate limit headers
+    // 4. Persist to DB BEFORE returning 200 (H-02)
+    const supabase = createServiceClient();
+    if (!supabase) {
+      return NextResponse.json({ error: "Service unavailable." }, { status: 503 });
+    }
+
+    const { error: dbError } = await supabase
+      .from("contact_submissions")
+      .insert(normalisedData);
+
+    if (dbError) {
+      console.error("Contact submission DB error:", dbError.code);
+      return NextResponse.json(
+        { error: "Failed to save your message. Please try again." },
+        { status: 500 }
+      );
+    }
+
+    // 5. Return success only after durable write
     return NextResponse.json(
       { success: true, message: "Contact submission received successfully." },
       {
@@ -65,6 +86,7 @@ export async function POST(request) {
       }
     );
   } catch (err) {
+    console.error("Contact route error:", err.message);
     return NextResponse.json(
       { error: "Internal server error processing request." },
       { status: 500 }

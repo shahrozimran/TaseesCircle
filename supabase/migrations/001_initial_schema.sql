@@ -569,12 +569,12 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.notifications;
 
 
 -- ============================================
--- SUPER ADMIN CREDENTIAL SETUP:
--- Username: admin_access
--- Email: admin_access@taseescircle.com
--- Password: taseescircleadmin
---
--- Note: After creating the user in Supabase Auth,
+-- SUPER ADMIN SETUP:
+-- Create the super-admin user in the Supabase
+-- Auth dashboard (Settings → Users → Add user).
+-- Credentials are managed out-of-band and must
+-- NEVER be committed to source control.
+-- After creating the user in Supabase Auth,
 -- run this statement to set super_admin role:
 -- ============================================
 UPDATE public.profiles

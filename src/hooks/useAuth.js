@@ -169,7 +169,10 @@ export function useAuth() {
     signUpWithEmail,
     resetPassword,
     signOut,
-    refetchProfile,
+    // refreshProfile: re-fetches profile from DB and updates shared state.
+    // Call this after any server-side profile save to avoid stale lock state (H-08).
+    refreshProfile: refetchProfile,
+    refetchProfile,             // kept for backward compatibility
     isProfileComplete,
     isAdmin: profile?.role === "super_admin",
   };

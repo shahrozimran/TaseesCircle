@@ -48,9 +48,11 @@ export const SOCIAL_LINKS = {
   whatsapp: "https://wa.me/taseescircle",
 };
 
+// Community goal/milestone targets (estimates). These are aspirational figures,
+// not live database counts. Update when live metrics are wired in.
 export const STATS = [
-  { label: "Community Members", value: 5000, suffix: "+" },
-  { label: "Sessions Conducted", value: 200, suffix: "+" },
-  { label: "Countries Active", value: 2, suffix: "" },
-  { label: "Programs Running", value: 15, suffix: "+" },
+  { label: "Community Members", value: 5000, suffix: "+", isEstimate: true },
+  { label: "Sessions Conducted", value: 200, suffix: "+", isEstimate: true },
+  { label: "Countries Active", value: 2, suffix: "", isEstimate: false },
+  { label: "Programs Running", value: 15, suffix: "+", isEstimate: true },
 ];

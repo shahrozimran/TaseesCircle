@@ -64,6 +64,19 @@ export async function generateMetadata({ params }) {
 export default async function BlogDetailPage({ params }) {
   const { community, slug } = await params;
 
+  // ── Community resolver — fixes H-01 (ReferenceError 500) ──────────────────
+  const COMMUNITY_MAP = {
+    pakistan: { name: "Pakistan", hubUrl: "/discussions/pakistan" },
+    canada:   { name: "Canada",   hubUrl: "/discussions/canada"   },
+  };
+
+  const communityMeta = COMMUNITY_MAP[community];
+  if (!communityMeta) notFound();
+
+  const communityName   = communityMeta.name;
+  const communityHubUrl = communityMeta.hubUrl;
+  // ──────────────────────────────────────────────────────────────────────────
+
   const blogMap = community === "canada" ? canadaBlogContent : pakistanBlogContent;
   const discussionsList = community === "canada" ? canadaDiscussions : pakistanDiscussions;
   const article = blogMap[slug];
@@ -71,6 +84,7 @@ export default async function BlogDetailPage({ params }) {
   if (!article) {
     notFound();
   }
+
 
   // Related discussions
   const relatedSlugs = article.relatedSlugs || [];

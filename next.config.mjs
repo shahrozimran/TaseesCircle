@@ -29,12 +29,14 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.supabase.co https://translate.google.com https://translate.googleapis.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com",
+      // unsafe-inline is required by Next.js for inline scripts/styles.
+      // unsafe-eval removed (M-03). Google Translate integration removed (M-03).
+      "script-src 'self' 'unsafe-inline' https://apis.google.com https://*.supabase.co",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com data:",
-      "img-src 'self' data: blob: https://lh3.googleusercontent.com https://*.supabase.co https://translate.google.com https://www.google.com https://www.gstatic.com",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.googleusercontent.com https://translate.googleapis.com",
-      "frame-src https://translate.google.com",
+      "img-src 'self' data: blob: https://lh3.googleusercontent.com https://*.supabase.co",
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.googleusercontent.com",
+      "frame-src 'none'",
       "frame-ancestors 'none'",
       "form-action 'self'",
       "base-uri 'self'",

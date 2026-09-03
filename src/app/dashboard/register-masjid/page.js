@@ -55,8 +55,30 @@ export default function RegisterMasjidPage() {
   useEffect(() => {
     if (profile?.current_masjid_id) {
       router.push("/dashboard/my-circle");
+      return;
     }
-  }, [profile, router]);
+
+    // Guard against duplicate pending/approved registrations (M-01)
+    if (user?.id) {
+      const supabase = createClient();
+      if (!supabase) return;
+      supabase
+        .from("masjids")
+        .select("id, name, status")
+        .eq("created_by", user.id)
+        .in("status", ["pending", "approved"])
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data) {
+            // Already has an active registration — redirect to dashboard
+            router.push(
+              `/dashboard?notice=You already have a ${data.status} Masjid registration for "${data.name}". Please wait for approval.`
+            );
+          }
+        });
+    }
+  }, [profile, user, router]);
+
 
   const updateField = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

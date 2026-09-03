@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { escapeHtml } from "@/lib/security";
 
 // ─── Transporter ──────────────────────────────────────────────────────────────
 function createTransporter() {
@@ -79,25 +80,25 @@ export async function sendNewQueryAlert(ticket, user) {
 
   const bodyHtml = `
     <p class="title">📨 New Support Query Received</p>
-    <p class="subtitle">A user has submitted a query to <strong>${recipientLabel}</strong>.</p>
+    <p class="subtitle">A user has submitted a query to <strong>${escapeHtml(recipientLabel)}</strong>.</p>
 
     <div class="card">
       <div class="label">From</div>
-      <div class="value">${user.full_name || "Unknown User"} &lt;${user.email}&gt;</div>
+      <div class="value">${escapeHtml(user.full_name || "Unknown User")} &lt;${escapeHtml(user.email)}&gt;</div>
     </div>
 
     <div class="card">
       <div class="label">Subject</div>
-      <div class="value">${ticket.subject}</div>
+      <div class="value">${escapeHtml(ticket.subject)}</div>
     </div>
 
     <div class="card">
       <div class="label">Message</div>
-      <div class="value">${ticket.message}</div>
+      <div class="value">${escapeHtml(ticket.message)}</div>
     </div>
 
     <div style="margin-top:8px;">
-      <span class="badge">${ticket.priority?.toUpperCase() || "MEDIUM"} Priority</span>
+      <span class="badge">${escapeHtml(ticket.priority?.toUpperCase() || "MEDIUM")} Priority</span>
     </div>
 
     <hr />
@@ -146,12 +147,12 @@ export async function sendQueryResponse(ticket, response, userEmail, userName) {
 
     <div class="card">
       <div class="label">Your Query</div>
-      <div class="value">${ticket.subject}</div>
+      <div class="value">${escapeHtml(ticket.subject)}</div>
     </div>
 
     <div class="response-card">
       <div class="response-label">🌿 Response from TaseesCircle Admin</div>
-      <div class="value" style="color:#2c2c2c;">${response.response_message}</div>
+      <div class="value" style="color:#2c2c2c;">${escapeHtml(response.response_message)}</div>
     </div>
 
     <hr />
@@ -211,16 +212,16 @@ export async function sendRoleChangeNotification(userEmail, userName, circleName
 
   const bodyHtml = `
     <p class="title">${isPromotion ? "🎉 Role Appointment Update" : "ℹ️ Circle Role Update"}</p>
-    <p class="subtitle">Your role in <strong>${circleName}</strong> has been updated.</p>
+    <p class="subtitle">Your role in <strong>${escapeHtml(circleName)}</strong> has been updated.</p>
 
     <div class="card">
       <div class="label">Circle</div>
-      <div class="value">${circleName}</div>
+      <div class="value">${escapeHtml(circleName)}</div>
     </div>
 
     <div class="response-card">
       <div class="response-label">🌿 New Assigned Role</div>
-      <div class="value" style="color:#2c2c2c; font-weight: 700;">${roleTitle}</div>
+      <div class="value" style="color:#2c2c2c; font-weight: 700;">${escapeHtml(roleTitle)}</div>
     </div>
 
     <hr />
