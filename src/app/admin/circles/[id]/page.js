@@ -141,7 +141,7 @@ export default function AdminCircleDetailPage({ params }) {
       // 3. Fetch Circle Members
       const { data: membersData, error: memErr } = await supabase
         .from("masjid_members")
-        .select("*, profiles(id, full_name, avatar_url, email, role)")
+        .select("*, profiles!masjid_members_user_id_fkey(id, full_name, avatar_url, email, role)")
         .eq("masjid_id", masjidId)
         .order("joined_at", { ascending: true });
 

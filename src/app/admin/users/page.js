@@ -23,23 +23,19 @@ export default function AdminUsersPage() {
         .from("profiles")
         .select(`
           *,
-          masjids(name),
-          masjid_members(role, masjid_id)
+          current_masjid:masjids!fk_current_masjid(id, name),
+          masjid_members!masjid_members_user_id_fkey(
+            role,
+            masjid_id,
+            masjids(id, name)
+          )
         `)
         .neq("role", "super_admin")
         .order("created_at", { ascending: false })
         .limit(100);
 
-      if (error || !data || data.length === 0) {
-        if (error) console.warn("Profiles join query error, performing direct fetch:", error.message);
-        const { data: directProfiles } = await supabase
-          .from("profiles")
-          .select("*")
-          .neq("role", "super_admin")
-          .order("created_at", { ascending: false })
-          .limit(100);
-
-        data = directProfiles || [];
+      if (error) {
+        console.warn("Profiles join query warning:", error.message);
       }
 
       setUsers(data || []);
@@ -137,9 +133,10 @@ export default function AdminUsersPage() {
 
                   {/* Circle */}
                   <div className="col-span-3 mb-1 sm:mb-0">
-                    {u.masjids?.name ? (
-                      <span className="text-xs text-charcoal-500 flex items-center gap-1">
-                        <CircleDot size={10} className="text-islamic-green" /> {u.masjids.name}
+                    {u.current_masjid?.name || u.masjid_members?.[0]?.masjids?.name ? (
+                      <span className="text-xs text-charcoal-500 flex items-center gap-1 font-medium">
+                        <CircleDot size={10} className="text-islamic-green" />
+                        {u.current_masjid?.name || u.masjid_members?.[0]?.masjids?.name}
                       </span>
                     ) : (
                       <span className="text-xs text-charcoal-200">—</span>

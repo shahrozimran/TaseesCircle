@@ -54,7 +54,7 @@ export default function AdminCirclesPage() {
 
       const { data } = await supabase
         .from("masjid_members")
-        .select("*, profiles(full_name, email, avatar_url)")
+        .select("*, profiles!masjid_members_user_id_fkey(full_name, email, avatar_url, role)")
         .eq("masjid_id", masjidId)
         .order("joined_at", { ascending: true });
 

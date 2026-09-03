@@ -72,7 +72,7 @@ export default function MyCirclePage() {
           .from("masjid_members")
           .select(`
             id, role, join_method, joined_at,
-            profiles (id, full_name, avatar_url, email, role)
+            profiles!masjid_members_user_id_fkey (id, full_name, avatar_url, email, role)
           `)
           .eq("masjid_id", activeMasjidId)
           .order("joined_at", { ascending: true });
