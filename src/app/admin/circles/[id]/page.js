@@ -141,18 +141,17 @@ export default function AdminCircleDetailPage({ params }) {
       // 3. Fetch Circle Members
       const { data: membersData, error: memErr } = await supabase
         .from("masjid_members")
-        .select("*, profiles(id, full_name, avatar_url, email)")
+        .select("*, profiles(id, full_name, avatar_url, email, role)")
         .eq("masjid_id", masjidId)
         .order("joined_at", { ascending: true });
 
       if (memErr) console.error("Error fetching members:", memErr);
 
-      // Filter out system admin accounts from circle member list
+      // Include all real circle members (creators, admins, moderators, members).
+      // Only filter out the platform super admin account if present.
       setMembers(
         (membersData || []).filter(
-          (m) =>
-            m.profiles?.email !== "admin_access@taseescircle.com" &&
-            m.profiles?.role !== "super_admin"
+          (m) => m.profiles?.email !== "admin_access@taseescircle.com"
         )
       );
 

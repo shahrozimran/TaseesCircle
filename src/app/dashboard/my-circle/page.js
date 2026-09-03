@@ -72,16 +72,15 @@ export default function MyCirclePage() {
           .from("masjid_members")
           .select(`
             id, role, join_method, joined_at,
-            profiles (id, full_name, avatar_url, email)
+            profiles (id, full_name, avatar_url, email, role)
           `)
           .eq("masjid_id", activeMasjidId)
           .order("joined_at", { ascending: true });
-        // Filter out system admin accounts — should never show in user-facing member list
+        // Retain all real circle members (creators, admins, moderators, members).
+        // Only filter out the platform super admin account if present.
         setMembers(
           (memberData || []).filter(
-            (m) =>
-              m.profiles?.email !== "admin_access@taseescircle.com" &&
-              m.profiles?.role !== "super_admin"
+            (m) => m.profiles?.email !== "admin_access@taseescircle.com"
           )
         );
       } catch (err) {

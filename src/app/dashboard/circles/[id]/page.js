@@ -631,7 +631,7 @@ export default function CircleViewPage({ params }) {
       // Members — primary list query
       const { data: memberData } = await supabase
         .from("masjid_members")
-        .select("*, profiles(id, full_name, avatar_url, email)")
+        .select("*, profiles(id, full_name, avatar_url, email, role)")
         .eq("masjid_id", circleData.masjids.id)
         .order("joined_at", { ascending: true });
 
@@ -666,16 +666,16 @@ export default function CircleViewPage({ params }) {
               full_name:  profile?.full_name  || user.user_metadata?.full_name || "You",
               avatar_url: profile?.avatar_url || null,
               email:      user.email           || "",
+              role:       profile?.role        || "user",
             },
           },
           ...finalMembers,
         ];
       }
-      // Filter out system admin accounts — they should never appear in
-      // the user/moderator-facing member list.
+      // Retain all real circle members (creators, admins, moderators, members).
+      // Only filter out the platform super admin account if present.
       finalMembers = finalMembers.filter(
         (m) => m.profiles?.email !== "admin_access@taseescircle.com"
-          && m.profiles?.role !== "super_admin"
       );
 
       setMembers(finalMembers);
