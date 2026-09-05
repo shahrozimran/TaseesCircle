@@ -1,5 +1,15 @@
 // English source keys; Arabic originals are intentionally excluded.
 const messages = {
+  "carousel": "تصویری سلسلہ",
+  "slide": "تصویر",
+  "Community stories": "ہماری برادری کی جھلکیاں",
+  "Image {current} of {total}": "{total} میں سے تصویر {current}",
+  "Images pause while focused.": "فوکس کے دوران تصاویر کی تبدیلی رک جاتی ہے۔",
+  "An illustrated comparison of dishonest dealings and fair trade around community mosques.": "مساجد کے گرد بددیانتی اور منصفانہ تجارت کا تصویری تقابل۔",
+  "Community members gather in a marketplace circle to commit to honest dealings.": "برادری کے افراد بازار میں حلقہ بنا کر دیانت دار معاملات کا عہد کرتے ہیں۔",
+  "A mosque and marketplace illustrating worship, fair weights and halal livelihood.": "مسجد اور بازار میں عبادت، پورے ناپ تول اور حلال رزق کی عکاسی۔",
+  "Merchants and families practise fair trade and trustworthy exchanges in a marketplace.": "بازار میں تاجر اور خاندان منصفانہ تجارت اور امانت دار لین دین کرتے ہیں۔",
+  "Neighbourhood circles connect across a city around a shared commitment to fairness.": "انصاف کے مشترکہ عہد کے تحت شہر بھر میں محلوں کے حلقے ایک دوسرے سے جڑتے ہیں۔",
   "About Ta'sees Circle": "تاسیس سرکل کے بارے میں",
   "Our Mission & Founder": "ہمارا مشن اور بانی",
   "Founded in August 2026 by Muhammad Maqbool Ahmed Khan, Ta'sees Circle is an authentic digital platform dedicated to introducing a practical Islamic model for living — guided strictly by Quran and Sunnah.":

@@ -15,6 +15,7 @@ export default function Hero({
   overlay = true,
   height = "min-h-[90vh] md:min-h-screen py-24 md:py-0",
   align = "center",
+  media,
 }) {
   return (
     <section
@@ -26,30 +27,32 @@ export default function Hero({
       }
     >
       {/* Gradient Overlay */}
-      {overlay && (
+      {overlay && !media && (
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-600/85 via-charcoal-600/65 to-charcoal-600/85" />
       )}
 
       {/* Fallback Background (when no image) */}
       {!backgroundImage && (
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-600 via-charcoal-500 to-charcoal-600" />
+        <div className={`absolute inset-0 bg-gradient-to-br ${media ? "from-[#17201b] via-charcoal-600 to-[#24251f]" : "from-charcoal-600 via-charcoal-500 to-charcoal-600"}`} />
       )}
+
+      {media && <div aria-hidden="true" className="pointer-events-none absolute -top-24 -end-32 h-[680px] w-[680px] rounded-full bg-gold/[0.07] blur-[100px]" />}
 
       {/* Islamic Pattern Overlay */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className={media ? "hidden" : "absolute inset-0 opacity-[0.03]"}
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
 
       {/* Content */}
-      <div className={`section-container relative z-10 ${align === "center" ? "text-center" : "text-start"}`}>
+      <div className={`section-container relative z-10 ${media ? "grid grid-cols-1 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] items-center gap-9 lg:gap-10 xl:gap-14" : ""} ${align === "center" ? "text-center" : "text-start"}`}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className={`max-w-4xl ${align === "center" ? "mx-auto" : ""}`}
+          className={`${media ? "order-2 lg:order-1 min-w-0" : "max-w-4xl"} ${align === "center" ? "mx-auto" : ""}`}
         >
           {subtitle && (
             <motion.p
@@ -62,7 +65,7 @@ export default function Hero({
             </motion.p>
           )}
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-white leading-tight mb-4 sm:mb-6">
+          <h1 className={`${media ? "text-3xl sm:text-4xl md:text-5xl 2xl:text-6xl" : "text-3xl sm:text-5xl md:text-6xl lg:text-7xl"} font-heading font-bold text-white leading-tight mb-4 sm:mb-6`}>
             <T>{title}</T>
           </h1>
 
@@ -71,7 +74,7 @@ export default function Hero({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto"
+              className={`${media ? "text-sm sm:text-base" : "text-base sm:text-lg md:text-xl"} text-white/80 leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto`}
             >
               <T>{description}</T>
             </motion.p>
@@ -106,10 +109,11 @@ export default function Hero({
             </motion.div>
           )}
         </motion.div>
+        {media && <div className="order-1 lg:order-2 min-w-0 w-full">{media}</div>}
       </div>
 
       {/* Scroll Indicator */}
-      {height.includes("h-screen") && (
+      {!media && height.includes("h-screen") && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

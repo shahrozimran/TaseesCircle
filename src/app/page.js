@@ -3,6 +3,7 @@ import T from "@/components/i18n/T";
 
 
 import Hero from "@/components/sections/Hero";
+import HeroCarousel from "@/components/sections/HeroCarousel";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CountrySpotlight from "@/components/sections/CountrySpotlight";
 import StatsBar from "@/components/ui/StatsBar";
@@ -51,6 +52,9 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <Hero
+        media={<HeroCarousel />}
+        align="start"
+        height="min-h-[85svh] pt-28 pb-14 sm:pt-32 sm:pb-20"
         subtitle="Welcome to Ta'sees Circle"
         title="Uniting Hearts, Building Communities"
         description="A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith."
