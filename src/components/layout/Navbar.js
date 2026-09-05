@@ -80,7 +80,7 @@ export default function Navbar() {
               isSolid ? "text-charcoal-600" : "text-white"
             }`}
           >
-            Tasees Circle
+            Ta&apos;sees Circle
           </span>
 
           {/* Desktop Navigation */}
