@@ -11,7 +11,6 @@ import {
   Globe,
   Heart,
 } from "lucide-react";
-import { FacebookIcon, InstagramIcon, YoutubeIcon, WhatsAppIcon } from "@/components/ui/SocialIcons";
 import { SITE_NAME, SITE_TAGLINE, NAV_LINKS, SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Footer() {
@@ -37,45 +36,7 @@ export default function Footer() {
             <p className="text-charcoal-200 text-sm leading-relaxed mb-6 max-w-sm">
               <T>{SITE_TAGLINE}. A digital Islamic platform connecting Muslim communities in Pakistan and Canada through online knowledge, discussions, and authentic Islamic guidance.
             </T></p>
-            {/* Social Icons with Touch Friendly Targets */}
-            <div className="flex items-center gap-3">
-              <a
-                href={SOCIAL_LINKS.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold transition-colors"
-                aria-label={translate("Facebook")}
-              >
-                <FacebookIcon size={18} />
-              </a>
-              <a
-                href={SOCIAL_LINKS.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold transition-colors"
-                aria-label={translate("Instagram")}
-              >
-                <InstagramIcon size={18} />
-              </a>
-              <a
-                href={SOCIAL_LINKS.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold transition-colors"
-                aria-label={translate("YouTube")}
-              >
-                <YoutubeIcon size={18} />
-              </a>
-              <a
-                href={SOCIAL_LINKS.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold transition-colors"
-                aria-label={translate("WhatsApp")}
-              >
-                <WhatsAppIcon size={18} />
-              </a>
-            </div>
+
           </div>
 
           {/* Quick Links */}
