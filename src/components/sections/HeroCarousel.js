@@ -97,9 +97,9 @@ export default function HeroCarousel() {
       position.current = bounded;
       setMoving(true);
       animation.current = animate(x, -bounded * width.current, {
-        // Automatic movement is leisurely; direct gestures settle promptly.
-        duration: reducedMotion ? 0 : automatic ? 2 : 0.4,
-        ease: [0.25, 0.1, 0.25, 1],
+        // Automatic slides ease in and out; swipes glide into a gentle stop.
+        duration: reducedMotion ? 0 : automatic ? 2 : 0.7,
+        ease: automatic ? [0.45, 0, 0.55, 1] : [0.22, 1, 0.36, 1],
         onComplete: () => {
           const settled = normalizePosition(bounded);
           position.current = settled;
