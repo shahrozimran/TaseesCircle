@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   animate,
   motion,
@@ -149,16 +150,22 @@ export default function HeroCarousel() {
       aria-label={t("Community stories")}
     >
       <div
+        className="relative mx-auto lg:max-w-[calc(100%-8rem)]"
+        style={{ width: "min(100%, 1536px, calc(150svh - 240px))" }}
+        onFocus={() => setFocused(true)}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
+        }}
+      >
+      <div
         ref={viewport}
+        id="hero-carousel"
         role="region"
         aria-roledescription={t("carousel")}
         aria-label={`${t("Community stories")}. ${t("Swipe left or right, or use the arrow keys, to explore the images.")}`}
         tabIndex={0}
         dir="ltr"
-        className="relative mx-auto aspect-[3/2] max-w-[1536px] overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold-light"
-        style={{ width: "min(100%, calc(150svh - 240px))" }}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        className="relative aspect-[3/2] w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold-light"
         onKeyDown={(event) => {
           const target =
             event.key === "ArrowRight"
@@ -242,6 +249,31 @@ export default function HeroCarousel() {
             </div>
           ))}
         </motion.div>
+      </div>
+      <button
+        type="button"
+        aria-label={t("Previous image")}
+        aria-controls="hero-carousel"
+        aria-disabled={!viewportWidth || moving || dragging}
+        onClick={() => {
+          if (!moving && !dragging) goTo(position.current - 1);
+        }}
+        className="absolute -left-14 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80 transition-colors duration-200 hover:border-gold hover:bg-gold hover:text-charcoal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold aria-disabled:cursor-default aria-disabled:opacity-40 lg:flex"
+      >
+        <ChevronLeft size={22} aria-hidden="true" style={{ transform: "none" }} />
+      </button>
+      <button
+        type="button"
+        aria-label={t("Next image")}
+        aria-controls="hero-carousel"
+        aria-disabled={!viewportWidth || moving || dragging}
+        onClick={() => {
+          if (!moving && !dragging) goTo(position.current + 1);
+        }}
+        className="absolute -right-14 top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80 transition-colors duration-200 hover:border-gold hover:bg-gold hover:text-charcoal-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold aria-disabled:cursor-default aria-disabled:opacity-40 lg:flex"
+      >
+        <ChevronRight size={22} aria-hidden="true" style={{ transform: "none" }} />
+      </button>
       </div>
       <p className="px-4 py-4 text-center text-xs sm:text-sm font-medium text-white/75">
         <T>Swipe left to explore the idea.</T>

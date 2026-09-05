@@ -2,6 +2,8 @@
 const messages = {
   "carousel": "تصویری سلسلہ",
   "slide": "تصویر",
+  "Previous image": "پچھلی تصویر",
+  "Next image": "اگلی تصویر",
   "Community stories": "ہماری برادری کی جھلکیاں",
   "Image {current} of {total}": "{total} میں سے تصویر {current}",
   "Images pause while focused.": "فوکس کے دوران تصاویر کی تبدیلی رک جاتی ہے۔",
