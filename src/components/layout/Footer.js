@@ -32,7 +32,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-4 rounded-md focus-visible:outline-gold">
-              <BrandLogo className="w-44" />
+              <BrandLogo className="w-[88px]" dark />
             </Link>
             <p className="text-charcoal-200 text-sm leading-relaxed mb-6 max-w-sm">
               <T>{SITE_TAGLINE}. A digital Islamic platform connecting Muslim communities in Pakistan and Canada through online knowledge, discussions, and authentic Islamic guidance.

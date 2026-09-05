@@ -62,7 +62,7 @@ export default function AdminLayout({ children }) {
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-white/10">
           <Link href="/admin" onClick={() => setSidebarOpen(false)}>
-            <BrandLogo className="w-32" eager />
+            <BrandLogo className="w-20" dark eager />
             <span className="block mt-2 text-xs font-medium text-white/70"><T>Admin Panel</T></span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 text-white/60">

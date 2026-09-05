@@ -30,7 +30,7 @@ function brandedEmail(title, bodyHtml) {
   <style>
     body { margin: 0; padding: 0; background: #f8f5ef; font-family: 'Segoe UI', Arial, sans-serif; }
     .wrapper { max-width: 600px; margin: 32px auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e8dfd0; }
-    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 28px 32px; text-align: center; }
+    .header { background: #f8f5ef; padding: 28px 32px; text-align: center; }
     .header-logo { font-size: 22px; font-weight: 800; color: #d4a843; letter-spacing: 0.5px; }
     .header-sub { font-size: 12px; color: #a89070; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
     .body { padding: 32px; }
@@ -50,7 +50,7 @@ function brandedEmail(title, bodyHtml) {
 <body>
   <div class="wrapper">
     <div class="header">
-      <div class="header-logo"><img src="https://taseescircle.com/brand/logo.png" alt="Ta'sees Circle" width="160" height="97" style="display:block;margin:0 auto 12px;border:0;border-radius:6px;" /></div>
+      <div class="header-logo"><img src="https://taseescircle.com/brand/logo.png" alt="Ta'sees Circle" width="96" height="48" style="display:block;margin:0 auto 12px;border:0;" /></div>
       <div class="header-sub">Support Notification</div>
     </div>
     <div class="body">

@@ -167,7 +167,7 @@ export default function LoginClient() {
             <div className="bg-white rounded-2xl shadow-card-hover p-6 sm:p-8 md:p-10 border border-beige-100">
               {/* Islamic Greeting */}
               <div className="text-center mb-6 sm:mb-8">
-                <BrandLogo className="w-36 mx-auto mb-4" eager />
+                <BrandLogo className="w-24 mx-auto mb-4" eager />
                 <h2 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-1"><T>
                   Assalamu Alaikum
                 </T></h2>

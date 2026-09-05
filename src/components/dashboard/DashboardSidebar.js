@@ -60,7 +60,7 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
       <div className="flex items-center justify-between p-5 border-b border-white/10">
         <Link href="/dashboard" className="flex items-center gap-3 group" onClick={onClose}>
           <div>
-            <BrandLogo className="w-32" eager />
+            <BrandLogo className="w-20" dark eager />
             <span className="block mt-2 text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>Dashboard</T></span>
           </div>
         </Link>

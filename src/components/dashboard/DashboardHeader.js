@@ -76,7 +76,7 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
             href={isProfileComplete ? "/dashboard" : "/dashboard/profile?setup=required"}
             className="flex items-center gap-2 group min-w-0"
           >
-            <BrandLogo className="w-20 sm:w-24" eager />
+            <BrandLogo className="w-16 sm:w-[72px]" eager />
             <div className="flex items-center gap-2">
               <span className="hidden md:inline-block px-2 py-0.5 text-[10px] font-bold text-gold bg-gold/10 rounded-full uppercase tracking-wider"><T>
                 User Dashboard

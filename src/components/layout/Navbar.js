@@ -71,7 +71,7 @@ export default function Navbar() {
         <div className="section-container flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0 rounded-md focus-visible:outline-gold">
-            <BrandLogo className="w-[92px] sm:w-[112px]" eager />
+            <BrandLogo className="w-[72px] sm:w-20" dark={!isSolid} eager />
           </Link>
 
           {/* Desktop Navigation */}

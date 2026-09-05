@@ -110,7 +110,7 @@ export default function AdminLoginClient() {
         <div className="bg-white/[0.07] backdrop-blur-xl rounded-3xl border border-white/10 p-8 sm:p-10 shadow-2xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <BrandLogo className="w-40 mx-auto mb-4" eager />
+            <BrandLogo className="w-24 mx-auto mb-4" dark eager />
             <h1 className="font-heading font-bold text-white text-xl sm:text-2xl"><T>
               Admin Authentication
             </T></h1>
