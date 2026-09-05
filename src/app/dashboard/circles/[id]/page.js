@@ -1,4 +1,5 @@
 "use client";
+import BrandLogo from "@/components/ui/BrandLogo";
 import LocalizedForm from "@/components/i18n/LocalizedForm";
 import T from "@/components/i18n/T";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
@@ -124,9 +125,7 @@ function PostCard({ post, userId, circleId, onReact }) {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             {isTaseesPost ? (
-              <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center text-white shadow-xs ring-2 ring-white shrink-0">
-                <Shield size={16} />
-              </div>
+              <BrandLogo symbol decorative className="w-9" />
             ) : (
               <Avatar src={post.profiles?.avatar_url} name={post.profiles?.full_name} size="sm" />
             )}

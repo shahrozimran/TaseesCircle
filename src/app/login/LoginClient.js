@@ -1,6 +1,7 @@
 "use client";
 import LocalizedForm from "@/components/i18n/LocalizedForm";
 import T from "@/components/i18n/T";
+import BrandLogo from "@/components/ui/BrandLogo";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 
@@ -166,9 +167,7 @@ export default function LoginClient() {
             <div className="bg-white rounded-2xl shadow-card-hover p-6 sm:p-8 md:p-10 border border-beige-100">
               {/* Islamic Greeting */}
               <div className="text-center mb-6 sm:mb-8">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-gold flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <span className="text-white font-heading font-bold text-xl sm:text-2xl"><T>T</T></span>
-                </div>
+                <BrandLogo className="w-36 mx-auto mb-4" eager />
                 <h2 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-1"><T>
                   Assalamu Alaikum
                 </T></h2>

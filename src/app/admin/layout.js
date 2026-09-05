@@ -7,10 +7,11 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ADMIN_NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { ADMIN_NAV_LINKS } from "@/lib/constants";
+import BrandLogo from "@/components/ui/BrandLogo";
 import {
   LayoutDashboard, CheckCircle, Ticket, CircleDot, Users,
-  X, Shield,
+  X,
 } from "lucide-react";
 
 const iconMap = {
@@ -60,15 +61,10 @@ export default function AdminLayout({ children }) {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center shadow-md">
-              <Shield size={16} className="text-white" />
-            </div>
-            <div>
-              <span className="font-heading font-bold text-sm text-white"><T>Admin Panel</T></span>
-              <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>{SITE_NAME}</T></span>
-            </div>
-          </div>
+          <Link href="/admin" onClick={() => setSidebarOpen(false)}>
+            <BrandLogo className="w-32" eager />
+            <span className="block mt-2 text-xs font-medium text-white/70"><T>Admin Panel</T></span>
+          </Link>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 text-white/60">
             <X size={18} />
           </button>
@@ -112,11 +108,12 @@ export default function AdminLayout({ children }) {
               >
                 <LayoutDashboard size={20} />
               </button>
-              <div>
+              <BrandLogo symbol className="w-9 lg:hidden" eager />
+              <div className="min-w-0">
                 <span className="inline-block px-2 py-0.5 text-[10px] font-bold text-red-600 bg-red-50 rounded-full uppercase"><T>
                   Admin
                 </T></span>
-                <p className="text-sm font-semibold text-charcoal-600 mt-0.5">
+                <p className="text-sm font-semibold text-charcoal-600 mt-0.5 max-w-[120px] sm:max-w-none truncate">
                   {profile?.full_name || user?.email}
                 </p>
               </div>

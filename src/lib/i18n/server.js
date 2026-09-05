@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { BRAND_SOCIAL_IMAGE } from "@/lib/brand";
 import {
   LANGUAGE_COOKIE,
   normalizeLocale,
@@ -28,6 +29,7 @@ export async function localizeMetadata(metadata) {
     ...(metadata.openGraph && {
       openGraph: {
         ...metadata.openGraph,
+        images: metadata.openGraph.images ?? [BRAND_SOCIAL_IMAGE],
         title: t(metadata.openGraph.title),
         description: t(metadata.openGraph.description),
         locale: locale === "ur" ? "ur_PK" : "en_US",
@@ -36,6 +38,7 @@ export async function localizeMetadata(metadata) {
     ...(metadata.twitter && {
       twitter: {
         ...metadata.twitter,
+        images: metadata.twitter.images ?? [BRAND_SOCIAL_IMAGE],
         title: t(metadata.twitter.title),
         description: t(metadata.twitter.description),
       },

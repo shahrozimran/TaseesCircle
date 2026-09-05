@@ -1,4 +1,5 @@
 import { getLocale } from "@/lib/i18n/server";
+import { BRAND_SOCIAL_IMAGE } from "@/lib/brand";
 import { translateText } from "@/lib/i18n/translate.mjs";
 
 import T from "@/components/i18n/T";
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }) {
       canonical: canonicalUrl,
     },
     openGraph: {
+      images: [BRAND_SOCIAL_IMAGE],
       title: t(article.title),
       description: t(article.intro).slice(0, 160),
       url: canonicalUrl,
@@ -60,6 +62,7 @@ export async function generateMetadata({ params }) {
       authors: [article.author || "Muhammad Maqbool Ahmed Khan"],
     },
     twitter: {
+      images: [BRAND_SOCIAL_IMAGE],
       card: "summary_large_image",
       title: t(article.title),
       description: t(article.intro).slice(0, 160),
@@ -115,6 +118,7 @@ export default async function BlogDetailPage({ params }) {
       "@type": "Organization",
       name: "Ta'sees Circle",
       url: "https://taseescircle.com",
+      logo: "https://taseescircle.com/brand/logo.png",
     },
     mainEntityOfPage: {
       "@type": "WebPage",

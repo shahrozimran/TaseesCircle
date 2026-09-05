@@ -5,7 +5,8 @@ import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DASHBOARD_NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { DASHBOARD_NAV_LINKS } from "@/lib/constants";
+import BrandLogo from "@/components/ui/BrandLogo";
 import {
   LayoutDashboard,
   CircleDot,
@@ -58,12 +59,9 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
       {/* Logo / Header */}
       <div className="flex items-center justify-between p-5 border-b border-white/10">
         <Link href="/dashboard" className="flex items-center gap-3 group" onClick={onClose}>
-          <div className="w-9 h-9 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-            <span className="text-white font-heading font-bold text-sm"><T>T</T></span>
-          </div>
           <div>
-            <span className="font-heading font-bold text-sm text-white"><T>{SITE_NAME}</T></span>
-            <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>Dashboard</T></span>
+            <BrandLogo className="w-32" eager />
+            <span className="block mt-2 text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>Dashboard</T></span>
           </div>
         </Link>
         <button

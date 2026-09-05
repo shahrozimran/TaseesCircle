@@ -2,6 +2,7 @@
 import LocalizedForm from "@/components/i18n/LocalizedForm";
 import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import T from "@/components/i18n/T";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 
 import { useState, useEffect } from "react";
@@ -9,7 +10,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Shield, User, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { User, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 export default function AdminLoginClient() {
   const { user, profile, loading, signInWithEmail, signOut } = useAuth();
@@ -109,9 +110,7 @@ export default function AdminLoginClient() {
         <div className="bg-white/[0.07] backdrop-blur-xl rounded-3xl border border-white/10 p-8 sm:p-10 shadow-2xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
-              <Shield size={28} className="text-red-400" />
-            </div>
+            <BrandLogo className="w-40 mx-auto mb-4" eager />
             <h1 className="font-heading font-bold text-white text-xl sm:text-2xl"><T>
               Admin Authentication
             </T></h1>

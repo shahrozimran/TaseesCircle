@@ -4,6 +4,7 @@ import { useLanguage } from "@/components/i18n/LanguageProvider";
 
 
 import Link from "next/link";
+import BrandLogo from "@/components/ui/BrandLogo";
 import { usePathname } from "next/navigation";
 import {
   Mail,
@@ -30,12 +31,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
           {/* Brand Column */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center shrink-0">
-                <span className="text-white font-heading font-bold text-lg"><T>T</T></span>
-              </div>
-              <span className="font-heading font-bold text-xl"><T>{SITE_NAME}</T></span>
-            </div>
+            <Link href="/" className="inline-block mb-4 rounded-md focus-visible:outline-gold">
+              <BrandLogo className="w-44" />
+            </Link>
             <p className="text-charcoal-200 text-sm leading-relaxed mb-6 max-w-sm">
               <T>{SITE_TAGLINE}. A digital Islamic platform connecting Muslim communities in Pakistan and Canada through online knowledge, discussions, and authentic Islamic guidance.
             </T></p>

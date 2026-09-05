@@ -28,11 +28,12 @@ await build({
           "@/lib/supabase/client": "supabase.js",
           "next/navigation": "navigation.js",
           "next/link": "link.jsx",
+          "next/image": "image.jsx",
         };
         builder.onResolve(
           {
             filter:
-              /^@\/hooks\/useAuth$|^@\/lib\/supabase\/client$|^next\/(navigation|link)$/,
+              /^@\/hooks\/useAuth$|^@\/lib\/supabase\/client$|^next\/(navigation|link|image)$/,
           },
           (args) => ({ path: path.join(fixtures, aliases[args.path]) }),
         );
@@ -57,7 +58,7 @@ http
       response.setHeader("Content-Type", "text/javascript");
       return response.end(fs.readFileSync(path.join(out, "app.js")));
     }
-    if (url.pathname.startsWith("/_next/")) {
+    if (url.pathname.startsWith("/_next/") || url.pathname.startsWith("/brand/")) {
       try {
         const asset = await fetch("http://localhost:3101" + request.url);
         response.setHeader(

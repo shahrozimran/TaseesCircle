@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import LanguageProvider from "../../src/components/i18n/LanguageProvider";
 import DashboardHeader from "../../src/components/dashboard/DashboardHeader";
 import AdminLayout from "../../src/app/admin/layout";
+import AdminLogin from "../../src/app/admin/login/AdminLoginClient";
 import { useAuth } from "@/hooks/useAuth";
 import Dashboard from "../../src/app/dashboard/page.js";
 import Profile from "../../src/app/dashboard/profile/ProfileClient.js";
@@ -19,6 +20,7 @@ import Manage from "../../src/app/admin/circles/[id]/page.js";
 import Users from "../../src/app/admin/users/page.js";
 import Tickets from "../../src/app/admin/tickets/page.js";
 const screens = {
+  adminlogin: AdminLogin,
   dashboard: Dashboard,
   profile: Profile,
   register: Register,
@@ -41,6 +43,7 @@ function App() {
   const Screen = screens[name] || Dashboard;
   const auth = useAuth();
   const admin = [
+    "adminlogin",
     "overview",
     "approvals",
     "circles",

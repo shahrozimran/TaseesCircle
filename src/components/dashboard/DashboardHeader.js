@@ -7,7 +7,8 @@ import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DASHBOARD_NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { DASHBOARD_NAV_LINKS } from "@/lib/constants";
+import BrandLogo from "@/components/ui/BrandLogo";
 import NotificationBell from "./NotificationBell";
 import {
   LayoutDashboard,
@@ -75,13 +76,8 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
             href={isProfileComplete ? "/dashboard" : "/dashboard/profile?setup=required"}
             className="flex items-center gap-2 group min-w-0"
           >
-            <div className="w-9 h-9 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <span className="text-white font-heading font-bold text-base"><T>T</T></span>
-            </div>
+            <BrandLogo className="w-20 sm:w-24" eager />
             <div className="flex items-center gap-2">
-              <span className="font-heading font-bold text-sm sm:text-base text-charcoal-600">
-                <T>{SITE_NAME}</T>
-              </span>
               <span className="hidden md:inline-block px-2 py-0.5 text-[10px] font-bold text-gold bg-gold/10 rounded-full uppercase tracking-wider"><T>
                 User Dashboard
               </T></span>

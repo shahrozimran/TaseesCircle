@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, LogIn, LayoutDashboard } from "lucide-react";
-import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import BrandLogo from "@/components/ui/BrandLogo";
 import MobileMenu from "./MobileMenu";
 import UserMenu from "@/components/auth/UserMenu";
 import { useAuth } from "@/hooks/useAuth";
@@ -64,22 +65,13 @@ export default function Navbar() {
         className={`fixed top-0 start-0 end-0 z-50 transition-all duration-300 ${
           isSolid
             ? "bg-white/95 backdrop-blur-md shadow-navbar py-3"
-            : "bg-transparent py-5"
+            : "bg-transparent py-3"
         }`}
       >
         <div className="section-container flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <span className="text-white font-heading font-bold text-lg"><T>T</T></span>
-            </div>
-            <span
-              className={`font-heading font-bold text-base xl:text-xl transition-colors ${
-                isSolid ? "text-charcoal-600" : "text-white"
-              }`}
-            >
-              <T>{SITE_NAME}</T>
-            </span>
+          <Link href="/" className="shrink-0 rounded-md focus-visible:outline-gold">
+            <BrandLogo className="w-[92px] sm:w-[112px]" eager />
           </Link>
 
           {/* Desktop Navigation */}

@@ -50,7 +50,7 @@ function brandedEmail(title, bodyHtml) {
 <body>
   <div class="wrapper">
     <div class="header">
-      <div class="header-logo">🕌 TaseesCircle</div>
+      <div class="header-logo"><img src="https://taseescircle.com/brand/logo.png" alt="Ta'sees Circle" width="160" height="97" style="display:block;margin:0 auto 12px;border:0;border-radius:6px;" /></div>
       <div class="header-sub">Support Notification</div>
     </div>
     <div class="body">

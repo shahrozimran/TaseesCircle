@@ -50,6 +50,8 @@ const baseMetadata = {
   authors: [{ name: "Muhammad Maqbool Ahmed Khan", url: "https://taseescircle.com/about" }],
   creator: "Muhammad Maqbool Ahmed Khan",
   publisher: "Ta'sees Circle",
+  applicationName: "Ta'sees Circle",
+  appleWebApp: { capable: true, title: "Ta'sees Circle", statusBarStyle: "default" },
   alternates: {
     canonical: "/",
   },
@@ -89,6 +91,7 @@ const jsonLdOrganization = {
       "@id": "https://taseescircle.com/#organization",
       name: "Ta'sees Circle",
       url: "https://taseescircle.com",
+      logo: "https://taseescircle.com/brand/logo.png",
       foundingDate: "2026-08",
       founder: {
         "@type": "Person",
@@ -155,4 +158,3 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
-
