@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useReducedMotion } from "framer-motion";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+} from "framer-motion";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
+import T from "@/components/i18n/T";
 
-// Preserve the supplied filename order and original artwork in both languages.
+// The same physical swipe direction and filename order apply in both languages.
 const slides = [
   {
     src: "/images/hero/1.jpeg",
@@ -28,97 +34,218 @@ const slides = [
     alt: "Neighbourhood circles connect across a city around a shared commitment to fairness.",
   },
 ];
-const INTERVAL_MS = 7000; // Two-second fade, then five seconds at full opacity.
+// Matching end slides let either edge wrap without moving backwards across the strip.
+const frames = [4, 0, 1, 2, 3, 4, 0];
+const normalizePosition = (position) =>
+  position === 0
+    ? slides.length
+    : position === frames.length - 1
+      ? 1
+      : position;
 
 export default function HeroCarousel() {
   const { t } = useLanguage();
   const reducedMotion = useReducedMotion();
-  const [{ active, previous }, setSlide] = useState({
-    active: 0,
-    previous: null,
-  });
-  const [hovered, setHovered] = useState(false);
+  const viewport = useRef(null);
+  const position = useRef(1);
+  const width = useRef(0);
+  const animation = useRef(null);
+  // Before hydration this already displays image 1, rather than the leading clone.
+  const x = useMotionValue("-100%");
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const [active, setActive] = useState(0);
+  const [moving, setMoving] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const [focused, setFocused] = useState(false);
   const [inView, setInView] = useState(true);
   const [pageVisible, setPageVisible] = useState(true);
   const [ready, setReady] = useState({});
-  const root = useRef(null);
-  const playing =
-    !hovered && !focused && !reducedMotion && inView && pageVisible;
-  const next = (active + 1) % slides.length;
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const resize = new ResizeObserver(([entry]) => {
+      const measured = entry.contentRect.width;
+      if (!measured || measured === width.current) return;
+      animation.current?.stop();
+      width.current = measured;
+      position.current = normalizePosition(position.current);
+      x.set(-position.current * measured);
+      setViewportWidth(measured);
+      setActive(position.current - 1);
+      setMoving(false);
+    });
+    const visibility = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.15 },
+      { threshold: 0.2 },
     );
-    observer.observe(root.current);
+    resize.observe(viewport.current);
+    visibility.observe(viewport.current);
     const onVisibility = () => setPageVisible(!document.hidden);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      observer.disconnect();
+      animation.current?.stop();
+      resize.disconnect();
+      visibility.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, []);
+  }, [x]);
+
+  const goTo = useCallback(
+    (target, automatic = false) => {
+      if (!width.current) return;
+      animation.current?.stop();
+      const bounded = Math.max(0, Math.min(frames.length - 1, target));
+      position.current = bounded;
+      setMoving(true);
+      animation.current = animate(x, -bounded * width.current, {
+        // Automatic movement is leisurely; direct gestures settle promptly.
+        duration: reducedMotion ? 0 : automatic ? 2 : 0.4,
+        ease: [0.25, 0.1, 0.25, 1],
+        onComplete: () => {
+          const settled = normalizePosition(bounded);
+          position.current = settled;
+          if (settled !== bounded) x.set(-settled * width.current);
+          setActive(settled - 1);
+          setMoving(false);
+        },
+      });
+    },
+    [reducedMotion, x],
+  );
 
   useEffect(() => {
-    if (!playing || !ready[active] || !ready[next]) return;
+    if (
+      !viewportWidth ||
+      focused ||
+      dragging ||
+      moving ||
+      reducedMotion ||
+      !inView ||
+      !pageVisible
+    )
+      return;
+    if (!ready[active] || !ready[(active + 1) % slides.length]) return;
+    // Five seconds to read, followed by a two-second automatic slide.
     const timer = window.setTimeout(
-      () => setSlide({ active: next, previous: active }),
-      INTERVAL_MS,
+      () => goTo(position.current + 1, true),
+      5000,
     );
     return () => window.clearTimeout(timer);
-  }, [active, next, playing, ready]);
+  }, [
+    active,
+    focused,
+    dragging,
+    moving,
+    reducedMotion,
+    inView,
+    pageVisible,
+    ready,
+    viewportWidth,
+    goTo,
+  ]);
 
   return (
-    <div
-      ref={root}
-      role="region"
-      aria-roledescription={t("carousel")}
-      aria-label={`${t("Community stories")}. ${t("Images pause while focused.")}`}
-      tabIndex={0}
-      className="relative min-w-0 rounded-[22px] border border-white/10 bg-gradient-to-br from-gold/30 via-white/5 to-gold/10 p-1 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.65)] outline-none focus-visible:ring-2 focus-visible:ring-gold-light focus-visible:ring-offset-4 focus-visible:ring-offset-charcoal-600 sm:rounded-[28px] sm:p-1.5"
-      onPointerEnter={(event) => {
-        if (event.pointerType === "mouse") setHovered(true);
-      }}
-      onPointerLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+    <section
+      className="overflow-hidden bg-[#171a16] pt-20 sm:pt-24"
+      aria-label={t("Community stories")}
     >
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[17px] bg-charcoal-500 sm:rounded-[21px]">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.src}
-            role="group"
-            aria-roledescription={t("slide")}
-            aria-label={t("Image {current} of {total}", {
-              current: index + 1,
-              total: slides.length,
-            })}
-            aria-hidden={active !== index}
-            // Keep the previous image opaque beneath the incoming image to avoid a dark flash.
-            style={{
-              zIndex: active === index ? 2 : previous === index ? 1 : 0,
-            }}
-            className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out motion-reduce:transition-none ${active === index || previous === index ? "opacity-100" : "opacity-0"}`}
-          >
-            <Image
-              src={slide.src}
-              alt={t(slide.alt)}
-              fill
-              sizes="(min-width: 1280px) 720px, (min-width: 1024px) 58vw, 100vw"
-              preload={index === 0}
-              className="select-none object-contain"
-              draggable={false}
-              onLoad={() =>
-                setReady((loaded) =>
-                  loaded[index] ? loaded : { ...loaded, [index]: true },
-                )
-              }
-            />
-          </div>
-        ))}
+      <div
+        ref={viewport}
+        role="region"
+        aria-roledescription={t("carousel")}
+        aria-label={`${t("Community stories")}. ${t("Swipe left or right, or use the arrow keys, to explore the images.")}`}
+        tabIndex={0}
+        dir="ltr"
+        className="relative mx-auto aspect-[3/2] max-w-[1536px] overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold-light"
+        style={{ width: "min(100%, calc(150svh - 240px))" }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        onKeyDown={(event) => {
+          const target =
+            event.key === "ArrowRight"
+              ? position.current + 1
+              : event.key === "ArrowLeft"
+                ? position.current - 1
+                : event.key === "Home"
+                  ? 1
+                  : event.key === "End"
+                    ? slides.length
+                    : null;
+          if (target === null) return;
+          event.preventDefault();
+          goTo(target);
+        }}
+      >
+        <motion.div
+          className="flex h-full w-full cursor-grab active:cursor-grabbing"
+          style={{ x, touchAction: "pan-y pinch-zoom" }}
+          drag={viewportWidth > 0 ? "x" : false}
+          dragConstraints={{
+            left: -(frames.length - 1) * viewportWidth,
+            right: 0,
+          }}
+          dragElastic={0.08}
+          dragMomentum={false}
+          onDragStart={() => {
+            animation.current?.stop();
+            position.current = Math.max(
+              0,
+              Math.min(
+                frames.length - 1,
+                Math.round(-Number(x.get()) / width.current),
+              ),
+            );
+            setMoving(false);
+            setDragging(true);
+            viewport.current.focus({ preventScroll: true });
+          }}
+          onDragEnd={(_, info) => {
+            const distance = info.offset.x;
+            const passedThreshold =
+              Math.abs(distance) > Math.min(80, width.current * 0.15);
+            const flick =
+              Math.abs(distance) > 8 && Math.abs(info.velocity.x) > 350;
+            const step = passedThreshold || flick ? (distance < 0 ? 1 : -1) : 0;
+            setDragging(false);
+            goTo(position.current + step);
+          }}
+        >
+          {frames.map((slideIndex, frameIndex) => (
+            <div
+              key={frameIndex}
+              role="group"
+              aria-roledescription={t("slide")}
+              aria-label={t("Image {current} of {total}", {
+                current: slideIndex + 1,
+                total: slides.length,
+              })}
+              aria-hidden={frameIndex !== active + 1}
+              className="relative h-full w-full shrink-0 select-none"
+            >
+              <Image
+                src={slides[slideIndex].src}
+                alt={t(slides[slideIndex].alt)}
+                fill
+                sizes="(min-width: 1536px) 1536px, 100vw"
+                preload={frameIndex === 1}
+                // The next frame must be ready before the automatic slide begins.
+                loading={frameIndex === 1 ? undefined : "eager"}
+                className="pointer-events-none object-contain"
+                draggable={false}
+                onLoad={() =>
+                  setReady((loaded) =>
+                    loaded[slideIndex]
+                      ? loaded
+                      : { ...loaded, [slideIndex]: true },
+                  )
+                }
+              />
+            </div>
+          ))}
+        </motion.div>
       </div>
-    </div>
+      <p className="px-4 py-4 text-center text-xs sm:text-sm font-medium text-white/75">
+        <T>Swipe left to explore the idea.</T>
+      </p>
+    </section>
   );
 }

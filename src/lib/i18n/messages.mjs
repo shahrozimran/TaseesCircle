@@ -5,6 +5,8 @@ const messages = {
   "Community stories": "ہماری برادری کی جھلکیاں",
   "Image {current} of {total}": "{total} میں سے تصویر {current}",
   "Images pause while focused.": "فوکس کے دوران تصاویر کی تبدیلی رک جاتی ہے۔",
+  "Swipe left to explore the idea.": "خیال کو سمجھنے کے لیے بائیں طرف سوائپ کریں۔",
+  "Swipe left or right, or use the arrow keys, to explore the images.": "تصاویر دیکھنے کے لیے بائیں یا دائیں سوائپ کریں، یا تیر والے بٹن استعمال کریں۔",
   "An illustrated comparison of dishonest dealings and fair trade around community mosques.": "مساجد کے گرد بددیانتی اور منصفانہ تجارت کا تصویری تقابل۔",
   "Community members gather in a marketplace circle to commit to honest dealings.": "برادری کے افراد بازار میں حلقہ بنا کر دیانت دار معاملات کا عہد کرتے ہیں۔",
   "A mosque and marketplace illustrating worship, fair weights and halal livelihood.": "مسجد اور بازار میں عبادت، پورے ناپ تول اور حلال رزق کی عکاسی۔",

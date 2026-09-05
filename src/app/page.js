@@ -2,7 +2,6 @@
 import T from "@/components/i18n/T";
 
 
-import Hero from "@/components/sections/Hero";
 import HeroCarousel from "@/components/sections/HeroCarousel";
 import SectionHeader from "@/components/ui/SectionHeader";
 import CountrySpotlight from "@/components/sections/CountrySpotlight";
@@ -51,25 +50,16 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <Hero
-        media={<HeroCarousel />}
-        align="start"
-        height="min-h-[85svh] pt-28 pb-14 sm:pt-32 sm:pb-20"
-        subtitle="Welcome to Ta'sees Circle"
-        title="Uniting Hearts, Building Communities"
-        description="A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith."
-        primaryCTA={{ label: "Pakistan Discussions", href: "/discussions/pakistan" }}
-        secondaryCTA={{ label: "Canada Discussions", href: "/discussions/canada" }}
-      />
+      <HeroCarousel />
 
       {/* Mission / Values */}
       <section className="section-padding bg-white">
         <div className="section-container">
-          <SectionHeader
-            label="Our Mission"
-            title="Rooted in Faith, Driven by Purpose"
-            description="Ta'sees Circle is a digital platform built on the prophetic values of knowledge, unity, service, and unwavering faith. We bring these timeless principles to life through online discussions grounded in Quran and Sunnah."
-          />
+          <header className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="mb-3 text-xs sm:text-sm font-semibold text-gold"><T>Welcome to Ta&apos;sees Circle</T></p>
+            <h1 className="mb-5 text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-charcoal-600"><T>Uniting Hearts, Building Communities</T></h1>
+            <p className="text-sm sm:text-base leading-relaxed text-charcoal-400"><T>A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith.</T></p>
+          </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {values.map((val, i) => (
