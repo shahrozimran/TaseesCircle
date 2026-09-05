@@ -68,11 +68,20 @@ export default function Navbar() {
             : "bg-transparent py-3"
         }`}
       >
-        <div className="section-container flex items-center justify-between">
+        <div className="section-container flex items-center justify-between relative">
           {/* Logo */}
           <Link href="/" className="shrink-0 rounded-md focus-visible:outline-gold">
             <BrandLogo className="w-[72px] sm:w-20" dark={!isSolid} eager />
           </Link>
+
+          {/* Mobile: Centered Brand Name */}
+          <span
+            className={`lg:hidden absolute left-1/2 -translate-x-1/2 text-base font-heading font-bold tracking-wide pointer-events-none select-none ${
+              isSolid ? "text-charcoal-600" : "text-white"
+            }`}
+          >
+            Tasees Circle
+          </span>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">

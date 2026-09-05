@@ -56,7 +56,7 @@ export default function HomePage() {
       <section className="section-padding bg-white">
         <div className="section-container">
           <header className="mx-auto mb-10 max-w-3xl text-center">
-            <p className="mb-3 text-xs sm:text-sm font-semibold text-gold"><T>Welcome to Ta&apos;sees Circle</T></p>
+            <p className="hidden sm:block mb-3 text-xs sm:text-sm font-semibold text-gold"><T>Welcome to Ta&apos;sees Circle</T></p>
             <h1 className="mb-5 text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-charcoal-600"><T>Uniting Hearts, Building Communities</T></h1>
             <p className="text-sm sm:text-base leading-relaxed text-charcoal-400"><T>A digital Islamic community platform connecting Muslims in Pakistan and Canada through knowledge blogs, online discussions, and authentic guidance from Quran and Hadith.</T></p>
           </header>
