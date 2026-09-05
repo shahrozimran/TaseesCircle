@@ -1,3 +1,7 @@
+import { getLocale } from "@/lib/i18n/server";
+import { translateText } from "@/lib/i18n/translate.mjs";
+
+import T from "@/components/i18n/T";
 import { pakistanBlogContent, pakistanDiscussions } from "@/data/pakistan";
 import { canadaBlogContent, canadaDiscussions } from "@/data/canada";
 import QuranBlock from "@/components/ui/QuranBlock";
@@ -18,19 +22,21 @@ import {
 } from "lucide-react";
 
 export async function generateMetadata({ params }) {
+  const locale = await getLocale();
+  const t = (text) => translateText(text, locale);
   const { community, slug } = await params;
   const blogMap = community === "canada" ? canadaBlogContent : pakistanBlogContent;
   const article = blogMap[slug];
 
   if (!article) {
-    return { title: "Discussion Not Found — Ta'sees Circle" };
+    return { title: t("Discussion Not Found — Ta'sees Circle") };
   }
 
   const canonicalUrl = `https://taseescircle.com/discussions/${community}/${slug}`;
 
   return {
-    title: `${article.title} | Ta'sees Circle`,
-    description: article.intro.slice(0, 160),
+    title: t(article.title),
+    description: t(article.intro).slice(0, 160),
     keywords: [
       article.category,
       ...(article.tags || []),
@@ -45,8 +51,8 @@ export async function generateMetadata({ params }) {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: article.title,
-      description: article.intro.slice(0, 160),
+      title: t(article.title),
+      description: t(article.intro).slice(0, 160),
       url: canonicalUrl,
       siteName: "Ta'sees Circle",
       type: "article",
@@ -55,13 +61,15 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
-      description: article.intro.slice(0, 160),
+      title: t(article.title),
+      description: t(article.intro).slice(0, 160),
     },
   };
 }
 
 export default async function BlogDetailPage({ params }) {
+  const locale = await getLocale();
+  const t = (text) => translateText(text, locale);
   const { community, slug } = await params;
 
   // ── Community resolver — fixes H-01 (ReferenceError 500) ──────────────────
@@ -95,10 +103,10 @@ export default async function BlogDetailPage({ params }) {
   const jsonLdArticle = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: article.title,
-    description: article.intro,
+    headline: t(article.title),
+    description: t(article.intro),
     articleSection: article.category,
-    inLanguage: "en",
+    inLanguage: locale,
     author: {
       "@type": "Person",
       name: article.author || "Muhammad Maqbool Ahmed Khan",
@@ -123,16 +131,16 @@ export default async function BlogDetailPage({ params }) {
       {/* Breadcrumb & Navigation Bar */}
       <div className="bg-white border-b border-beige-200 py-3.5 mb-8">
         <div className="section-container flex items-center gap-2 text-xs sm:text-sm text-charcoal-300 overflow-x-auto whitespace-nowrap">
-          <Link href="/discussions" className="hover:text-gold transition-colors">
+          <Link href="/discussions" className="hover:text-gold transition-colors"><T>
             Discussions
-          </Link>
+          </T></Link>
           <ChevronRight size={14} className="shrink-0 text-charcoal-200" />
           <Link href={communityHubUrl} className="hover:text-gold transition-colors font-medium text-charcoal-500">
-            {communityName} Hub
-          </Link>
+            <T>{communityName} Hub
+          </T></Link>
           <ChevronRight size={14} className="shrink-0 text-charcoal-200" />
           <span className="text-charcoal-400 font-semibold truncate max-w-[200px] sm:max-w-md">
-            {article.title}
+            <T>{article.title}</T>
           </span>
         </div>
       </div>
@@ -143,9 +151,7 @@ export default async function BlogDetailPage({ params }) {
           href={communityHubUrl}
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-gold hover:text-gold-dark transition-colors mb-6"
         >
-          <ArrowLeft size={16} />
-          Back to {communityName} Discussions
-        </Link>
+          <ArrowLeft size={16} /><T message="Back to {community} Discussions" values={{ community: <T>{communityName}</T> }} /></Link>
 
         {/* Main Grid: Left Article (2/3) + Right Sidebar (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10">
@@ -154,27 +160,27 @@ export default async function BlogDetailPage({ params }) {
             {/* Category & Meta */}
             <div className="flex items-center justify-between gap-3 flex-wrap mb-4 border-b border-beige-100 pb-4">
               <span className="inline-block px-3.5 py-1 rounded-full text-xs font-semibold bg-gold/10 text-gold border border-gold/20">
-                {article.category}
+                <T>{article.category}</T>
               </span>
               <div className="flex items-center gap-4 text-xs text-charcoal-300">
                 <span className="flex items-center gap-1.5">
                   <Clock size={13} className="text-gold" />
-                  {article.readTime}
+                  <T>{article.readTime}</T>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Calendar size={13} className="text-gold" />
-                  {article.publishDate}
+                  <T>{article.publishDate}</T>
                 </span>
               </div>
             </div>
 
             {/* Title & Subtitle */}
             <h1 className="font-heading font-bold text-charcoal-600 text-2xl sm:text-3xl md:text-4xl leading-tight mb-3">
-              {article.title}
+              <T>{article.title}</T>
             </h1>
             {article.subtitle && (
-              <p className="text-charcoal-400 text-sm sm:text-base leading-relaxed mb-6 font-medium italic border-l-2 border-gold pl-4 py-1">
-                {article.subtitle}
+              <p className="text-charcoal-400 text-sm sm:text-base leading-relaxed mb-6 font-medium italic border-s-2 border-gold ps-4 py-1">
+                <T>{article.subtitle}</T>
               </p>
             )}
 
@@ -185,18 +191,18 @@ export default async function BlogDetailPage({ params }) {
               </div>
               <div>
                 <p className="text-xs sm:text-sm font-bold text-charcoal-600">
-                  {article.author}
+                  <T>{article.author}</T>
                 </p>
                 <p className="text-[11px] text-charcoal-300">
-                  {article.authorTitle}
+                  <T>{article.authorTitle}</T>
                 </p>
               </div>
             </div>
 
             {/* Introduction */}
             <div className="prose max-w-none text-charcoal-500 text-sm sm:text-base leading-relaxed mb-8 space-y-4">
-              <p className="first-letter:text-3xl first-letter:font-bold first-letter:text-gold first-letter:float-left first-letter:mr-2">
-                {article.intro}
+              <p className="first-letter:text-3xl first-letter:font-bold first-letter:text-gold first-letter:float-left first-letter:me-2">
+                <T>{article.intro}</T>
               </p>
             </div>
 
@@ -205,10 +211,10 @@ export default async function BlogDetailPage({ params }) {
               {article.sections.map((sec, idx) => (
                 <div key={idx} className="pt-4 border-t border-beige-100">
                   <h2 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl md:text-2xl mb-3">
-                    {sec.heading}
+                    <T>{sec.heading}</T>
                   </h2>
                   <p className="text-charcoal-400 text-sm sm:text-base leading-relaxed whitespace-pre-line mb-4">
-                    {sec.content}
+                    <T>{sec.content}</T>
                   </p>
 
                   {/* Quranic Reference Card if present */}
@@ -236,11 +242,11 @@ export default async function BlogDetailPage({ params }) {
             {article.conclusion && (
               <div className="mt-10 p-6 rounded-2xl bg-gradient-to-br from-beige-50 to-beige-100 border border-beige-200">
                 <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2 flex items-center gap-2">
-                  <BookOpen size={18} className="text-gold" />
+                  <BookOpen size={18} className="text-gold" /><T>
                   Key Takeaway & Conclusion
-                </h3>
+                </T></h3>
                 <p className="text-charcoal-500 text-xs sm:text-sm leading-relaxed">
-                  {article.conclusion}
+                  <T>{article.conclusion}</T>
                 </p>
               </div>
             )}
@@ -249,21 +255,21 @@ export default async function BlogDetailPage({ params }) {
             <div className="mt-8 p-4 rounded-xl bg-islamic-green/5 border border-islamic-green/20 flex items-start gap-3">
               <ShieldCheck size={20} className="text-islamic-green shrink-0 mt-0.5" />
               <p className="text-[11px] sm:text-xs text-charcoal-400 leading-relaxed">
-                <strong>Scholarly Verification Note:</strong> All Quranic verses and Hadith references in this discussion have been verified against primary Islamic sources. This content is provided for educational purposes. For personal rulings regarding your specific financial or career situation, please consult a qualified Islamic scholar.
-              </p>
+                <strong><T>Scholarly Verification Note:</T></strong><T> All Quranic verses and Hadith references in this discussion have been verified against primary Islamic sources. This content is provided for educational purposes. For personal rulings regarding your specific financial or career situation, please consult a qualified Islamic scholar.
+              </T></p>
             </div>
 
             {/* Article Tags */}
             {article.tags && article.tags.length > 0 && (
               <div className="mt-8 pt-6 border-t border-beige-100 flex items-center gap-2 flex-wrap">
                 <Tag size={14} className="text-charcoal-300" />
-                <span className="text-xs text-charcoal-300 font-medium mr-1">Tags:</span>
+                <span className="text-xs text-charcoal-300 font-medium me-1"><T>Tags:</T></span>
                 {article.tags.map((t) => (
                   <span
                     key={t}
                     className="text-xs bg-beige-100 text-charcoal-400 px-3 py-1 rounded-full border border-beige-200"
                   >
-                    #{t}
+                    #<T>{t}</T>
                   </span>
                 ))}
               </div>
@@ -275,15 +281,15 @@ export default async function BlogDetailPage({ params }) {
             {/* Table of Contents */}
             <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-card border border-beige-100">
               <h3 className="font-heading font-bold text-charcoal-600 text-base mb-3 pb-2 border-b border-beige-100 flex items-center gap-2">
-                <BookOpen size={16} className="text-gold" />
+                <BookOpen size={16} className="text-gold" /><T>
                 In This Discussion
-              </h3>
+              </T></h3>
               <ul className="space-y-2 text-xs sm:text-sm text-charcoal-400">
                 {article.sections.map((sec, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <span className="text-gold font-bold">•</span>
                     <span className="leading-snug hover:text-gold transition-colors">
-                      {sec.heading}
+                      <T>{sec.heading}</T>
                     </span>
                   </li>
                 ))}
@@ -295,26 +301,24 @@ export default async function BlogDetailPage({ params }) {
               <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center mb-3">
                 <MessageSquare size={20} className="text-gold" />
               </div>
-              <h3 className="font-heading font-bold text-lg mb-2">
+              <h3 className="font-heading font-bold text-lg mb-2"><T>
                 Have Questions?
-              </h3>
-              <p className="text-white/80 text-xs leading-relaxed mb-4">
-                Join our online discussion circles to ask qualified scholars questions about {article.category.toLowerCase()} and Islamic living.
-              </p>
+              </T></h3>
+              <p className="text-white/80 text-xs leading-relaxed mb-4"><T message="Join our online discussion circles to ask qualified scholars questions about {category} and Islamic living." values={{ category: <T>{article.category.toLowerCase()}</T> }} /></p>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gradient-gold text-white font-medium text-xs rounded-xl hover:shadow-lg transition-all"
-              >
+              ><T>
                 Join Online Circle
-              </Link>
+              </T></Link>
             </div>
 
             {/* Related Discussions */}
             {relatedArticles.length > 0 && (
               <div className="space-y-4">
-                <h3 className="font-heading font-bold text-charcoal-600 text-base px-1">
+                <h3 className="font-heading font-bold text-charcoal-600 text-base px-1"><T>
                   Related Discussions
-                </h3>
+                </T></h3>
                 {relatedArticles.map((rel) => (
                   <DiscussionCard key={rel.slug} {...rel} community={community} />
                 ))}

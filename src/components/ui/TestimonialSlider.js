@@ -1,10 +1,14 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 export default function TestimonialSlider({ testimonials }) {
+  const { t: translate } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -62,12 +66,12 @@ export default function TestimonialSlider({ testimonials }) {
             className="text-center w-full"
           >
             <p className="text-base sm:text-lg md:text-xl text-charcoal-400 leading-relaxed italic mb-6 sm:mb-8 font-body">
-              &ldquo;{t.quote}&rdquo;
+              &ldquo;<T>{t.quote}</T>&rdquo;
             </p>
             <div>
-              <p className="font-heading font-bold text-charcoal-600 text-base sm:text-lg">{t.name}</p>
-              <p className="text-xs sm:text-sm text-charcoal-300">{t.location}</p>
-              <p className="text-xs text-gold mt-1 font-medium">{t.role}</p>
+              <p className="font-heading font-bold text-charcoal-600 text-base sm:text-lg"><T>{t.name}</T></p>
+              <p className="text-xs sm:text-sm text-charcoal-300"><T>{t.location}</T></p>
+              <p className="text-xs text-gold mt-1 font-medium"><T>{t.role}</T></p>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -76,15 +80,15 @@ export default function TestimonialSlider({ testimonials }) {
       {/* Navigation Arrows */}
       <button
         onClick={goPrev}
-        className="absolute left-0 sm:-left-2 md:-left-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-card flex items-center justify-center text-charcoal-400 hover:text-gold hover:shadow-card-hover transition-all"
-        aria-label="Previous testimonial"
+        className="absolute start-0 sm:-start-2 md:-start-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-card flex items-center justify-center text-charcoal-400 hover:text-gold hover:shadow-card-hover transition-all"
+        aria-label={translate("Previous testimonial")}
       >
         <ChevronLeft size={18} />
       </button>
       <button
         onClick={goNext}
-        className="absolute right-0 sm:-right-2 md:-right-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-card flex items-center justify-center text-charcoal-400 hover:text-gold hover:shadow-card-hover transition-all"
-        aria-label="Next testimonial"
+        className="absolute end-0 sm:-end-2 md:-end-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-card flex items-center justify-center text-charcoal-400 hover:text-gold hover:shadow-card-hover transition-all"
+        aria-label={translate("Next testimonial")}
       >
         <ChevronRight size={18} />
       </button>
@@ -100,7 +104,7 @@ export default function TestimonialSlider({ testimonials }) {
                 ? "w-7 sm:w-8 h-2 sm:h-2.5 bg-gold"
                 : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-beige-400 hover:bg-beige-500"
             }`}
-            aria-label={`Go to testimonial ${i + 1}`}
+            aria-label={translate(`Go to testimonial ${i + 1}`)}
           />
         ))}
       </div>

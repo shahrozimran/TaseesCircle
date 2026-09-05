@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -37,9 +39,9 @@ export default function JoinLandingClient() {
         <div className="w-16 h-16 rounded-full bg-islamic-green/10 flex items-center justify-center mx-auto mb-5">
           <CircleDot size={32} className="text-islamic-green" />
         </div>
-        <h1 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3">
+        <h1 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3"><T>
           Joining a Circle
-        </h1>
+        </T></h1>
         <p className="text-sm text-charcoal-300 mb-6">
           {user ? "Redirecting to your dashboard..." : "Please sign in to join a Masjid circle."}
         </p>

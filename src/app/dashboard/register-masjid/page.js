@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -34,6 +37,7 @@ const steps = [
 ];
 
 export default function RegisterMasjidPage() {
+  const { t: translate } = useLanguage();
   const { user, profile } = useAuth();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
@@ -198,23 +202,21 @@ export default function RegisterMasjidPage() {
           <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-5">
             <CheckCircle size={32} className="text-amber-600" />
           </div>
-          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3">
+          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3"><T>
             Registration Submitted!
-          </h2>
-          <p className="text-sm text-charcoal-300 leading-relaxed mb-6 max-w-md mx-auto">
-            Your Masjid <span className="font-semibold text-charcoal-500">&quot;{formData.name}&quot;</span> has been submitted for approval. The Ta&apos;sees Circle team will review your registration and notify you via email and dashboard.
-          </p>
+          </T></h2>
+          <p className="text-sm text-charcoal-300 leading-relaxed mb-6 max-w-md mx-auto"><T message="Your Masjid {name} has been submitted for approval. The Ta'sees Circle team will review your registration and notify you via email and dashboard." values={{ name: <bdi className="font-semibold">{formData.name}</bdi> }} /></p>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-            <p className="text-xs text-amber-700 font-medium">
+            <p className="text-xs text-amber-700 font-medium"><T>
               ⏳ Approval usually takes 24-48 hours. You&apos;ll receive a notification once your Masjid is approved and your circle is created.
-            </p>
+            </T></p>
           </div>
           <button
             onClick={() => router.push("/dashboard")}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg transition-all text-sm"
-          >
+          ><T>
             Back to Dashboard
-            <ArrowRight size={16} />
+            </T><ArrowRight size={16} />
           </button>
         </motion.div>
       </div>
@@ -229,12 +231,12 @@ export default function RegisterMasjidPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>
           Register Your Masjid
-        </h1>
-        <p className="text-sm text-charcoal-300 mt-1">
+        </T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>
           Create a circle for your Masjid community. All fields marked with * are required.
-        </p>
+        </T></p>
       </motion.div>
 
       {/* Step Indicator */}
@@ -250,14 +252,14 @@ export default function RegisterMasjidPage() {
                   : "bg-beige-200 text-charcoal-300"
               }`}
             >
-              {index < currentStep ? "✓" : index + 1}
+              <T>{index < currentStep ? "✓" : index + 1}</T>
             </div>
             <span
               className={`text-xs font-medium hidden sm:block ${
                 index === currentStep ? "text-charcoal-600" : "text-charcoal-300"
               }`}
             >
-              {step.label}
+              <T>{step.label}</T>
             </span>
             {index < steps.length - 1 && (
               <div
@@ -278,7 +280,7 @@ export default function RegisterMasjidPage() {
           className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
         >
           <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-red-600"><T>{error}</T></p>
         </motion.div>
       )}
 
@@ -294,79 +296,79 @@ export default function RegisterMasjidPage() {
         {currentStep === 0 && (
           <div className="space-y-5">
             <h3 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2">
-              <Building2 size={20} className="text-gold" />
+              <Building2 size={20} className="text-gold" /><T>
               Masjid Details
-            </h3>
+            </T></h3>
 
             <div>
-              <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                 Masjid Name *
-              </label>
+              </T></label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => updateField("name", e.target.value)}
-                placeholder="e.g., Masjid Al-Noor"
+                placeholder={translate("e.g., Masjid Al-Noor")}
                 className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                 Zip / Postal Code *
-              </label>
+              </T></label>
               <input
                 type="text"
                 value={formData.zip_code}
                 onChange={(e) => updateField("zip_code", e.target.value)}
-                placeholder="e.g., 54000"
+                placeholder={translate("e.g., 54000")}
                 className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                 Area / Locality *
-              </label>
+              </T></label>
               <div className="relative">
-                <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+                <MapPin size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
                 <input
                   type="text"
                   value={formData.area}
                   onChange={(e) => updateField("area", e.target.value)}
-                  placeholder="e.g., Gulberg, Model Town"
-                  className="w-full pl-10 pr-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
+                  placeholder={translate("e.g., Gulberg, Model Town")}
+                  className="w-full ps-10 pe-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+                <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                   City *
-                </label>
+                </T></label>
                 <input
                   type="text"
                   value={formData.city}
                   onChange={(e) => updateField("city", e.target.value)}
-                  placeholder="e.g., Lahore"
+                  placeholder={translate("e.g., Lahore")}
                   className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+                <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                   Country *
-                </label>
+                </T></label>
                 <div className="relative">
-                  <Globe size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+                  <Globe size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
                   <select
                     value={formData.country}
                     onChange={(e) => updateField("country", e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 focus:border-gold focus:ring-1 focus:ring-gold transition-colors appearance-none bg-white"
+                    className="w-full ps-10 pe-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 focus:border-gold focus:ring-1 focus:ring-gold transition-colors appearance-none bg-white"
                   >
                     {COUNTRIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c}><T>{c}</T></option>
                     ))}
                   </select>
                 </div>
@@ -379,24 +381,24 @@ export default function RegisterMasjidPage() {
         {currentStep === 1 && (
           <div className="space-y-5">
             <h3 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2">
-              <FileText size={20} className="text-gold" />
+              <FileText size={20} className="text-gold" /><T>
               Additional Information
-            </h3>
+            </T></h3>
 
             <div>
-              <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                 Description (Optional)
-              </label>
+              </T></label>
               <textarea
                 value={formData.description}
                 onChange={(e) => updateField("description", e.target.value)}
-                placeholder="Tell us about your Masjid — its history, community, or any special programs..."
+                placeholder={translate("Tell us about your Masjid — its history, community, or any special programs...")}
                 rows={5}
                 className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors resize-none"
               />
-              <p className="text-xs text-charcoal-200 mt-1">
+              <p className="text-xs text-charcoal-200 mt-1"><T>
                 This will be visible to circle members.
-              </p>
+              </T></p>
             </div>
           </div>
         )}
@@ -405,43 +407,43 @@ export default function RegisterMasjidPage() {
         {currentStep === 2 && (
           <div className="space-y-5">
             <h3 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2">
-              <CheckCircle size={20} className="text-gold" />
+              <CheckCircle size={20} className="text-gold" /><T>
               Review & Submit
-            </h3>
+            </T></h3>
 
             <div className="bg-beige-50 rounded-xl p-5 space-y-3">
               <div className="flex justify-between items-center py-2 border-b border-beige-200">
-                <span className="text-xs text-charcoal-300 font-medium">Masjid Name</span>
+                <span className="text-xs text-charcoal-300 font-medium"><T>Masjid Name</T></span>
                 <span className="text-sm text-charcoal-600 font-semibold">{formData.name}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-beige-200">
-                <span className="text-xs text-charcoal-300 font-medium">Zip Code</span>
+                <span className="text-xs text-charcoal-300 font-medium"><T>Zip Code</T></span>
                 <span className="text-sm text-charcoal-600">{formData.zip_code}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-beige-200">
-                <span className="text-xs text-charcoal-300 font-medium">Area</span>
+                <span className="text-xs text-charcoal-300 font-medium"><T>Area</T></span>
                 <span className="text-sm text-charcoal-600">{formData.area}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-beige-200">
-                <span className="text-xs text-charcoal-300 font-medium">City</span>
+                <span className="text-xs text-charcoal-300 font-medium"><T>City</T></span>
                 <span className="text-sm text-charcoal-600">{formData.city}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-beige-200">
-                <span className="text-xs text-charcoal-300 font-medium">Country</span>
-                <span className="text-sm text-charcoal-600">{formData.country}</span>
+                <span className="text-xs text-charcoal-300 font-medium"><T>Country</T></span>
+                <span className="text-sm text-charcoal-600"><T>{formData.country}</T></span>
               </div>
               {formData.description && (
                 <div className="py-2">
-                  <span className="text-xs text-charcoal-300 font-medium block mb-1">Description</span>
+                  <span className="text-xs text-charcoal-300 font-medium block mb-1"><T>Description</T></span>
                   <span className="text-sm text-charcoal-500">{formData.description}</span>
                 </div>
               )}
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-              <p className="text-xs text-blue-700">
+              <p className="text-xs text-blue-700"><T>
                 ℹ️ After submission, your Masjid will be reviewed by the Ta&apos;sees Circle team. Once approved, a unique code will be generated that you can share with your community members to join your circle.
-              </p>
+              </T></p>
             </div>
           </div>
         )}
@@ -453,9 +455,9 @@ export default function RegisterMasjidPage() {
               onClick={handleBack}
               className="flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-400 hover:text-charcoal-600 font-medium transition-colors"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={16} /><T>
               Back
-            </button>
+            </T></button>
           ) : (
             <div />
           )}
@@ -464,9 +466,9 @@ export default function RegisterMasjidPage() {
             <button
               onClick={handleNext}
               className="flex items-center gap-2 px-6 py-2.5 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all"
-            >
+            ><T>
               Next
-              <ArrowRight size={16} />
+              </T><ArrowRight size={16} />
             </button>
           ) : (
             <button
@@ -476,13 +478,13 @@ export default function RegisterMasjidPage() {
             >
               {submitting ? (
                 <>
-                  <Loader2 size={16} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" /><T>
                   Submitting...
-                </>
+                </T></>
               ) : (
-                <>
+                <><T>
                   Submit for Approval
-                  <CheckCircle size={16} />
+                  </T><CheckCircle size={16} />
                 </>
               )}
             </button>

@@ -122,3 +122,17 @@
     @apply w-full;
   }
 }
+
+/* Urdu uses native script metrics; Arabic scripture retains its own font and direction. */
+html[lang="ur"] body,
+html[lang="ur"] .font-body,
+html[lang="ur"] .font-heading {
+  font-family: var(--font-urdu), var(--font-amiri), serif;
+  letter-spacing: normal;
+}
+html[lang="ur"] body { line-height: 1.85; }
+html[lang="ur"] :is(h1, h2, h3, h4, h5, h6) { line-height: 1.55; }
+html[lang="ur"] [class*="tracking-"] { letter-spacing: normal; }
+html[lang="ur"] :is(.lucide-arrow-left, .lucide-arrow-right, .lucide-chevron-left, .lucide-chevron-right) { transform: scaleX(-1); }
+[lang="ar"][translate="no"] { font-family: var(--font-amiri), serif; direction: rtl; }
+input:is([type="email"], [type="tel"], [type="password"]), .font-mono { direction: ltr; unicode-bidi: isolate; }

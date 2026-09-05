@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -13,6 +16,7 @@ import {
 } from "lucide-react";
 
 export default function MyCirclePage() {
+  const { t: translate , dateLocale} = useLanguage();
   const { user, profile, refetchProfile } = useAuth();
   const router = useRouter();
   const [masjid, setMasjid] = useState(null);
@@ -118,20 +122,20 @@ export default function MyCirclePage() {
       case "admin":
         return (
           <span className="flex items-center gap-1 px-2 py-0.5 bg-gold/10 text-gold text-[10px] font-bold rounded-full uppercase">
-            <Crown size={10} /> Admin
-          </span>
+            <Crown size={10} /><T> Admin
+          </T></span>
         );
       case "moderator":
         return (
           <span className="flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase">
-            <Shield size={10} /> Moderator
-          </span>
+            <Shield size={10} /><T> Moderator
+          </T></span>
         );
       default:
         return (
-          <span className="px-2 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase">
+          <span className="px-2 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase"><T>
             Member
-          </span>
+          </T></span>
         );
     }
   };
@@ -149,14 +153,14 @@ export default function MyCirclePage() {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
         <CircleDot size={48} className="text-beige-300 mx-auto mb-4" />
-        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2">No Circle Found</h2>
-        <p className="text-sm text-charcoal-300 mb-6">You haven&apos;t joined any circle yet.</p>
+        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2"><T>No Circle Found</T></h2>
+        <p className="text-sm text-charcoal-300 mb-6"><T>You haven&apos;t joined any circle yet.</T></p>
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all"
-        >
+        ><T>
           Go to Dashboard
-        </Link>
+        </T></Link>
       </div>
     );
   }
@@ -173,24 +177,24 @@ export default function MyCirclePage() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <CircleDot size={18} className="text-gold" />
-              <span className="text-xs font-medium uppercase tracking-wider text-white/60">Your Circle</span>
-              {canManage && getRoleBadge(isAdmin ? "admin" : "moderator")}
+              <span className="text-xs font-medium uppercase tracking-wider text-white/60"><T>Your Circle</T></span>
+              <T>{canManage && getRoleBadge(isAdmin ? "admin" : "moderator")}</T>
             </div>
             <h1 className="text-xl sm:text-2xl font-heading font-bold">{masjid.name}</h1>
             <p className="text-sm text-white/70 flex items-center gap-1 mt-1">
-              <MapPin size={14} /> {masjid.area}, {masjid.city}, {masjid.country}
+              <MapPin size={14} /> {masjid.area}, {masjid.city}, <T>{masjid.country}</T>
             </p>
             <div className="flex items-center gap-4 mt-3">
               <span className="flex items-center gap-1 text-xs text-white/60">
-                <Users size={14} /> {masjid.member_count} members
-              </span>
+                <Users size={14} /> <T>{masjid.member_count} members
+              </T></span>
             </div>
           </div>
 
           {/* Code & Share */}
           {masjid.unique_code && (
             <div className="bg-white/10 backdrop-blur rounded-xl p-4 min-w-[180px]">
-              <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1">Circle Code</p>
+              <p className="text-[10px] text-white/50 uppercase tracking-wider mb-1"><T>Circle Code</T></p>
               <div className="flex items-center gap-2">
                 <span className="text-lg font-mono font-bold tracking-[0.2em] text-gold">
                   {masjid.unique_code}
@@ -198,7 +202,7 @@ export default function MyCirclePage() {
                 <button
                   onClick={copyCode}
                   className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
-                  title="Copy code"
+                  title={translate("Copy code")}
                 >
                   {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} className="text-white/60" />}
                 </button>
@@ -207,8 +211,8 @@ export default function MyCirclePage() {
                 onClick={shareWhatsApp}
                 className="flex items-center gap-1 mt-2 text-[11px] text-white/50 hover:text-white transition-colors"
               >
-                <Share2 size={12} /> Share on WhatsApp
-              </button>
+                <Share2 size={12} /><T> Share on WhatsApp
+              </T></button>
             </div>
           )}
         </div>
@@ -230,7 +234,7 @@ export default function MyCirclePage() {
                 : "text-charcoal-300 hover:text-charcoal-400"
             }`}
           >
-            {tab.label}
+            <T>{tab.label}</T>
           </button>
         ))}
       </div>
@@ -240,7 +244,7 @@ export default function MyCirclePage() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
           {masjid.description && (
             <div className="bg-white rounded-2xl border border-beige-200 p-6">
-              <h3 className="font-heading font-bold text-charcoal-600 text-sm mb-2">About</h3>
+              <h3 className="font-heading font-bold text-charcoal-600 text-sm mb-2"><T>About</T></h3>
               <p className="text-sm text-charcoal-400 leading-relaxed">{masjid.description}</p>
             </div>
           )}
@@ -252,8 +256,8 @@ export default function MyCirclePage() {
                   <Users size={18} className="text-gold" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-charcoal-600">{masjid.member_count}</p>
-                  <p className="text-xs text-charcoal-300">Total Members</p>
+                  <p className="text-2xl font-bold text-charcoal-600"><T>{masjid.member_count}</T></p>
+                  <p className="text-xs text-charcoal-300"><T>Total Members</T></p>
                 </div>
               </div>
             </div>
@@ -267,8 +271,8 @@ export default function MyCirclePage() {
                   <MessageSquare size={18} className="text-gold" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-charcoal-600">Contact Support</p>
-                  <p className="text-xs text-charcoal-300">Get help from our team</p>
+                  <p className="text-sm font-semibold text-charcoal-600"><T>Contact Support</T></p>
+                  <p className="text-xs text-charcoal-300"><T>Get help from our team</T></p>
                 </div>
               </div>
             </Link>
@@ -285,8 +289,8 @@ export default function MyCirclePage() {
                     <CircleDot size={18} className="text-islamic-green" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-charcoal-600">Enter Your Circle</p>
-                    <p className="text-xs text-charcoal-300">View posts, content & community</p>
+                    <p className="text-sm font-semibold text-charcoal-600"><T>Enter Your Circle</T></p>
+                    <p className="text-xs text-charcoal-300"><T>View posts, content & community</T></p>
                   </div>
                 </div>
                 <ExternalLink size={16} className="text-charcoal-300 group-hover:text-islamic-green transition-colors" />
@@ -301,14 +305,14 @@ export default function MyCirclePage() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div className="bg-white rounded-2xl border border-beige-200 overflow-hidden">
             <div className="px-5 py-4 border-b border-beige-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-charcoal-600">Members</h3>
+              <h3 className="text-sm font-bold text-charcoal-600"><T>Members</T></h3>
               {canManage && (
                 <button
                   onClick={copyCode}
                   className="flex items-center gap-1 px-3 py-1.5 bg-gold/10 text-gold text-xs font-medium rounded-lg hover:bg-gold/20 transition-colors"
                 >
-                  <UserPlus size={12} /> Invite
-                </button>
+                  <UserPlus size={12} /><T> Invite
+                </T></button>
               )}
             </div>
             <div className="divide-y divide-beige-50">
@@ -327,13 +331,13 @@ export default function MyCirclePage() {
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-charcoal-600 truncate">
-                      {member.profiles?.full_name || "Unknown"}
+                      {member.profiles?.full_name || <T>Unknown</T>}
                     </p>
-                    <p className="text-[11px] text-charcoal-300">
-                      Joined {new Date(member.joined_at).toLocaleDateString()} via {member.join_method}
+                    <p className="text-[11px] text-charcoal-300"><T>
+                      Joined {new Date(member.joined_at).toLocaleDateString(dateLocale)} via {member.join_method}</T>
                     </p>
                   </div>
-                  {getRoleBadge(member.role)}
+                  <T>{getRoleBadge(member.role)}</T>
                 </div>
               ))}
             </div>
@@ -347,9 +351,9 @@ export default function MyCirclePage() {
           <Link
             href={`/dashboard/circles/${circle.id}`}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all"
-          >
+          ><T>
             Enter Circle View
-            <ExternalLink size={16} />
+            </T><ExternalLink size={16} />
           </Link>
         </motion.div>
       )}

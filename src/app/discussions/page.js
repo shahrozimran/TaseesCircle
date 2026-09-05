@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import DiscussionsLandingClient from "./DiscussionsLandingClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Islamic Knowledge Discussions & Community Hubs",
   description:
     "Explore in-depth Islamic knowledge discussions, Quranic insights, and Hadith guidance tailored for Muslim communities in Pakistan and Canada.",
@@ -26,3 +27,5 @@ export const metadata = {
 export default function DiscussionsLandingPage() {
   return <DiscussionsLandingClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

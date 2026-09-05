@@ -1,7 +1,13 @@
-import { Inter, Playfair_Display, Amiri } from "next/font/google";
+import { Inter, Playfair_Display, Amiri, Noto_Naskh_Arabic } from "next/font/google";
 import "./globals.css";
+import LanguageProvider from "@/components/i18n/LanguageProvider";
+import T from "@/components/i18n/T";
+import { getLocale, localizeMetadata } from "@/lib/i18n/server";
+import { localeDirection } from "@/lib/i18n/translate.mjs";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+const urdu = Noto_Naskh_Arabic({ variable: "--font-urdu", subsets: ["arabic"], weight: ["400", "700"], display: "swap" });
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,7 +28,7 @@ const amiri = Amiri({
   display: "swap",
 });
 
-export const metadata = {
+const baseMetadata = {
   metadataBase: new URL("https://taseescircle.com"),
   title: {
     default: "Ta'sees Circle — Digital Islamic Knowledge & Community Hub",
@@ -116,11 +122,15 @@ const jsonLdOrganization = {
   ],
 };
 
-export default function RootLayout({ children }) {
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }
+
+export default async function RootLayout({ children }) {
+  const locale = await getLocale();
   return (
     <html
-      lang="en"
-      className={`${inter.variable} ${playfair.variable} ${amiri.variable} h-full antialiased`}
+      lang={locale}
+      dir={localeDirection(locale)}
+      className={`${inter.variable} ${playfair.variable} ${amiri.variable} ${urdu.variable} h-full antialiased`}
     >
       <head>
         <script
@@ -129,16 +139,18 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col font-body bg-beige-50 text-charcoal-500">
+        <LanguageProvider initialLocale={locale}>
         {/* Skip-to-content link — keyboard accessibility (H-09) */}
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold focus:text-white focus:rounded-lg focus:text-sm focus:font-medium focus:shadow-lg"
         >
-          Skip to main content
+          <T>Skip to main content</T>
         </a>
         <Navbar />
         <main id="main-content" className="flex-1">{children}</main>
         <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

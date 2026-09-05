@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import PakistanDiscussionsClient from "./PakistanDiscussionsClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Pakistan Discussions — Rizq e Halal & Knowledge Hub",
   description:
     "Explore in-depth Islamic knowledge discussions tailored for Pakistan — earning halal income, workplace ethics, avoiding riba, freelancing, and Zakat.",
@@ -26,3 +27,5 @@ export const metadata = {
 export default function PakistanDiscussionsPage() {
   return <PakistanDiscussionsClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { BookOpen } from "lucide-react";
 
@@ -13,15 +15,15 @@ export default function QuranBlock({ arabic, translation, surah, className = "" 
         <div className="w-7 h-7 rounded-full bg-gold/20 flex items-center justify-center shrink-0">
           <BookOpen size={14} className="text-gold" />
         </div>
-        <span className="text-gold text-xs font-semibold uppercase tracking-wider">
+        <span className="text-gold text-xs font-semibold uppercase tracking-wider"><T>
           Quranic Reference
-        </span>
+        </T></span>
       </div>
 
       {/* Arabic Verse */}
       {arabic && (
         <p
-          dir="rtl"
+          dir="rtl" lang="ar" translate="no"
           className="text-white/95 text-right font-arabic text-lg sm:text-xl md:text-2xl leading-loose sm:leading-loose mb-3"
         >
           {arabic}
@@ -31,14 +33,14 @@ export default function QuranBlock({ arabic, translation, surah, className = "" 
       {/* Translation */}
       {translation && (
         <p className="text-white/80 text-xs sm:text-sm leading-relaxed italic mb-2">
-          &ldquo;{translation}&rdquo;
+          &ldquo;<T>{translation}</T>&rdquo;
         </p>
       )}
 
       {/* Surah Citation */}
       {surah && (
-        <p className="text-gold text-xs font-medium text-right tracking-wide">
-          — {surah}
+        <p className="text-gold text-xs font-medium text-end tracking-wide">
+          — <T>{surah}</T>
         </p>
       )}
     </div>

@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
@@ -20,20 +22,20 @@ export default function ResourceCard({ title, description, type, author, icon, i
         </div>
         <div className="flex-1">
           <h3 className="font-heading font-bold text-charcoal-600 text-base leading-snug mb-1">
-            {title}
+            <T>{title}</T>
           </h3>
           {author && (
-            <p className="text-xs text-gold font-medium">by {author}</p>
+            <p className="text-xs text-gold font-medium"><T>by {author}</T></p>
           )}
         </div>
       </div>
 
       <p className="text-charcoal-300 text-sm leading-relaxed flex-1 mb-4">
-        {description}
+        <T>{description}</T>
       </p>
 
       <span className="inline-block self-start px-3 py-1 rounded-full text-xs font-medium bg-beige-100 text-charcoal-400">
-        {type}
+        <T>{type}</T>
       </span>
     </motion.div>
   );

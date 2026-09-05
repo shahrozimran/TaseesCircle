@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,18 +17,18 @@ import {
 // ─── Spam Folder Warning Note ────────────────────────────────────────────────
 function SpamFolderNote({ className = "" }) {
   return (
-    <div className={`p-4 bg-amber-50/90 border border-amber-200/80 rounded-xl flex items-start gap-3 text-left ${className}`}>
+    <div className={`p-4 bg-amber-50/90 border border-amber-200/80 rounded-xl flex items-start gap-3 text-start ${className}`}>
       <AlertTriangle size={18} className="text-amber-600 shrink-0 mt-0.5" />
       <div className="text-xs text-amber-900 leading-relaxed">
-        <p className="font-bold text-amber-950 mb-0.5 flex items-center gap-1">
+        <p className="font-bold text-amber-950 mb-0.5 flex items-center gap-1"><T>
           📬 Check Your Email Spam / Junk Folder
+        </T></p>
+        <p className="text-amber-800"><T>
+          Our response will be sent from </T><strong><T>taseescircle@gmail.com</T></strong><T>. Automated emails may occasionally be placed in your </T><strong><T>Spam or Junk folder</T></strong>.
         </p>
-        <p className="text-amber-800">
-          Our response will be sent from <strong>taseescircle@gmail.com</strong>. Automated emails may occasionally be placed in your <strong>Spam or Junk folder</strong>.
-        </p>
-        <p className="mt-1 font-semibold text-amber-900">
-          💡 Tip: If our email goes to Spam, open it and click <strong>&quot;Report as Not Spam&quot;</strong> so all future replies land directly in your Primary Inbox!
-        </p>
+        <p className="mt-1 font-semibold text-amber-900"><T>
+          💡 Tip: If our email goes to Spam, open it and click </T><strong><T>&quot;Report as Not Spam&quot;</T></strong><T> so all future replies land directly in your Primary Inbox!
+        </T></p>
       </div>
     </div>
   );
@@ -40,13 +44,14 @@ function StatusBadge({ status }) {
   const cfg = map[status] || map.open;
   return (
     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${cfg.cls}`}>
-      {cfg.label}
+      <T>{cfg.label}</T>
     </span>
   );
 }
 
 // ─── My Queries Tab ───────────────────────────────────────────────────────────
 function MyQueriesTab({ userId }) {
+  const { t: translate, dateLocale } = useLanguage();
   const [tickets, setTickets]     = useState([]);
   const [loading, setLoading]     = useState(true);
   const [expanded, setExpanded]   = useState({});
@@ -90,10 +95,10 @@ function MyQueriesTab({ userId }) {
     return (
       <div className="bg-white rounded-2xl border border-beige-200 p-12 text-center">
         <Inbox size={40} className="text-beige-300 mx-auto mb-3" />
-        <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1">No queries yet</h3>
-        <p className="text-sm text-charcoal-300">
+        <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1"><T>No queries yet</T></h3>
+        <p className="text-sm text-charcoal-300"><T>
           When you send a query, it will appear here along with any responses.
-        </p>
+        </T></p>
       </div>
     );
   }
@@ -101,13 +106,13 @@ function MyQueriesTab({ userId }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-charcoal-300">{tickets.length} quer{tickets.length === 1 ? "y" : "ies"} submitted</p>
+        <p className="text-xs text-charcoal-300"><T message={tickets.length === 1 ? "{count} query submitted" : "{count} queries submitted"} values={{ count: tickets.length }} /></p>
         <button
           onClick={fetchTickets}
           className="flex items-center gap-1 text-xs text-gold hover:text-gold/80 font-medium transition-colors"
         >
-          <RefreshCw size={12} /> Refresh
-        </button>
+          <RefreshCw size={12} /><T> Refresh
+        </T></button>
       </div>
 
       {tickets.map((ticket, i) => {
@@ -128,7 +133,7 @@ function MyQueriesTab({ userId }) {
             {/* Ticket header — always visible */}
             <button
               onClick={() => toggleExpand(ticket.id)}
-              className="w-full text-left p-5 hover:bg-beige-50/50 transition-colors"
+              className="w-full text-start p-5 hover:bg-beige-50/50 transition-colors"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
@@ -139,16 +144,16 @@ function MyQueriesTab({ userId }) {
                     <StatusBadge status={ticket.status} />
                     {hasResponses && (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-200">
-                        <MessageSquare size={9} /> {sortedResponses.length} response{sortedResponses.length > 1 ? "s" : ""}
+                        <MessageSquare size={9} /> <T message={sortedResponses.length === 1 ? "{count} response" : "{count} responses"} values={{ count: sortedResponses.length }} />
                       </span>
                     )}
                   </div>
                   <p className="text-[11px] text-charcoal-300 flex items-center gap-1">
                     <Clock size={10} />
-                    {new Date(ticket.created_at).toLocaleDateString("en-PK", {
+                    <T>{new Date(ticket.created_at).toLocaleDateString(dateLocale, {
                       day: "numeric", month: "short", year: "numeric",
-                    })}
-                    <span className="ml-2">· To: {ticket.recipient === "tasees_admin" ? "TaseesCircle" : "Circle Moderator"}</span>
+                    })}</T>
+                    <span className="ms-2"><T>· To: {ticket.recipient === "tasees_admin" ? "TaseesCircle" : "Circle Moderator"}</T></span>
                   </p>
                 </div>
                 <div className="shrink-0 text-charcoal-300">
@@ -169,7 +174,7 @@ function MyQueriesTab({ userId }) {
                   <div className="px-5 pb-5 space-y-4 border-t border-beige-100 pt-4">
                     {/* Original message */}
                     <div>
-                      <p className="text-[11px] font-bold text-charcoal-300 uppercase tracking-wide mb-2">Your Query</p>
+                      <p className="text-[11px] font-bold text-charcoal-300 uppercase tracking-wide mb-2"><T>Your Query</T></p>
                       <div className="bg-beige-50 rounded-xl p-4">
                         <p className="text-sm text-charcoal-500 leading-relaxed whitespace-pre-wrap">{ticket.message}</p>
                       </div>
@@ -177,8 +182,8 @@ function MyQueriesTab({ userId }) {
 
                     {/* Responses */}
                     <div>
-                      <p className="text-[11px] font-bold text-charcoal-300 uppercase tracking-wide mb-2">
-                        Responses {hasResponses ? `(${sortedResponses.length})` : ""}
+                      <p className="text-[11px] font-bold text-charcoal-300 uppercase tracking-wide mb-2"><T>
+                        Responses {hasResponses ? `(${sortedResponses.length})` : ""}</T>
                       </p>
                       {hasResponses ? (
                         <div className="space-y-3">
@@ -192,13 +197,13 @@ function MyQueriesTab({ userId }) {
                                   <Shield size={13} className="text-islamic-green" />
                                 </div>
                                 <div>
-                                  <p className="text-xs font-bold text-charcoal-600">TaseesCircle Admin</p>
+                                  <p className="text-xs font-bold text-charcoal-600"><T>TaseesCircle Admin</T></p>
                                   <p className="text-[10px] text-charcoal-300">
-                                    {new Date(resp.created_at).toLocaleDateString("en-PK", {
+                                    <T>{new Date(resp.created_at).toLocaleDateString(dateLocale, {
                                       day: "numeric", month: "short", year: "numeric",
-                                    })}
+                                    })}</T>
                                     {resp.email_sent && (
-                                      <span className="ml-2 text-islamic-green font-medium">· ✉ Sent to your email</span>
+                                      <span className="ms-2 text-islamic-green font-medium"><T>· ✉ Sent to your email</T></span>
                                     )}
                                   </p>
                                 </div>
@@ -214,10 +219,10 @@ function MyQueriesTab({ userId }) {
                           <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
                             <Clock size={16} className="text-amber-500 shrink-0 mt-0.5" />
                             <div>
-                              <p className="text-sm font-medium text-charcoal-500">Awaiting Response</p>
-                              <p className="text-[11px] text-charcoal-300 mt-0.5">
+                              <p className="text-sm font-medium text-charcoal-500"><T>Awaiting Response</T></p>
+                              <p className="text-[11px] text-charcoal-300 mt-0.5"><T>
                                 Our team will review your query and reply via email. You&apos;ll also be notified here.
-                              </p>
+                              </T></p>
                             </div>
                           </div>
                           <SpamFolderNote />
@@ -236,6 +241,7 @@ function MyQueriesTab({ userId }) {
 }
 
 function SendQueryTab({ user, profile }) {
+  const { t: translate } = useLanguage();
   const [recipient, setRecipient] = useState("tasees_admin");
   const [subject,   setSubject]   = useState("");
   const [message,   setMessage]   = useState("");
@@ -316,22 +322,22 @@ function SendQueryTab({ user, profile }) {
         <div className="w-16 h-16 rounded-full bg-islamic-green/10 flex items-center justify-center mx-auto mb-5">
           <CheckCircle size={32} className="text-islamic-green" />
         </div>
-        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-3">Query Sent!</h2>
-        <p className="text-sm text-charcoal-400 mb-2 leading-relaxed">
+        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-3"><T>Query Sent!</T></h2>
+        <p className="text-sm text-charcoal-400 mb-2 leading-relaxed"><T>
           Your query has been submitted and the TaseesCircle team has been notified via email.
-        </p>
-        <p className="text-sm text-charcoal-400 mb-5 leading-relaxed">
-          You&apos;ll receive a response via email at <strong>{profile?.email || user?.email}</strong> and it will appear in the <strong>My Queries</strong> tab.
-        </p>
+        </T></p>
+        <p className="text-sm text-charcoal-400 mb-5 leading-relaxed"><T>
+          You&apos;ll receive a response via email at </T><strong>{profile?.email || user?.email}</strong><T> and it will appear in the </T><strong><T>My Queries</T></strong><T> tab.
+        </T></p>
         <SpamFolderNote className="mb-6" />
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={() => setSuccess(false)}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all"
           >
-            <MessageSquare size={16} />
+            <MessageSquare size={16} /><T>
             Send Another Query
-          </button>
+          </T></button>
         </div>
       </motion.div>
     );
@@ -342,19 +348,19 @@ function SendQueryTab({ user, profile }) {
       {error && (
         <div className="mb-5 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
           <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-red-600"><T>{error}</T></p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <LocalizedForm onSubmit={handleSubmit} className="space-y-5">
         {/* Recipient */}
         <div>
-          <label className="block text-xs font-medium text-charcoal-400 mb-2">Send to</label>
+          <label className="block text-xs font-medium text-charcoal-400 mb-2"><T>Send to</T></label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setRecipient("tasees_admin")}
-              className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-start ${
                 recipient === "tasees_admin" ? "border-gold bg-gold/5" : "border-beige-200 hover:border-beige-300"
               }`}
             >
@@ -362,8 +368,8 @@ function SendQueryTab({ user, profile }) {
                 <Mail size={18} className={recipient === "tasees_admin" ? "text-gold" : "text-charcoal-300"} />
               </div>
               <div>
-                <p className="text-sm font-semibold text-charcoal-600">TaseesCircle</p>
-                <p className="text-[11px] text-charcoal-300">Platform support team</p>
+                <p className="text-sm font-semibold text-charcoal-600"><T>TaseesCircle</T></p>
+                <p className="text-[11px] text-charcoal-300"><T>Platform support team</T></p>
               </div>
             </button>
 
@@ -371,7 +377,7 @@ function SendQueryTab({ user, profile }) {
               type="button"
               onClick={() => canSendToModerator && setRecipient("moderator")}
               disabled={!canSendToModerator}
-              className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-start ${
                 recipient === "moderator" && canSendToModerator ? "border-gold bg-gold/5" : "border-beige-200 hover:border-beige-300"
               } ${!canSendToModerator ? "opacity-50 cursor-not-allowed bg-beige-50/50" : ""}`}
             >
@@ -379,13 +385,13 @@ function SendQueryTab({ user, profile }) {
                 <Shield size={18} className={recipient === "moderator" && canSendToModerator ? "text-gold" : "text-charcoal-300"} />
               </div>
               <div>
-                <p className="text-sm font-semibold text-charcoal-600">Circle Moderator</p>
+                <p className="text-sm font-semibold text-charcoal-600"><T>Circle Moderator</T></p>
                 <p className="text-[11px] text-charcoal-300">
-                  {isModeratorOrAdmin
+                  <T>{isModeratorOrAdmin
                     ? "You are the Circle Admin/Moderator"
                     : profile?.current_masjid_id
                     ? "Your circle's moderator"
-                    : "Join a circle first"}
+                    : "Join a circle first"}</T>
                 </p>
               </div>
             </button>
@@ -394,12 +400,12 @@ function SendQueryTab({ user, profile }) {
 
         {/* Subject */}
         <div>
-          <label className="block text-xs font-medium text-charcoal-400 mb-1.5">Subject *</label>
+          <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>Subject *</T></label>
           <input
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Brief description of your query"
+            placeholder={translate("Brief description of your query")}
             required
             maxLength={150}
             className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
@@ -408,7 +414,7 @@ function SendQueryTab({ user, profile }) {
 
         {/* Priority */}
         <div>
-          <label className="block text-xs font-medium text-charcoal-400 mb-1.5">Priority</label>
+          <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>Priority</T></label>
           <div className="flex gap-2">
             {[
               { value: "low",    label: "Low",    cls: "bg-green-50 text-green-600 border-green-300" },
@@ -423,7 +429,7 @@ function SendQueryTab({ user, profile }) {
                   priority === p.value ? p.cls + " shadow-sm" : "border-beige-200 text-charcoal-300 hover:border-beige-300"
                 }`}
               >
-                {p.label}
+                <T>{p.label}</T>
               </button>
             ))}
           </div>
@@ -431,24 +437,24 @@ function SendQueryTab({ user, profile }) {
 
         {/* Message */}
         <div>
-          <label className="block text-xs font-medium text-charcoal-400 mb-1.5">Message *</label>
+          <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>Message *</T></label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Describe your query or concern in detail..."
+            placeholder={translate("Describe your query or concern in detail...")}
             rows={6}
             required
             maxLength={3000}
             className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors resize-none"
           />
-          <p className="text-[11px] text-charcoal-200 mt-1 text-right">{message.length}/3000</p>
+          <p className="text-[11px] text-charcoal-200 mt-1 text-end"><T>{message.length}</T>/3000</p>
         </div>
 
         {/* Email note */}
         <div className="flex items-center gap-2 p-3 bg-beige-50 rounded-xl border border-beige-200">
           <Mail size={14} className="text-charcoal-300 shrink-0" />
-          <p className="text-[11px] text-charcoal-400">
-            Your query will be sent to <strong>taseescircle@gmail.com</strong>. Responses will be emailed to{" "}
+          <p className="text-[11px] text-charcoal-400"><T>
+            Your query will be sent to </T><strong><T>taseescircle@gmail.com</T></strong><T>. Responses will be emailed to</T>{" "}
             <strong>{profile?.email || user?.email || "your registered email"}</strong>.
           </p>
         </div>
@@ -462,12 +468,12 @@ function SendQueryTab({ user, profile }) {
           className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
         >
           {submitting ? (
-            <><Loader2 size={16} className="animate-spin" /> Sending...</>
+            <><Loader2 size={16} className="animate-spin" /><T> Sending...</T></>
           ) : (
-            <><Send size={16} /> Send Query</>
+            <><Send size={16} /><T> Send Query</T></>
           )}
         </button>
-      </form>
+      </LocalizedForm>
     </div>
   );
 }
@@ -480,10 +486,10 @@ export default function SupportPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">Contact Support</h1>
-        <p className="text-sm text-charcoal-300 mt-1">
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>Contact Support</T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>
           Send a query or view responses to your previous submissions.
-        </p>
+        </T></p>
       </motion.div>
 
       {/* Tabs */}
@@ -500,7 +506,7 @@ export default function SupportPage() {
             }`}
           >
             <Icon size={14} />
-            {label}
+            <T>{label}</T>
           </button>
         ))}
       </div>

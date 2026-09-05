@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -18,6 +21,7 @@ import {
 } from "lucide-react";
 
 export default function JoinMasjidClient() {
+  const { t: translate } = useLanguage();
   const { user, profile } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -183,10 +187,10 @@ export default function JoinMasjidClient() {
           <div className="w-16 h-16 rounded-full bg-islamic-green/10 flex items-center justify-center mx-auto mb-5">
             <CheckCircle size={32} className="text-islamic-green" />
           </div>
-          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3">
+          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-3"><T>
             Welcome to the Circle!
-          </h2>
-          <p className="text-sm text-charcoal-300">{success}</p>
+          </T></h2>
+          <p className="text-sm text-charcoal-300"><T>{success}</T></p>
         </motion.div>
       </div>
     );
@@ -200,12 +204,12 @@ export default function JoinMasjidClient() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>
           Join a Masjid Circle
-        </h1>
-        <p className="text-sm text-charcoal-300 mt-1">
+        </T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>
           Enter a Masjid code or referral code to join an existing circle.
-        </p>
+        </T></p>
       </motion.div>
 
       {/* Error */}
@@ -216,7 +220,7 @@ export default function JoinMasjidClient() {
           className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
         >
           <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-red-600"><T>{error}</T></p>
         </motion.div>
       )}
 
@@ -229,9 +233,9 @@ export default function JoinMasjidClient() {
               ? "bg-white text-charcoal-600 shadow-sm"
               : "text-charcoal-300 hover:text-charcoal-400"
           }`}
-        >
+        ><T>
           Join by Code
-        </button>
+        </T></button>
         <button
           onClick={() => { setActiveTab("referral"); setError(""); setReferralResult(null); }}
           className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${
@@ -239,9 +243,9 @@ export default function JoinMasjidClient() {
               ? "bg-white text-charcoal-600 shadow-sm"
               : "text-charcoal-300 hover:text-charcoal-400"
           }`}
-        >
+        ><T>
           Join by Referral
-        </button>
+        </T></button>
       </div>
 
       {/* Join by Code */}
@@ -252,20 +256,20 @@ export default function JoinMasjidClient() {
           className="bg-white rounded-2xl border border-beige-200 p-6 sm:p-8"
         >
           <h3 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2 mb-5">
-            <LinkIcon size={20} className="text-gold" />
+            <LinkIcon size={20} className="text-gold" /><T>
             Enter Masjid Code
-          </h3>
+          </T></h3>
 
           <div className="flex gap-3">
             <div className="flex-1 relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+              <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
               <input
                 type="text"
                 value={code}
                 onChange={(e) => { setCode(e.target.value.toUpperCase()); setError(""); setSearchResult(null); }}
-                placeholder="Enter 6-character code (e.g., A7K3X9)"
+                placeholder={translate("Enter 6-character code (e.g., A7K3X9)")}
                 maxLength={6}
-                className="w-full pl-10 pr-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors uppercase font-mono tracking-widest"
+                className="w-full ps-10 pe-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors uppercase font-mono tracking-widest"
               />
             </div>
             <button
@@ -273,7 +277,7 @@ export default function JoinMasjidClient() {
               disabled={searching || !code.trim()}
               className="px-5 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all disabled:opacity-50 shrink-0"
             >
-              {searching ? <Loader2 size={16} className="animate-spin" /> : "Search"}
+              <T>{searching ? <Loader2 size={16} className="animate-spin" /> : "Search"}</T>
             </button>
           </div>
 
@@ -290,11 +294,11 @@ export default function JoinMasjidClient() {
                     {searchResult.name}
                   </h4>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <MapPin size={12} /> {searchResult.area}, {searchResult.city}, {searchResult.country}
+                    <MapPin size={12} /> {searchResult.area}, {searchResult.city}, <T>{searchResult.country}</T>
                   </p>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <Users size={12} /> {searchResult.member_count} members
-                  </p>
+                    <Users size={12} /> <T>{searchResult.member_count} members
+                  </T></p>
                 </div>
                 <button
                   onClick={() => handleJoin("code")}
@@ -305,9 +309,9 @@ export default function JoinMasjidClient() {
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
                     <>
-                      <UserPlus size={16} />
+                      <UserPlus size={16} /><T>
                       Join Circle
-                    </>
+                    </T></>
                   )}
                 </button>
               </div>
@@ -324,9 +328,9 @@ export default function JoinMasjidClient() {
           className="bg-white rounded-2xl border border-beige-200 p-6 sm:p-8"
         >
           <h3 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2 mb-5">
-            <UserPlus size={20} className="text-gold" />
+            <UserPlus size={20} className="text-gold" /><T>
             Enter Referral Code
-          </h3>
+          </T></h3>
 
           <div className="flex gap-3">
             <div className="flex-1">
@@ -334,7 +338,7 @@ export default function JoinMasjidClient() {
                 type="text"
                 value={referralCode}
                 onChange={(e) => { setReferralCode(e.target.value); setError(""); setReferralResult(null); }}
-                placeholder="Enter referral code"
+                placeholder={translate("Enter referral code")}
                 className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
               />
             </div>
@@ -343,7 +347,7 @@ export default function JoinMasjidClient() {
               disabled={searching || !referralCode.trim()}
               className="px-5 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all disabled:opacity-50 shrink-0"
             >
-              {searching ? <Loader2 size={16} className="animate-spin" /> : "Verify"}
+              <T>{searching ? <Loader2 size={16} className="animate-spin" /> : "Verify"}</T>
             </button>
           </div>
 
@@ -355,8 +359,8 @@ export default function JoinMasjidClient() {
               className="mt-6 bg-beige-50 rounded-xl p-5 border border-beige-200"
             >
               <div className="mb-3 px-3 py-2 bg-gold/10 rounded-lg">
-                <p className="text-xs text-gold font-medium">
-                  You were invited by <span className="font-bold">{referralResult.profiles?.full_name || "a member"}</span>
+                <p className="text-xs text-gold font-medium"><T>
+                  You were invited by </T><span className="font-bold">{referralResult.profiles?.full_name || "a member"}</span>
                 </p>
               </div>
               <div className="flex items-start justify-between">
@@ -365,11 +369,11 @@ export default function JoinMasjidClient() {
                     {referralResult.masjids?.name}
                   </h4>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <MapPin size={12} /> {referralResult.masjids?.area}, {referralResult.masjids?.city}, {referralResult.masjids?.country}
+                    <MapPin size={12} /> {referralResult.masjids?.area}, {referralResult.masjids?.city}, <T>{referralResult.masjids?.country}</T>
                   </p>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <Users size={12} /> {referralResult.masjids?.member_count} members
-                  </p>
+                    <Users size={12} /> <T>{referralResult.masjids?.member_count} members
+                  </T></p>
                 </div>
                 <button
                   onClick={() => handleJoin("referral")}
@@ -380,9 +384,9 @@ export default function JoinMasjidClient() {
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
                     <>
-                      <CheckCircle size={16} />
+                      <CheckCircle size={16} /><T>
                       Accept & Join
-                    </>
+                    </T></>
                   )}
                 </button>
               </div>
@@ -394,8 +398,8 @@ export default function JoinMasjidClient() {
       {/* Info Box */}
       <div className="mt-6 bg-beige-50 border border-beige-200 rounded-xl p-4">
         <p className="text-xs text-charcoal-300 leading-relaxed">
-          <span className="font-medium">Don&apos;t have a code?</span> Ask your Masjid community leader for the unique circle code or a referral link. Each person can only be part of one circle at a time.
-        </p>
+          <span className="font-medium"><T>Don&apos;t have a code?</T></span><T> Ask your Masjid community leader for the unique circle code or a referral link. Each person can only be part of one circle at a time.
+        </T></p>
       </div>
     </div>
   );

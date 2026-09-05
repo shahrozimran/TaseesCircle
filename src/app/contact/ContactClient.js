@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState } from "react";
 import Hero from "@/components/sections/Hero";
@@ -11,6 +15,7 @@ import { SOCIAL_LINKS } from "@/lib/constants";
 import { sanitizeInput, validateEmail } from "@/lib/security";
 
 export default function ContactClient() {
+  const { t: translate } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -108,27 +113,27 @@ export default function ContactClient() {
                   className="bg-islamic-green/5 border border-islamic-green/20 rounded-2xl p-6 sm:p-8 text-center"
                 >
                   <CheckCircle size={44} className="text-islamic-green mx-auto mb-4" />
-                  <h3 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-2">
+                  <h3 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-2"><T>
                     Message Sent Successfully!
-                  </h3>
-                  <p className="text-charcoal-300 text-sm">
+                  </T></h3>
+                  <p className="text-charcoal-300 text-sm"><T>
                     JazakAllah Khair for reaching out. We&apos;ll get back to you within 24-48 hours.
-                  </p>
+                  </T></p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                <LocalizedForm onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                   {errorMessage && (
                     <div className="flex items-center gap-2 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs sm:text-sm font-medium">
                       <AlertCircle size={16} className="shrink-0" />
-                      <span>{errorMessage}</span>
+                      <span><T>{errorMessage}</T></span>
                     </div>
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label htmlFor="contact-name" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
+                      <label htmlFor="contact-name" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2"><T>
                         Full Name *
-                      </label>
+                      </T></label>
                       <input
                         id="contact-name"
                         name="name"
@@ -138,13 +143,13 @@ export default function ContactClient() {
                         maxLength={100}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                        placeholder="Your full name"
+                        placeholder={translate("Your full name")}
                       />
                     </div>
                     <div>
-                      <label htmlFor="contact-email" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
+                      <label htmlFor="contact-email" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2"><T>
                         Email Address *
-                      </label>
+                      </T></label>
                       <input
                         id="contact-email"
                         name="email"
@@ -154,16 +159,16 @@ export default function ContactClient() {
                         maxLength={254}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                        placeholder="your@email.com"
+                        placeholder={translate("your@email.com")}
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label htmlFor="contact-country" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
+                      <label htmlFor="contact-country" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2"><T>
                         Country *
-                      </label>
+                      </T></label>
                       <select
                         id="contact-country"
                         name="country"
@@ -172,16 +177,16 @@ export default function ContactClient() {
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
                       >
-                        <option value="">Select country</option>
-                        <option value="pakistan">Pakistan</option>
-                        <option value="canada">Canada</option>
-                        <option value="other">Other</option>
+                        <option value=""><T>Select country</T></option>
+                        <option value="pakistan"><T>Pakistan</T></option>
+                        <option value="canada"><T>Canada</T></option>
+                        <option value="other"><T>Other</T></option>
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="contact-subject" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
+                      <label htmlFor="contact-subject" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2"><T>
                         Subject *
-                      </label>
+                      </T></label>
                       <input
                         id="contact-subject"
                         name="subject"
@@ -191,15 +196,15 @@ export default function ContactClient() {
                         maxLength={150}
                         required
                         className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                        placeholder="How can we help?"
+                        placeholder={translate("How can we help?")}
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="contact-message" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2">
+                    <label htmlFor="contact-message" className="block text-xs sm:text-sm font-medium text-charcoal-500 mb-1.5 sm:mb-2"><T>
                       Message *
-                    </label>
+                    </T></label>
                     <textarea
                       id="contact-message"
                       name="message"
@@ -209,7 +214,7 @@ export default function ContactClient() {
                       required
                       rows={5}
                       className="w-full px-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm resize-none"
-                      placeholder="Your message..."
+                      placeholder={translate("Your message...")}
                     />
                   </div>
 
@@ -219,9 +224,9 @@ export default function ContactClient() {
                     className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm disabled:opacity-50"
                   >
                     <Send size={16} />
-                    {loading ? "Sending..." : "Send Message"}
+                    <T>{loading ? "Sending..." : "Send Message"}</T>
                   </button>
-                </form>
+                </LocalizedForm>
               )}
             </div>
 
@@ -235,35 +240,35 @@ export default function ContactClient() {
 
               {/* Email */}
               <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
-                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">
+                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1"><T>
                   Email Support
-                </h3>
-                <p className="text-charcoal-300 text-xs leading-relaxed mb-3">
+                </T></h3>
+                <p className="text-charcoal-300 text-xs leading-relaxed mb-3"><T>
                   Reach out to us via email for any inquiries or support.
-                </p>
+                </T></p>
                 <a
                   href="mailto:info@taseescircle.com"
                   className="text-gold font-semibold text-xs sm:text-sm hover:underline"
-                >
+                ><T>
                   info@taseescircle.com
-                </a>
+                </T></a>
               </div>
 
               {/* Social Channels */}
               <div className="bg-beige-50 rounded-2xl p-5 sm:p-6 border border-beige-100">
-                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">
+                <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1"><T>
                   Social Channels
-                </h3>
-                <p className="text-charcoal-300 text-xs leading-relaxed mb-4">
+                </T></h3>
+                <p className="text-charcoal-300 text-xs leading-relaxed mb-4"><T>
                   Follow our official channels for daily knowledge and updates.
-                </p>
+                </T></p>
                 <div className="flex items-center gap-3">
                   <a
                     href={SOCIAL_LINKS.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
-                    aria-label="Facebook"
+                    aria-label={translate("Facebook")}
                   >
                     <FacebookIcon size={18} />
                   </a>
@@ -272,7 +277,7 @@ export default function ContactClient() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
-                    aria-label="Instagram"
+                    aria-label={translate("Instagram")}
                   >
                     <InstagramIcon size={18} />
                   </a>
@@ -281,7 +286,7 @@ export default function ContactClient() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
-                    aria-label="YouTube"
+                    aria-label={translate("YouTube")}
                   >
                     <YoutubeIcon size={18} />
                   </a>
@@ -290,7 +295,7 @@ export default function ContactClient() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-white border border-beige-200 flex items-center justify-center text-charcoal-500 hover:bg-gold hover:text-white transition-colors"
-                    aria-label="WhatsApp"
+                    aria-label={translate("WhatsApp")}
                   >
                     <WhatsAppIcon size={18} />
                   </a>

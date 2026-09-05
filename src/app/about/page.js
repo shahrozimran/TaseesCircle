@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import AboutClient from "./AboutClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "About Us — Founder & Mission",
   description:
     "Founded in August 2026 by Muhammad Maqbool Ahmed Khan, Ta'sees Circle introduces an authentic Islamic lifestyle model for Muslims in Pakistan, Canada, and worldwide.",
@@ -53,3 +54,5 @@ export default function AboutPage() {
     </>
   );
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

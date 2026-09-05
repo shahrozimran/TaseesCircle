@@ -1,9 +1,13 @@
 "use client";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import T from "@/components/i18n/T";
+
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 function CounterItem({ label, value, suffix }) {
+  const { t: translate, dateLocale } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [count, setCount] = useState(0);
@@ -30,10 +34,10 @@ function CounterItem({ label, value, suffix }) {
   return (
     <div ref={ref} className="text-center">
       <div className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-gold mb-2">
-        {count.toLocaleString()}
-        {suffix}
+        <T>{count.toLocaleString(dateLocale)}</T>
+        <T>{suffix}</T>
       </div>
-      <div className="text-sm sm:text-base text-charcoal-300 font-medium">{label}</div>
+      <div className="text-sm sm:text-base text-charcoal-300 font-medium"><T>{label}</T></div>
     </div>
   );
 }

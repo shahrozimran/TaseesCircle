@@ -1,4 +1,7 @@
 "use client";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import T from "@/components/i18n/T";
+
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -51,9 +54,9 @@ export default function AdminLayout({ children }) {
     <div className="min-h-screen bg-charcoal-50 flex">
       {/* Admin Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-charcoal-600 text-white z-40 transform transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 flex flex-col`}
+        className={`fixed top-0 start-0 h-full w-64 bg-charcoal-600 text-white z-40 transform transition-transform duration-300 ${
+          sidebarOpen ? "translate-x-0" : "invisible lg:visible -translate-x-full rtl:translate-x-full"
+        } lg:translate-x-0 lg:rtl:translate-x-0 flex flex-col`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-white/10">
@@ -62,8 +65,8 @@ export default function AdminLayout({ children }) {
               <Shield size={16} className="text-white" />
             </div>
             <div>
-              <span className="font-heading font-bold text-sm text-white">Admin Panel</span>
-              <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase">{SITE_NAME}</span>
+              <span className="font-heading font-bold text-sm text-white"><T>Admin Panel</T></span>
+              <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>{SITE_NAME}</T></span>
             </div>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 text-white/60">
@@ -89,7 +92,7 @@ export default function AdminLayout({ children }) {
                   }`}
                 >
                   <Icon size={18} />
-                  {link.label}
+                  <T>{link.label}</T>
                 </Link>
               );
             })}
@@ -98,9 +101,9 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 min-h-screen lg:ml-64">
+      <div className="min-w-0 flex-1 min-h-screen lg:ms-64">
         {/* Top Bar */}
-        <header className="fixed top-0 right-0 left-0 lg:left-64 z-20 bg-white/95 backdrop-blur-md border-b border-beige-200 px-4 sm:px-6 lg:px-8 py-3">
+        <header className="fixed top-0 end-0 start-0 lg:start-64 z-20 bg-white/95 backdrop-blur-md border-b border-beige-200 px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button
@@ -110,14 +113,15 @@ export default function AdminLayout({ children }) {
                 <LayoutDashboard size={20} />
               </button>
               <div>
-                <span className="inline-block px-2 py-0.5 text-[10px] font-bold text-red-600 bg-red-50 rounded-full uppercase">
+                <span className="inline-block px-2 py-0.5 text-[10px] font-bold text-red-600 bg-red-50 rounded-full uppercase"><T>
                   Admin
-                </span>
+                </T></span>
                 <p className="text-sm font-semibold text-charcoal-600 mt-0.5">
                   {profile?.full_name || user?.email}
                 </p>
               </div>
             </div>
+            <LanguageSwitcher compact />
           </div>
         </header>
 

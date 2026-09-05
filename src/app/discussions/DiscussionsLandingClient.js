@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -82,20 +84,20 @@ export default function DiscussionsLandingClient() {
                       {/* Top Header Badge */}
                       <div className="flex items-center justify-between mb-4">
                         <span className="inline-block px-3.5 py-1 rounded-full text-xs font-semibold bg-white/15 text-white backdrop-blur-md border border-white/20">
-                          {comm.badge}
+                          <T>{comm.badge}</T>
                         </span>
                         <span className="text-gold-light text-xs font-medium bg-gold/10 px-3 py-1 rounded-full">
-                          {comm.count}
+                          <T>{comm.count}</T>
                         </span>
                       </div>
 
                       {/* Main Title */}
                       <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white mb-3 group-hover:text-gold-light transition-colors">
-                        {comm.title}
+                        <T>{comm.title}</T>
                       </h3>
 
                       <p className="text-white/80 text-xs sm:text-sm leading-relaxed mb-6">
-                        {comm.description}
+                        <T>{comm.description}</T>
                       </p>
 
                       {/* Topic Tags */}
@@ -106,7 +108,7 @@ export default function DiscussionsLandingClient() {
                             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-white/10 text-white/90 border border-white/10"
                           >
                             <Hash size={10} className="text-gold-light" />
-                            {t}
+                            <T>{t}</T>
                           </span>
                         ))}
                       </div>
@@ -114,7 +116,7 @@ export default function DiscussionsLandingClient() {
 
                     {/* CTA Button */}
                     <div className="pt-4 border-t border-white/10 flex items-center justify-between text-gold-light font-semibold text-sm group-hover:text-white transition-colors">
-                      <span>{comm.cta}</span>
+                      <span><T>{comm.cta}</T></span>
                       <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center group-hover:bg-gold transition-colors">
                         <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform text-white" />
                       </div>
@@ -157,15 +159,15 @@ export default function DiscussionsLandingClient() {
             <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-4">
               <BookOpen size={22} className="text-gold" />
             </div>
-            <p dir="rtl" className="text-xl sm:text-2xl md:text-3xl font-arabic text-white/95 leading-loose mb-3">
+            <p dir="rtl" lang="ar" translate="no" className="text-xl sm:text-2xl md:text-3xl font-arabic text-white/95 leading-loose mb-3">
               &ldquo;وَقُل رَّبِّ زِدْنِي عِلْمًا&rdquo;
             </p>
-            <p className="text-white/80 text-sm sm:text-base italic mb-2">
+            <p className="text-white/80 text-sm sm:text-base italic mb-2"><T>
               &ldquo;And say: My Lord, increase me in knowledge.&rdquo;
-            </p>
-            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
+            </T></p>
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide"><T>
               — Surah Taha (20:114)
-            </p>
+            </T></p>
           </motion.div>
         </div>
       </section>

@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import T from "@/components/i18n/T";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -73,6 +77,7 @@ export default function AdminLoginClient() {
   if (loading) {
     return (
       <div className="min-h-screen bg-charcoal-600 flex items-center justify-center">
+      <div className="absolute top-4 end-4"><LanguageSwitcher dark /></div>
         <div className="animate-pulse flex flex-col items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-charcoal-400" />
           <div className="h-3 w-28 bg-charcoal-400 rounded" />
@@ -83,6 +88,7 @@ export default function AdminLoginClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-charcoal-600 via-charcoal-500 to-charcoal-600 flex items-center justify-center p-4">
+      <div className="absolute top-4 end-4 z-20"><LanguageSwitcher dark /></div>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -106,12 +112,12 @@ export default function AdminLoginClient() {
             <div className="w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
               <Shield size={28} className="text-red-400" />
             </div>
-            <h1 className="font-heading font-bold text-white text-xl sm:text-2xl">
+            <h1 className="font-heading font-bold text-white text-xl sm:text-2xl"><T>
               Admin Authentication
-            </h1>
-            <p className="text-white/40 text-xs sm:text-sm mt-1">
+            </T></h1>
+            <p className="text-white/40 text-xs sm:text-sm mt-1"><T>
               Super Admin Database Access
-            </p>
+            </T></p>
           </div>
 
           {/* Error */}
@@ -122,46 +128,46 @@ export default function AdminLoginClient() {
               className="mb-6 p-3.5 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-2"
             >
               <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-red-300">{error}</p>
+              <p className="text-xs text-red-300"><T>{error}</T></p>
             </motion.div>
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleAdminLogin} className="space-y-4">
+          <LocalizedForm onSubmit={handleAdminLogin} className="space-y-4">
             <div>
-              <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5"><T>
                 Username
-              </label>
-              <div className="relative">
-                <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20" />
+              </T></label>
+              <div className="relative" dir="ltr">
+                <User size={16} className="absolute start-3.5 top-1/2 -translate-y-1/2 text-white/20" />
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+                  className="w-full ps-10 pe-4 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-medium text-white/50 uppercase tracking-wider mb-1.5"><T>
                 Password
-              </label>
-              <div className="relative">
-                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20" />
+              </T></label>
+              <div className="relative" dir="ltr">
+                <Lock size={16} className="absolute start-3.5 top-1/2 -translate-y-1/2 text-white/20" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-12 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
+                  className="w-full ps-10 pe-12 py-3 bg-white/[0.06] border border-white/10 rounded-xl text-sm text-white focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/40 transition-colors"
+                  className="absolute end-3.5 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/40 transition-colors"
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -176,20 +182,20 @@ export default function AdminLoginClient() {
               {submitting ? (
                 <Loader2 size={16} className="animate-spin" />
               ) : (
-                <>
+                <><T>
                   Log In to Admin Dashboard
-                  <ArrowRight size={16} />
+                  </T><ArrowRight size={16} />
                 </>
               )}
             </button>
-          </form>
+          </LocalizedForm>
 
           {/* Footer Notice */}
-          <p className="text-center text-[10px] text-white/20 mt-8 leading-relaxed">
+          <p className="text-center text-[10px] text-white/20 mt-8 leading-relaxed"><T>
             Strict Database Verification Enforced.
-            <br />
+            </T><br /><T>
             Only specified Super Admin credentials can access.
-          </p>
+          </T></p>
         </div>
 
         {/* Back to site link */}
@@ -197,9 +203,9 @@ export default function AdminLoginClient() {
           <a
             href="/"
             className="text-xs text-white/30 hover:text-white/50 transition-colors"
-          >
+          ><T>
             ← Back to Ta&apos;sees Circle
-          </a>
+          </T></a>
         </div>
       </motion.div>
     </div>

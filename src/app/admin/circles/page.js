@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -8,6 +11,7 @@ import Link from "next/link";
 import { CircleDot, Users, MapPin, Eye, ChevronDown, ChevronUp, ArrowRight, Shield } from "lucide-react";
 
 export default function AdminCirclesPage() {
+  const { t: translate , dateLocale} = useLanguage();
   const { user } = useAuth();
   const [circles, setCircles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,10 +69,10 @@ export default function AdminCirclesPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">All Circles</h1>
-        <p className="text-sm text-charcoal-300 mt-1">
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>All Circles</T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>
           Browse all circles and click on any circle for complete management access (feeds, prayer check-ins, members, tools)
-        </p>
+        </T></p>
       </motion.div>
 
       {loading ? (
@@ -80,8 +84,8 @@ export default function AdminCirclesPage() {
       ) : circles.length === 0 ? (
         <div className="bg-white rounded-2xl border border-beige-200 p-12 text-center">
           <CircleDot size={40} className="text-beige-300 mx-auto mb-3" />
-          <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1">No Circles Yet</h3>
-          <p className="text-sm text-charcoal-300">Circles are created when a masjid is approved.</p>
+          <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1"><T>No Circles Yet</T></h3>
+          <p className="text-sm text-charcoal-300"><T>Circles are created when a masjid is approved.</T></p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -106,19 +110,19 @@ export default function AdminCirclesPage() {
                   </div>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
                     <MapPin size={13} className="text-gold" /> {circle.masjids?.area}, {circle.masjids?.city},{" "}
-                    {circle.masjids?.country}
+                    <T>{circle.masjids?.country}</T>
                   </p>
                   <div className="flex flex-wrap items-center gap-4 mt-3">
                     <span className="text-xs text-charcoal-400 font-medium flex items-center gap-1 bg-beige-50 px-2.5 py-1 rounded-md border border-beige-200">
-                      <Users size={13} className="text-gold" /> {circle.masjids?.member_count || 0} members
-                    </span>
+                      <Users size={13} className="text-gold" /> <T>{circle.masjids?.member_count || 0} members
+                    </T></span>
                     {circle.masjids?.unique_code && (
-                      <span className="text-xs text-charcoal-500 font-mono font-bold bg-beige-50 px-2.5 py-1 rounded-md border border-beige-200">
-                        Code: {circle.masjids.unique_code}
+                      <span className="text-xs text-charcoal-500 font-mono font-bold bg-beige-50 px-2.5 py-1 rounded-md border border-beige-200"><T>
+                        Code: </T>{circle.masjids.unique_code}
                       </span>
                     )}
-                    <span className="text-xs text-charcoal-300">
-                      Created by: <strong className="text-charcoal-500">{circle.masjids?.profiles?.full_name || "Unknown"}</strong>
+                    <span className="text-xs text-charcoal-300"><T>
+                      Created by: </T><strong className="text-charcoal-500">{circle.masjids?.profiles?.full_name || <T>Unknown</T>}</strong>
                     </span>
                   </div>
                 </div>
@@ -129,13 +133,13 @@ export default function AdminCirclesPage() {
                     href={`/admin/circles/${circle.id}`}
                     className="flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm"
                   >
-                    <Shield size={13} /> View & Manage Circle <ArrowRight size={13} />
+                    <Shield size={13} /><T> View & Manage Circle </T><ArrowRight size={13} />
                   </Link>
 
                   {/* Toggle Quick Members Preview */}
                   <button
                     onClick={(e) => toggleExpand(e, circle.id, circle.masjids?.id)}
-                    title="Quick Preview Members"
+                    title={translate("Quick Preview Members")}
                     className="p-2.5 rounded-xl border border-beige-200 bg-beige-50 hover:bg-beige-100 text-charcoal-400 transition-colors"
                   >
                     {expandedCircle === circle.id ? (
@@ -156,7 +160,7 @@ export default function AdminCirclesPage() {
                 >
                   {circleMembers[circle.id] ? (
                     circleMembers[circle.id].length === 0 ? (
-                      <div className="p-6 text-center text-sm text-charcoal-300">No members in this circle yet</div>
+                      <div className="p-6 text-center text-sm text-charcoal-300"><T>No members in this circle yet</T></div>
                     ) : (
                       <div className="divide-y divide-beige-100">
                         {circleMembers[circle.id].map((member) => (
@@ -164,7 +168,7 @@ export default function AdminCirclesPage() {
                             {member.profiles?.avatar_url ? (
                               <img
                                 src={member.profiles.avatar_url}
-                                alt=""
+                                alt={translate("")}
                                 className="w-8 h-8 rounded-full object-cover shrink-0"
                               />
                             ) : (
@@ -187,10 +191,10 @@ export default function AdminCirclesPage() {
                                   : "bg-beige-100 text-charcoal-300"
                               }`}
                             >
-                              {member.role}
+                              <T>{member.role}</T>
                             </span>
                             <span className="text-[10px] text-charcoal-200">
-                              {new Date(member.joined_at).toLocaleDateString()}
+                              <T>{new Date(member.joined_at).toLocaleDateString(dateLocale)}</T>
                             </span>
                           </div>
                         ))}

@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -42,7 +44,7 @@ export default function Hero({
       />
 
       {/* Content */}
-      <div className={`section-container relative z-10 ${align === "center" ? "text-center" : "text-left"}`}>
+      <div className={`section-container relative z-10 ${align === "center" ? "text-center" : "text-start"}`}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,12 +58,12 @@ export default function Hero({
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-gold-light text-xs sm:text-sm md:text-base uppercase tracking-[0.2em] font-medium mb-3 sm:mb-4"
             >
-              {subtitle}
+              <T>{subtitle}</T>
             </motion.p>
           )}
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-white leading-tight mb-4 sm:mb-6">
-            {title}
+            <T>{title}</T>
           </h1>
 
           {description && (
@@ -71,7 +73,7 @@ export default function Hero({
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto"
             >
-              {description}
+              <T>{description}</T>
             </motion.p>
           )}
 
@@ -90,7 +92,7 @@ export default function Hero({
                   href={primaryCTA.href}
                   className="w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-xl hover:scale-[1.03] transition-all text-sm sm:text-base text-center"
                 >
-                  {primaryCTA.label}
+                  <T>{primaryCTA.label}</T>
                 </Link>
               )}
               {secondaryCTA && (
@@ -98,7 +100,7 @@ export default function Hero({
                   href={secondaryCTA.href}
                   className="w-full sm:w-auto px-8 py-3.5 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 hover:border-white/50 transition-all text-sm sm:text-base text-center"
                 >
-                  {secondaryCTA.label}
+                  <T>{secondaryCTA.label}</T>
                 </Link>
               )}
             </motion.div>

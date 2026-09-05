@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -38,15 +40,11 @@ export default function AboutClient() {
                 transition={{ duration: 0.6 }}
                 className="space-y-4 sm:space-y-6 text-charcoal-400 leading-relaxed text-sm sm:text-base"
               >
-                <p>
-                  In <strong>August 2026</strong>, <strong>Muhammad Maqbool Ahmed Khan</strong> founded <strong>Ta'sees Circle</strong> to address a pressing reality facing Muslims today: the growing gap between everyday life and authentic Islamic principles. In an era dominated by interest-based economics, workplace compromises, and cultural confusion, Muslims in Pakistan, Canada, and around the globe need clear, actionable guidance on how to live strictly according to Islam.
-                </p>
-                <p>
-                  Ta'sees Circle was established as an independent digital mission — led with personal commitment without corporate agendas or commercial motives. The platform serves as a beacon of authentic knowledge, offering detailed discussions on earning <em>Rizq e Halal</em>, obtaining riba-free mortgages, maintaining Islamic workplace ethics, and raising children with strong Islamic identity.
-                </p>
-                <p>
+                <p><T message="In {date}, {founder} founded {site} to address a pressing reality facing Muslims today: the growing gap between everyday life and authentic Islamic principles. In an era dominated by interest-based economics, workplace compromises, and cultural confusion, Muslims in Pakistan, Canada, and around the globe need clear, actionable guidance on how to live strictly according to Islam." values={{ date: <strong><T>August 2026</T></strong>, founder: <strong><T>Muhammad Maqbool Ahmed Khan</T></strong>, site: <strong><T>Ta&apos;sees Circle</T></strong> }} /></p>
+                <p><T message="Ta'sees Circle was established as an independent digital mission — led with personal commitment without corporate agendas or commercial motives. The platform serves as a beacon of authentic knowledge, offering detailed discussions on earning {rizq}, obtaining riba-free mortgages, maintaining Islamic workplace ethics, and raising children with strong Islamic identity." values={{ rizq: <em><T>Rizq e Halal</T></em> }} /></p>
+                <p><T>
                   Every piece of content, discussion paper, and guide published on Ta'sees Circle is grounded in verified Quranic verses and authentic Hadith narrations. This is not just a website; it is an invitation for every Muslim to embrace Islam fully in their daily life, business, and family.
-                </p>
+                </T></p>
               </motion.div>
             </div>
           </div>
@@ -71,32 +69,32 @@ export default function AboutClient() {
           >
             {/* Avatar / Icon Badge */}
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-gold flex items-center justify-center text-white shrink-0 shadow-lg border-4 border-white">
-              <span className="font-heading font-bold text-3xl sm:text-4xl">MK</span>
+              <span className="font-heading font-bold text-3xl sm:text-4xl"><T>MK</T></span>
             </div>
 
             {/* Content */}
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 text-center md:text-start">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <div>
                   <h3 className="font-heading font-bold text-charcoal-600 text-2xl sm:text-3xl">
-                    {founderInfo.name}
+                    <T>{founderInfo.name}</T>
                   </h3>
                   <p className="text-gold font-semibold text-sm sm:text-base">
-                    {founderInfo.role} • <span className="text-charcoal-300 font-normal">Founded {founderInfo.foundedDate}</span>
+                    <T>{founderInfo.role}</T> • <span className="text-charcoal-300 font-normal"><T>Founded {founderInfo.foundedDate}</T></span>
                   </p>
                 </div>
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-islamic-green/10 text-islamic-green border border-islamic-green/20 self-center sm:self-auto">
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-islamic-green/10 text-islamic-green border border-islamic-green/20 self-center sm:self-auto"><T>
                   Sole Founder & Leader
-                </span>
+                </T></span>
               </div>
 
               <p className="text-charcoal-400 text-xs sm:text-sm leading-relaxed mb-5">
-                {founderInfo.bio}
+                <T>{founderInfo.bio}</T>
               </p>
 
               {/* Founder Quote */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-beige-50 border border-beige-200 text-charcoal-500 text-xs sm:text-sm italic leading-relaxed border-l-4 border-l-gold">
-                &ldquo;{founderInfo.quote}&rdquo;
+              <div className="p-4 sm:p-5 rounded-2xl bg-beige-50 border border-beige-200 text-charcoal-500 text-xs sm:text-sm italic leading-relaxed border-s-4 border-s-gold">
+                &ldquo;<T>{founderInfo.quote}</T>&rdquo;
               </div>
             </div>
           </motion.div>
@@ -127,10 +125,10 @@ export default function AboutClient() {
                     <IconComponent size={24} className="text-gold sm:w-7 sm:h-7" />
                   </div>
                   <h3 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-2 sm:mb-3">
-                    {value.title}
+                    <T>{value.title}</T>
                   </h3>
                   <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
-                    {value.description}
+                    <T>{value.description}</T>
                   </p>
                 </motion.div>
               );
@@ -165,10 +163,10 @@ export default function AboutClient() {
                       <IconComponent size={22} className="text-gold" />
                     </div>
                     <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2">
-                      {pillar.title}
+                      <T>{pillar.title}</T>
                     </h3>
                     <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed mb-4">
-                      {pillar.description}
+                      <T>{pillar.description}</T>
                     </p>
                   </div>
 
@@ -176,7 +174,7 @@ export default function AboutClient() {
                     href="/discussions"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:text-gold-dark transition-colors mt-auto pt-2"
                   >
-                    <span>Get Involved</span>
+                    <span><T>Get Involved</T></span>
                     <Icons.ArrowRight size={13} />
                   </Link>
                 </motion.div>
@@ -195,15 +193,15 @@ export default function AboutClient() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-center md:text-left"
+              className="text-center md:text-start"
             >
-              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Vision</span>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
+              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium"><T>Our Vision</T></span>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4"><T>
                 A United Ummah Living True Islam
-              </h3>
-              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
+              </T></h3>
+              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed"><T>
                 We envision a global Muslim community that holds firmly to the Quran and Sunnah, where every household thrives on halal income, strong spiritual bonds, and unwavering faith.
-              </p>
+              </T></p>
             </motion.div>
 
             <motion.div
@@ -211,15 +209,15 @@ export default function AboutClient() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center md:text-left"
+              className="text-center md:text-start"
             >
-              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">Our Mission</span>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4">
+              <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium"><T>Our Mission</T></span>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white mt-2 sm:mt-3 mb-3 sm:mb-4"><T>
                 Educate, Connect, Support
-              </h3>
-              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
+              </T></h3>
+              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed"><T>
                 Ta'sees Circle provides authenticated knowledge discussions, practical fiqh solutions for daily life, and an open digital platform where Muslims in Pakistan, Canada, and beyond can learn and grow together.
-              </p>
+              </T></p>
             </motion.div>
           </div>
         </div>

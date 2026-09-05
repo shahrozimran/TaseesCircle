@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -97,8 +99,8 @@ export default function AdminOverviewPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">Admin Overview</h1>
-        <p className="text-sm text-charcoal-300 mt-1">Platform-wide statistics and quick actions</p>
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>Admin Overview</T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>Platform-wide statistics and quick actions</T></p>
       </motion.div>
 
       {/* Stats Grid */}
@@ -118,8 +120,8 @@ export default function AdminOverviewPage() {
                 <stat.icon size={18} className={stat.color.split(" ")[1]} />
               </div>
             </div>
-            <p className="text-2xl font-bold text-charcoal-600">{stat.value}</p>
-            <p className="text-xs text-charcoal-300 mt-0.5">{stat.label}</p>
+            <p className="text-2xl font-bold text-charcoal-600"><T>{stat.value}</T></p>
+            <p className="text-xs text-charcoal-300 mt-0.5"><T>{stat.label}</T></p>
           </motion.div>
         ))}
       </div>
@@ -135,8 +137,8 @@ export default function AdminOverviewPage() {
               <CheckCircle size={18} className="text-amber-600" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-charcoal-600">Masjid Approvals</p>
-              <p className="text-xs text-charcoal-300">{stats.pendingApprovals} pending</p>
+              <p className="text-sm font-semibold text-charcoal-600"><T>Masjid Approvals</T></p>
+              <p className="text-xs text-charcoal-300"><T>{stats.pendingApprovals} pending</T></p>
             </div>
           </div>
           <ArrowRight size={16} className="text-charcoal-300 group-hover:text-gold transition-colors" />
@@ -151,8 +153,8 @@ export default function AdminOverviewPage() {
               <Ticket size={18} className="text-red-600" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-charcoal-600">Support Tickets</p>
-              <p className="text-xs text-charcoal-300">{stats.openTickets} open</p>
+              <p className="text-sm font-semibold text-charcoal-600"><T>Support Tickets</T></p>
+              <p className="text-xs text-charcoal-300"><T>{stats.openTickets} open</T></p>
             </div>
           </div>
           <ArrowRight size={16} className="text-charcoal-300 group-hover:text-gold transition-colors" />
@@ -163,8 +165,8 @@ export default function AdminOverviewPage() {
       {recentApprovals.length > 0 && (
         <div className="bg-white rounded-2xl border border-beige-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-beige-100 flex items-center justify-between">
-            <h3 className="text-sm font-bold text-charcoal-600">Recent Pending Masjids</h3>
-            <Link href="/admin/approvals" className="text-xs text-gold font-medium">View All →</Link>
+            <h3 className="text-sm font-bold text-charcoal-600"><T>Recent Pending Masjids</T></h3>
+            <Link href="/admin/approvals" className="text-xs text-gold font-medium"><T>View All →</T></Link>
           </div>
           <div className="divide-y divide-beige-50">
             {recentApprovals.map((masjid) => (
@@ -172,12 +174,12 @@ export default function AdminOverviewPage() {
                 <div>
                   <p className="text-sm font-medium text-charcoal-600">{masjid.name}</p>
                   <p className="text-[11px] text-charcoal-300">
-                    {masjid.city}, {masjid.country} · by {masjid.profiles?.full_name || "Unknown"}
+                    {masjid.city}, <T>{masjid.country} · by </T>{masjid.profiles?.full_name || <T>Unknown</T>}
                   </p>
                 </div>
-                <span className="px-2.5 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full uppercase">
+                <span className="px-2.5 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full uppercase"><T>
                   Pending
-                </span>
+                </T></span>
               </div>
             ))}
           </div>

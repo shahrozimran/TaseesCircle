@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect, useCallback, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,21 +35,21 @@ function RoleBadge({ role }) {
   if (role === "admin") {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
-        <Crown size={9} /> Circle Admin
-      </span>
+        <Crown size={9} /><T> Circle Admin
+      </T></span>
     );
   }
   if (role === "moderator") {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase tracking-wide">
-        <Shield size={9} /> Mod
-      </span>
+        <Shield size={9} /><T> Mod
+      </T></span>
     );
   }
   return (
-    <span className="px-2.5 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase tracking-wide">
+    <span className="px-2.5 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase tracking-wide"><T>
       Member
-    </span>
+    </T></span>
   );
 }
 
@@ -61,6 +65,7 @@ function Avatar({ src, name, size = "md" }) {
 }
 
 export default function AdminCircleDetailPage({ params }) {
+  const { t: translate , dateLocale} = useLanguage();
   const resolvedParams = use(params);
   const circleId = resolvedParams.id;
   const { user } = useAuth();
@@ -202,7 +207,7 @@ export default function AdminCircleDetailPage({ params }) {
         setPostPinned(false);
         setShowCompose(false);
       } else if (error) {
-        alert("Failed to create post: " + error.message);
+        alert(translate("Failed to create post: " + error.message));
       }
     } finally {
       setPosting(false);
@@ -231,7 +236,7 @@ export default function AdminCircleDetailPage({ params }) {
 
   // Handle Delete Post
   const handleDeletePost = async (postId) => {
-    if (!confirm("Are you sure you want to delete this post as Super Admin?")) return;
+    if (!confirm(translate("Are you sure you want to delete this post as Super Admin?"))) return;
     setDeletingPostId(postId);
 
     const supabase = createClient();
@@ -240,7 +245,7 @@ export default function AdminCircleDetailPage({ params }) {
       if (!error) {
         setPosts((prev) => prev.filter((p) => p.id !== postId));
       } else {
-        alert("Failed to delete post: " + error.message);
+        alert(translate("Failed to delete post: " + error.message));
       }
     }
     setDeletingPostId(null);
@@ -262,7 +267,7 @@ export default function AdminCircleDetailPage({ params }) {
       });
 
       if (error || data?.success === false) {
-        alert(error?.message || data?.error || "Failed to update role");
+        alert(translate(error?.message || data?.error || "Failed to update role"));
         setUpdatingMemberId(null);
         return;
       }
@@ -309,7 +314,7 @@ export default function AdminCircleDetailPage({ params }) {
 
   // Handle Remove Member — guarded against deleting sole leader
   const handleRemoveMember = async (memberId, memberName) => {
-    if (!confirm(`Are you sure you want to remove ${memberName} from this circle?`)) return;
+    if (!confirm(translate(`Are you sure you want to remove ${memberName} from this circle?`))) return;
     setUpdatingMemberId(memberId);
     const supabase = createClient();
     if (supabase) {
@@ -317,7 +322,7 @@ export default function AdminCircleDetailPage({ params }) {
       if (!error) {
         setMembers((prev) => prev.filter((m) => m.id !== memberId));
       } else {
-        alert(error.message || "Failed to remove member. A circle must always have at least 1 Admin or Moderator.");
+        alert(translate(error.message || "Failed to remove member. A circle must always have at least 1 Admin or Moderator."));
       }
     }
     setUpdatingMemberId(null);
@@ -353,14 +358,14 @@ export default function AdminCircleDetailPage({ params }) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
         <CircleDot size={40} className="text-beige-300 mx-auto mb-3" />
-        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2">Circle Not Found</h2>
-        <p className="text-sm text-charcoal-300 mb-6">This circle could not be located or does not exist.</p>
+        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2"><T>Circle Not Found</T></h2>
+        <p className="text-sm text-charcoal-300 mb-6"><T>This circle could not be located or does not exist.</T></p>
         <Link
           href="/admin/circles"
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 transition-all"
         >
-          <ArrowLeft size={16} /> Back to All Circles
-        </Link>
+          <ArrowLeft size={16} /><T> Back to All Circles
+        </T></Link>
       </div>
     );
   }
@@ -413,16 +418,16 @@ export default function AdminCircleDetailPage({ params }) {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* ── Top Navigation & Back Button ──────────────────────────────── */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/circles"
           className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal-400 hover:text-charcoal-600 transition-colors"
         >
-          <ArrowLeft size={16} /> Back to All Circles
-        </Link>
+          <ArrowLeft size={16} /><T> Back to All Circles
+        </T></Link>
         <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded-full uppercase border border-red-200">
-          <Shield size={12} /> Super Admin Control
-        </span>
+          <Shield size={12} /><T> Super Admin Control
+        </T></span>
       </div>
 
       {/* ── Hero Banner ─────────────────────────────────────────────────── */}
@@ -444,36 +449,36 @@ export default function AdminCircleDetailPage({ params }) {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <CircleDot size={18} className="text-gold" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-gold">
+              <span className="text-xs font-semibold uppercase tracking-widest text-gold"><T>
                 Super Admin Circle Dashboard
-              </span>
+              </T></span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-heading font-bold leading-tight">
               {circle.name || masjid?.name}
             </h1>
             <p className="text-sm text-white/70 flex items-center gap-1.5 mt-2">
-              <MapPin size={14} className="text-gold" /> {masjid?.area}, {masjid?.city}, {masjid?.country}
+              <MapPin size={14} className="text-gold" /> {masjid?.area}, {masjid?.city}, <T>{masjid?.country}</T>
             </p>
 
             <div className="flex flex-wrap items-center gap-5 mt-5">
               <span className="flex items-center gap-1.5 text-xs text-white/80 font-medium bg-white/10 px-3 py-1.5 rounded-lg border border-white/10">
-                <Users size={14} className="text-gold" /> {members.length} Members
-              </span>
+                <Users size={14} className="text-gold" /> <T>{members.length} Members
+              </T></span>
               <span className="flex items-center gap-1.5 text-xs text-white/80 font-medium bg-white/10 px-3 py-1.5 rounded-lg border border-white/10">
-                <FileText size={14} className="text-gold" /> {posts.length} Posts
-              </span>
+                <FileText size={14} className="text-gold" /> <T>{posts.length} Posts
+              </T></span>
               <span className="flex items-center gap-1.5 text-xs text-white/80 font-medium bg-white/10 px-3 py-1.5 rounded-lg border border-white/10">
-                <CheckCircle2 size={14} className="text-emerald-400" /> {reportsForDate.length} Check-ins Today
-              </span>
+                <CheckCircle2 size={14} className="text-emerald-400" /> <T>{reportsForDate.length} Check-ins Today
+              </T></span>
             </div>
           </div>
 
           {/* Unique Code Card */}
           {masjid?.unique_code && (
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 min-w-[200px] shrink-0 border border-white/15 shadow-inner">
-              <p className="text-[10px] uppercase tracking-widest text-white/60 font-semibold mb-1">
+              <p className="text-[10px] uppercase tracking-widest text-white/60 font-semibold mb-1"><T>
                 Circle Join Code
-              </p>
+              </T></p>
               <p className="text-2xl font-mono font-bold tracking-[0.2em] text-gold">
                 {masjid.unique_code}
               </p>
@@ -483,12 +488,12 @@ export default function AdminCircleDetailPage({ params }) {
                   className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-medium text-white transition-all border border-white/10"
                 >
                   {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
-                  {copied ? "Copied" : "Copy"}
+                  <T>{copied ? "Copied" : "Copy"}</T>
                 </button>
                 <button
                   onClick={shareWhatsApp}
                   className="flex items-center justify-center p-2 bg-[#25D366] hover:bg-[#1ebe57] rounded-lg text-white transition-all"
-                  title="Share on WhatsApp"
+                  title={translate("Share on WhatsApp")}
                 >
                   <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-white">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
@@ -517,8 +522,8 @@ export default function AdminCircleDetailPage({ params }) {
                 : "text-charcoal-400 hover:text-charcoal-600 hover:bg-beige-200/60"
             }`}
           >
-            {t.icon}
-            {t.label}
+            <T>{t.icon}</T>
+            <T>{t.label}</T>
           </button>
         ))}
       </div>
@@ -536,11 +541,11 @@ export default function AdminCircleDetailPage({ params }) {
                 <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center text-red-500 group-hover:bg-gold/10 group-hover:text-gold transition-colors">
                   <Plus size={18} />
                 </div>
-                <span className="font-medium">Post to this circle as Super Admin…</span>
+                <span className="font-medium"><T>Post to this circle as Super Admin…</T></span>
               </div>
-              <span className="text-xs bg-red-50 text-red-600 px-2.5 py-1 rounded-full font-bold uppercase border border-red-200">
+              <span className="text-xs bg-red-50 text-red-600 px-2.5 py-1 rounded-full font-bold uppercase border border-red-200"><T>
                 Super Admin
-              </span>
+              </T></span>
             </button>
           ) : (
             <motion.div
@@ -550,8 +555,8 @@ export default function AdminCircleDetailPage({ params }) {
             >
               <div className="flex items-center justify-between px-6 py-4 border-b border-beige-100 bg-beige-50">
                 <span className="text-sm font-bold text-charcoal-600 flex items-center gap-2">
-                  <Shield size={14} className="text-red-500" /> New Super Admin Post
-                </span>
+                  <Shield size={14} className="text-red-500" /><T> New Super Admin Post
+                </T></span>
                 <button
                   onClick={() => setShowCompose(false)}
                   className="p-1 rounded-lg hover:bg-beige-200 transition-colors"
@@ -559,19 +564,19 @@ export default function AdminCircleDetailPage({ params }) {
                   <X size={18} className="text-charcoal-400" />
                 </button>
               </div>
-              <form onSubmit={handleCreatePost} className="p-6 space-y-4">
+              <LocalizedForm onSubmit={handleCreatePost} className="p-6 space-y-4">
                 <input
                   type="text"
                   value={postTitle}
                   onChange={(e) => setPostTitle(e.target.value)}
-                  placeholder="Post title…"
+                  placeholder={translate("Post title…")}
                   required
                   className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none"
                 />
                 <textarea
                   value={postBody}
                   onChange={(e) => setPostBody(e.target.value)}
-                  placeholder="Write your post content for this circle…"
+                  placeholder={translate("Write your post content for this circle…")}
                   rows={4}
                   required
                   className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none resize-none"
@@ -585,7 +590,7 @@ export default function AdminCircleDetailPage({ params }) {
                     >
                       {Object.entries(CATEGORY_CONFIG).map(([k, v]) => (
                         <option key={k} value={k}>
-                          {v.label}
+                          <T>{v.label}</T>
                         </option>
                       ))}
                     </select>
@@ -596,28 +601,28 @@ export default function AdminCircleDetailPage({ params }) {
                         onChange={(e) => setPostPinned(e.target.checked)}
                         className="accent-gold w-4 h-4"
                       />
-                      <Pin size={13} className="text-gold" /> Pin post to top
-                    </label>
+                      <Pin size={13} className="text-gold" /><T> Pin post to top
+                    </T></label>
                   </div>
                   <div className="flex gap-2">
                     <button
                       type="button"
                       onClick={() => setShowCompose(false)}
                       className="px-4 py-2.5 text-xs text-charcoal-400 font-semibold hover:text-charcoal-600 rounded-lg"
-                    >
+                    ><T>
                       Cancel
-                    </button>
+                    </T></button>
                     <button
                       type="submit"
                       disabled={posting}
                       className="flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white text-xs font-bold rounded-xl hover:bg-red-700 transition-all disabled:opacity-50 shadow-md"
                     >
                       {posting ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-                      {posting ? "Publishing…" : "Publish Post"}
+                      <T>{posting ? "Publishing…" : "Publish Post"}</T>
                     </button>
                   </div>
                 </div>
-              </form>
+              </LocalizedForm>
             </motion.div>
           )}
 
@@ -625,10 +630,10 @@ export default function AdminCircleDetailPage({ params }) {
           {posts.length === 0 ? (
             <div className="bg-white rounded-2xl border border-beige-200 p-12 text-center">
               <FileText size={40} className="text-beige-300 mx-auto mb-3" />
-              <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">No Posts in Circle</h3>
-              <p className="text-sm text-charcoal-300">
+              <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1"><T>No Posts in Circle</T></h3>
+              <p className="text-sm text-charcoal-300"><T>
                 Create a new post above to share announcements or updates with this circle.
-              </p>
+              </T></p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -650,15 +655,15 @@ export default function AdminCircleDetailPage({ params }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`bg-white rounded-2xl border border-beige-200 overflow-hidden hover:shadow-md transition-all ${
-                      post.is_pinned ? "border-l-4 border-l-gold" : ""
+                      post.is_pinned ? "border-s-4 border-s-gold" : ""
                     }`}
                   >
                     {post.is_pinned && (
                       <div className="flex items-center gap-1.5 px-6 py-2 bg-gold/10 border-b border-gold/20">
                         <Pin size={12} className="text-gold" />
-                        <span className="text-[11px] font-bold text-gold uppercase tracking-wider">
+                        <span className="text-[11px] font-bold text-gold uppercase tracking-wider"><T>
                           Pinned Post
-                        </span>
+                        </T></span>
                       </div>
                     )}
 
@@ -674,34 +679,34 @@ export default function AdminCircleDetailPage({ params }) {
                           )}
                           <div>
                             <div className="flex items-center gap-2">
-                              <p className="text-sm font-bold text-charcoal-600">{authorName}</p>
+                              <p className="text-sm font-bold text-charcoal-600"><T>{authorName}</T></p>
                               {isTaseesPost && (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
-                                  <Shield size={9} /> Official Announcement
-                                </span>
+                                  <Shield size={9} /><T> Official Announcement
+                                </T></span>
                               )}
                             </div>
                             <p className="text-[11px] text-charcoal-300 flex items-center gap-1 mt-0.5">
                               <Clock size={11} />
-                              {new Date(post.created_at).toLocaleDateString("en-PK", {
+                              <T>{new Date(post.created_at).toLocaleDateString(dateLocale, {
                                 day: "numeric",
                                 month: "short",
                                 year: "numeric",
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              })}
+                              })}</T>
                             </p>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-2">
                           <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border ${catCfg.color}`}>
-                            {catCfg.label}
+                            <T>{catCfg.label}</T>
                           </span>
                           {/* Super Admin Actions */}
                           <button
                             onClick={() => handleTogglePin(post)}
-                            title={post.is_pinned ? "Unpin Post" : "Pin Post"}
+                            title={translate(post.is_pinned ? "Unpin Post" : "Pin Post")}
                             className={`p-2 rounded-lg border transition-colors ${
                               post.is_pinned
                                 ? "bg-gold/10 text-gold border-gold/30"
@@ -713,7 +718,7 @@ export default function AdminCircleDetailPage({ params }) {
                           <button
                             onClick={() => handleDeletePost(post.id)}
                             disabled={deletingPostId === post.id}
-                            title="Delete Post (Super Admin)"
+                            title={translate("Delete Post (Super Admin)")}
                             className="p-2 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors disabled:opacity-50"
                           >
                             {deletingPostId === post.id ? (
@@ -737,7 +742,7 @@ export default function AdminCircleDetailPage({ params }) {
                               key={r.key}
                               className="px-2.5 py-1 bg-beige-50 rounded-full border border-beige-200 text-charcoal-500 font-medium"
                             >
-                              {r.emoji} {r.label} ({cnt})
+                              <T>{r.emoji}</T> <T>{r.label}</T> (<T>{cnt}</T>)
                             </span>
                           );
                         })}
@@ -755,20 +760,20 @@ export default function AdminCircleDetailPage({ params }) {
       {tab === "members" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
           <div className="relative">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-300" />
+            <Search size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-charcoal-300" />
             <input
               type="text"
               value={memberSearch}
               onChange={(e) => setMemberSearch(e.target.value)}
-              placeholder="Search members by name or email…"
-              className="w-full pl-11 pr-4 py-3.5 bg-white border border-beige-200 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-300 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none shadow-sm"
+              placeholder={translate("Search members by name or email…")}
+              className="w-full ps-11 pe-4 py-3.5 bg-white border border-beige-200 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-300 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none shadow-sm"
             />
           </div>
 
           <div className="bg-white rounded-2xl border border-beige-200 overflow-hidden shadow-sm">
             <div className="px-6 py-4 bg-beige-50 border-b border-beige-100 flex items-center justify-between">
               <span className="text-xs font-bold text-charcoal-400 uppercase tracking-wider">
-                Total {filteredMembers.length} Circle Member{filteredMembers.length !== 1 ? "s" : ""}
+                <T message={filteredMembers.length === 1 ? "Total {count} Circle Member" : "Total {count} Circle Members"} values={{ count: filteredMembers.length }} />
               </span>
             </div>
 
@@ -776,10 +781,10 @@ export default function AdminCircleDetailPage({ params }) {
               {filteredMembers.length === 0 ? (
                 <div className="p-12 text-center">
                   <Users size={32} className="text-beige-300 mx-auto mb-3" />
-                  <p className="text-sm font-semibold text-charcoal-400">No Members Yet</p>
-                  <p className="text-xs text-charcoal-300 mt-1">
+                  <p className="text-sm font-semibold text-charcoal-400"><T>No Members Yet</T></p>
+                  <p className="text-xs text-charcoal-300 mt-1"><T>
                     No one has joined this circle using the join code yet.
-                  </p>
+                  </T></p>
                 </div>
               ) : (
                 filteredMembers.map((member) => (
@@ -797,8 +802,8 @@ export default function AdminCircleDetailPage({ params }) {
                         <RoleBadge role={member.role} />
                       </div>
                       <p className="text-xs text-charcoal-300 truncate mt-0.5">{member.profiles?.email}</p>
-                      <p className="text-[11px] text-charcoal-200 mt-0.5">
-                        Joined {new Date(member.joined_at).toLocaleDateString()} • Method: {member.join_method || "code"}
+                      <p className="text-[11px] text-charcoal-200 mt-0.5"><T>
+                        Joined {new Date(member.joined_at).toLocaleDateString(dateLocale)} • Method: {member.join_method || "code"}</T>
                       </p>
                     </div>
                   </div>
@@ -809,8 +814,8 @@ export default function AdminCircleDetailPage({ params }) {
                       onClick={() => setSelectedMemberForHistory(member)}
                       className="flex items-center gap-1.5 px-3 py-1.5 bg-beige-100 hover:bg-beige-200 text-charcoal-600 text-xs font-semibold rounded-lg transition-colors border border-beige-200"
                     >
-                      <Eye size={13} className="text-islamic-green" /> View Prayer Log
-                    </button>
+                      <Eye size={13} className="text-islamic-green" /><T> View Prayer Log
+                    </T></button>
 
                     {member.profiles?.email !== "admin_access@taseescircle.com" && (
                       <>
@@ -821,16 +826,16 @@ export default function AdminCircleDetailPage({ params }) {
                           onChange={(e) => handleRoleChange(member.id, e.target.value)}
                           className="px-3 py-1.5 bg-white border border-beige-300 rounded-lg text-xs font-semibold text-charcoal-600 focus:border-gold outline-none"
                         >
-                          <option value="admin">Circle Admin</option>
-                          <option value="moderator">Moderator</option>
-                          <option value="member">Member</option>
+                          <option value="admin"><T>Circle Admin</T></option>
+                          <option value="moderator"><T>Moderator</T></option>
+                          <option value="member"><T>Member</T></option>
                         </select>
 
                         {/* Remove Member Button */}
                         <button
                           onClick={() => handleRemoveMember(member.id, member.profiles?.full_name)}
                           disabled={updatingMemberId === member.id}
-                          title="Remove Member from Circle"
+                          title={translate("Remove Member from Circle")}
                           className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg border border-red-200 transition-colors disabled:opacity-50"
                         >
                           <UserX size={15} />
@@ -854,12 +859,12 @@ export default function AdminCircleDetailPage({ params }) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h2 className="font-heading font-bold text-charcoal-600 text-lg flex items-center gap-2">
-                  <CheckCircle2 size={20} className="text-islamic-green" />
+                  <CheckCircle2 size={20} className="text-islamic-green" /><T>
                   Circle Member Prayer Check-Ins
-                </h2>
-                <p className="text-xs text-charcoal-300 mt-1">
+                </T></h2>
+                <p className="text-xs text-charcoal-300 mt-1"><T>
                   Monitor daily prayer completions and reflections for all members in this circle.
-                </p>
+                </T></p>
               </div>
 
               {/* Date Selector */}
@@ -873,9 +878,9 @@ export default function AdminCircleDetailPage({ params }) {
                 <button
                   onClick={() => setSelectedDate(new Date().toISOString().slice(0, 10))}
                   className="px-3 py-2 bg-beige-100 hover:bg-beige-200 text-charcoal-600 text-xs font-semibold rounded-xl transition-colors"
-                >
+                ><T>
                   Today
-                </button>
+                </T></button>
               </div>
             </div>
 
@@ -883,24 +888,24 @@ export default function AdminCircleDetailPage({ params }) {
             <div className="bg-gradient-to-r from-islamic-green/10 via-islamic-green/5 to-transparent rounded-xl p-5 border border-islamic-green/20">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-wider font-bold text-islamic-green">
-                    Circle Prayer Completion Rate ({selectedDate})
+                  <p className="text-xs uppercase tracking-wider font-bold text-islamic-green"><T>
+                    Circle Prayer Completion Rate ({selectedDate}</T>)
                   </p>
                   <p className="text-2xl font-bold text-charcoal-600 mt-1">
-                    {completionPercentage}%{" "}
+                    <T>{completionPercentage}</T>%{" "}
                     <span className="text-xs font-medium text-charcoal-300">
-                      ({totalPrayersCompleted} of {totalPossiblePrayers} total prayers logged)
+                      (<T message="{completed} of {total} total prayers logged" values={{ completed: totalPrayersCompleted, total: totalPossiblePrayers }} />)
                     </span>
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-center px-4 py-2 bg-white rounded-xl border border-beige-200">
-                    <p className="text-lg font-bold text-charcoal-600">{reportsForDate.length}</p>
-                    <p className="text-[10px] text-charcoal-300 font-semibold uppercase">Checked In</p>
+                    <p className="text-lg font-bold text-charcoal-600"><T>{reportsForDate.length}</T></p>
+                    <p className="text-[10px] text-charcoal-300 font-semibold uppercase"><T>Checked In</T></p>
                   </div>
                   <div className="text-center px-4 py-2 bg-white rounded-xl border border-beige-200">
-                    <p className="text-lg font-bold text-charcoal-600">{members.length - reportsForDate.length}</p>
-                    <p className="text-[10px] text-charcoal-300 font-semibold uppercase">Missing</p>
+                    <p className="text-lg font-bold text-charcoal-600"><T>{members.length - reportsForDate.length}</T></p>
+                    <p className="text-[10px] text-charcoal-300 font-semibold uppercase"><T>Missing</T></p>
                   </div>
                 </div>
               </div>
@@ -913,9 +918,9 @@ export default function AdminCircleDetailPage({ params }) {
                 const pct = members.length > 0 ? Math.round((count / members.length) * 100) : 0;
                 return (
                   <div key={p} className="bg-beige-50 rounded-xl p-3 border border-beige-200 text-center">
-                    <p className="text-xs font-bold text-charcoal-500 uppercase">{p}</p>
-                    <p className="text-xl font-bold text-islamic-green mt-1">{count} <span className="text-xs text-charcoal-300 font-normal">/ {members.length}</span></p>
-                    <p className="text-[10px] text-charcoal-300 font-medium mt-0.5">{pct}% members</p>
+                    <p className="text-xs font-bold text-charcoal-500 uppercase"><T>{p}</T></p>
+                    <p className="text-xl font-bold text-islamic-green mt-1"><T>{count}</T> <span className="text-xs text-charcoal-300 font-normal">/ <T>{members.length}</T></span></p>
+                    <p className="text-[10px] text-charcoal-300 font-medium mt-0.5"><T>{pct}% members</T></p>
                   </div>
                 );
               })}
@@ -935,7 +940,7 @@ export default function AdminCircleDetailPage({ params }) {
                       : "bg-white text-charcoal-400 border border-beige-200 hover:bg-beige-50"
                   }`}
                 >
-                  {f === "all" ? `All (${members.length})` : f === "checked" ? `Checked In (${reportsForDate.length})` : `Missing (${members.length - reportsForDate.length})`}
+                  <T>{f === "all" ? `All (${members.length})` : f === "checked" ? `Checked In (${reportsForDate.length})` : `Missing (${members.length - reportsForDate.length})`}</T>
                 </button>
               ))}
             </div>
@@ -945,7 +950,7 @@ export default function AdminCircleDetailPage({ params }) {
           <div className="bg-white rounded-2xl border border-beige-200 overflow-hidden shadow-sm">
             <div className="divide-y divide-beige-100">
               {membersForCheckin.length === 0 ? (
-                <div className="p-8 text-center text-sm text-charcoal-300">No members match this filter.</div>
+                <div className="p-8 text-center text-sm text-charcoal-300"><T>No members match this filter.</T></div>
               ) : (
                 membersForCheckin.map((member) => {
                   const report = reportsForDate.find((r) => r.user_id === member.profiles?.id);
@@ -957,7 +962,7 @@ export default function AdminCircleDetailPage({ params }) {
                       <div className="flex items-center gap-3.5">
                         <Avatar src={member.profiles?.avatar_url} name={member.profiles?.full_name} size="md" />
                         <div>
-                          <p className="text-sm font-bold text-charcoal-600">{member.profiles?.full_name || "Unknown User"}</p>
+                          <p className="text-sm font-bold text-charcoal-600">{member.profiles?.full_name || <T>Unknown User</T>}</p>
                           <p className="text-xs text-charcoal-300">{member.profiles?.email}</p>
                           {report?.ibadat_data?.reflection && (
                             <p className="text-xs text-charcoal-500 italic mt-1 bg-beige-50 px-3 py-1.5 rounded-lg border border-beige-200">
@@ -975,14 +980,14 @@ export default function AdminCircleDetailPage({ params }) {
                             return (
                               <span
                                 key={p}
-                                title={`${p}: ${isPrayed ? "Prayed" : "Not Prayed"}`}
+                                title={translate("{prayer}: {status}", { prayer: translate(p), status: translate(isPrayed ? "Prayed" : "Not Prayed") })}
                                 className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase transition-all ${
                                   isPrayed
                                     ? "bg-islamic-green text-white shadow-xs"
                                     : "bg-beige-100 text-charcoal-300"
                                 }`}
                               >
-                                {p}
+                                <T>{p}</T>
                               </span>
                             );
                           })}
@@ -997,7 +1002,7 @@ export default function AdminCircleDetailPage({ params }) {
                               : "bg-beige-100 text-charcoal-300"
                           }`}
                         >
-                          {prayedCount}/5
+                          <T>{prayedCount}</T>/5
                         </span>
                       </div>
                     </div>
@@ -1019,8 +1024,8 @@ export default function AdminCircleDetailPage({ params }) {
                 <Sparkles size={20} className="text-gold" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-charcoal-600">Circle Invite Code</h3>
-                <p className="text-xs text-charcoal-300">Share this code with community members to join this circle</p>
+                <h3 className="text-base font-bold text-charcoal-600"><T>Circle Invite Code</T></h3>
+                <p className="text-xs text-charcoal-300"><T>Share this code with community members to join this circle</T></p>
               </div>
             </div>
             <div className="flex items-center gap-4 p-4 bg-beige-50 rounded-xl mb-4 border border-beige-200">
@@ -1032,65 +1037,65 @@ export default function AdminCircleDetailPage({ params }) {
                 className="flex items-center gap-1.5 px-4 py-2 bg-white border border-beige-300 rounded-lg text-xs font-semibold text-charcoal-600 hover:border-gold hover:text-gold transition-all"
               >
                 {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
-                {copied ? "Copied!" : "Copy Code"}
+                <T>{copied ? "Copied!" : "Copy Code"}</T>
               </button>
             </div>
             <button
               onClick={shareWhatsApp}
               className="w-full flex items-center justify-center gap-2 py-3 bg-[#25D366] text-white text-sm font-bold rounded-xl hover:bg-[#1ebe57] transition-all shadow-sm"
-            >
+            ><T>
               Share Join Code on WhatsApp
-            </button>
+            </T></button>
           </div>
 
           {/* Circle Overview Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-white rounded-2xl border border-beige-200 p-5">
-              <p className="text-xs text-charcoal-300 font-semibold uppercase">Total Members</p>
-              <p className="text-3xl font-bold text-charcoal-600 mt-2">{members.length}</p>
+              <p className="text-xs text-charcoal-300 font-semibold uppercase"><T>Total Members</T></p>
+              <p className="text-3xl font-bold text-charcoal-600 mt-2"><T>{members.length}</T></p>
             </div>
             <div className="bg-white rounded-2xl border border-beige-200 p-5">
-              <p className="text-xs text-charcoal-300 font-semibold uppercase">Admins / Mods</p>
+              <p className="text-xs text-charcoal-300 font-semibold uppercase"><T>Admins / Mods</T></p>
               <p className="text-3xl font-bold text-amber-600 mt-2">
                 {members.filter((m) => m.role === "admin" || m.role === "moderator" || m.profiles?.email === "admin_access@taseescircle.com").length}
               </p>
             </div>
             <div className="bg-white rounded-2xl border border-beige-200 p-5">
-              <p className="text-xs text-charcoal-300 font-semibold uppercase">Circle Posts</p>
-              <p className="text-3xl font-bold text-blue-600 mt-2">{posts.length}</p>
+              <p className="text-xs text-charcoal-300 font-semibold uppercase"><T>Circle Posts</T></p>
+              <p className="text-3xl font-bold text-blue-600 mt-2"><T>{posts.length}</T></p>
             </div>
             <div className="bg-white rounded-2xl border border-beige-200 p-5">
-              <p className="text-xs text-charcoal-300 font-semibold uppercase">Total Check-Ins</p>
-              <p className="text-3xl font-bold text-emerald-600 mt-2">{reports.length}</p>
+              <p className="text-xs text-charcoal-300 font-semibold uppercase"><T>Total Check-Ins</T></p>
+              <p className="text-3xl font-bold text-emerald-600 mt-2"><T>{reports.length}</T></p>
             </div>
           </div>
 
           {/* Masjid Metadata */}
           <div className="bg-white rounded-2xl border border-beige-200 p-6 space-y-4">
             <h3 className="text-base font-bold text-charcoal-600 flex items-center gap-2">
-              <Info size={18} className="text-gold" /> Masjid Metadata & Creator Info
-            </h3>
+              <Info size={18} className="text-gold" /><T> Masjid Metadata & Creator Info
+            </T></h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div className="p-4 bg-beige-50 rounded-xl border border-beige-200">
-                <p className="text-xs font-semibold text-charcoal-300 uppercase">Masjid Name</p>
+                <p className="text-xs font-semibold text-charcoal-300 uppercase"><T>Masjid Name</T></p>
                 <p className="font-bold text-charcoal-600 mt-1">{masjid?.name}</p>
               </div>
               <div className="p-4 bg-beige-50 rounded-xl border border-beige-200">
-                <p className="text-xs font-semibold text-charcoal-300 uppercase">Location</p>
+                <p className="text-xs font-semibold text-charcoal-300 uppercase"><T>Location</T></p>
                 <p className="font-bold text-charcoal-600 mt-1">
-                  {masjid?.area}, {masjid?.city}, {masjid?.country} ({masjid?.zip_code})
+                  {masjid?.area}, {masjid?.city}, <T>{masjid?.country}</T> ({masjid?.zip_code})
                 </p>
               </div>
               <div className="p-4 bg-beige-50 rounded-xl border border-beige-200">
-                <p className="text-xs font-semibold text-charcoal-300 uppercase">Created By</p>
+                <p className="text-xs font-semibold text-charcoal-300 uppercase"><T>Created By</T></p>
                 <p className="font-bold text-charcoal-600 mt-1">
-                  {masjid?.profiles?.full_name || "Unknown Creator"} ({masjid?.profiles?.email || "No email"})
+                  {masjid?.profiles?.full_name || <T>Unknown Creator</T>} ({masjid?.profiles?.email || <T>No email</T>})
                 </p>
               </div>
               <div className="p-4 bg-beige-50 rounded-xl border border-beige-200">
-                <p className="text-xs font-semibold text-charcoal-300 uppercase">Approval Date</p>
+                <p className="text-xs font-semibold text-charcoal-300 uppercase"><T>Approval Date</T></p>
                 <p className="font-bold text-charcoal-600 mt-1">
-                  {masjid?.approved_at ? new Date(masjid.approved_at).toLocaleDateString() : "N/A"}
+                  <T>{masjid?.approved_at ? new Date(masjid.approved_at).toLocaleDateString(dateLocale) : "N/A"}</T>
                 </p>
               </div>
             </div>
@@ -1136,14 +1141,14 @@ export default function AdminCircleDetailPage({ params }) {
               </div>
 
               <div className="p-6 overflow-y-auto space-y-4 flex-1">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-400"><T>
                   Prayer History ({selectedMemberReports.length} total entries logged)
-                </h4>
+                </T></h4>
 
                 {selectedMemberReports.length === 0 ? (
-                  <p className="text-sm text-charcoal-300 text-center py-6">
+                  <p className="text-sm text-charcoal-300 text-center py-6"><T>
                     No prayer check-ins recorded for this member yet.
-                  </p>
+                  </T></p>
                 ) : (
                   <div className="space-y-3">
                     {selectedMemberReports.map((rep) => {
@@ -1152,8 +1157,8 @@ export default function AdminCircleDetailPage({ params }) {
                       return (
                         <div key={rep.id} className="p-4 bg-beige-50 rounded-xl border border-beige-200 space-y-2">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="font-bold text-charcoal-600">{rep.report_date}</span>
-                            <span className="font-bold text-islamic-green">{count}/5 Prayers</span>
+                            <span className="font-bold text-charcoal-600"><T>{rep.report_date}</T></span>
+                            <span className="font-bold text-islamic-green"><T>{count}/5 Prayers</T></span>
                           </div>
                           <div className="flex flex-wrap gap-1.5">
                             {PRAYERS.map((p) => (
@@ -1163,7 +1168,7 @@ export default function AdminCircleDetailPage({ params }) {
                                   pObj[p] ? "bg-islamic-green text-white" : "bg-beige-200 text-charcoal-300"
                                 }`}
                               >
-                                {p}
+                                <T>{p}</T>
                               </span>
                             ))}
                           </div>

@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -79,10 +81,10 @@ export default function HomePage() {
                   <val.icon size={22} className="text-gold sm:w-6 sm:h-6" />
                 </div>
                 <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2">
-                  {val.title}
+                  <T>{val.title}</T>
                 </h3>
                 <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
-                  {val.description}
+                  <T>{val.description}</T>
                 </p>
               </motion.div>
             ))}
@@ -142,12 +144,12 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4 px-2">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4 px-2"><T>
               &ldquo;And hold firmly to the rope of Allah all together and do not become divided.&rdquo;
-            </p>
-            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
+            </T></p>
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide"><T>
               — Surah Ali &apos;Imran (3:103)
-            </p>
+            </T></p>
           </motion.div>
         </div>
       </section>

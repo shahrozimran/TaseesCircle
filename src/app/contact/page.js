@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import ContactClient from "./ContactClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Contact Us — Connect with Ta'sees Circle",
   description:
     "Have questions about our online discussions, want to get involved, or need Islamic guidance? Reach out to Ta'sees Circle in Pakistan or Canada.",
@@ -25,3 +26,5 @@ export const metadata = {
 export default function ContactPage() {
   return <ContactClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

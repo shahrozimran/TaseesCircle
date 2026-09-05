@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
@@ -135,12 +137,12 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-charcoal-600">
-          Assalamu Alaikum, {fullName}
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-charcoal-600"><T>
+          Assalamu Alaikum, </T>{fullName}
         </h1>
-        <p className="text-sm text-charcoal-300 mt-1">
+        <p className="text-sm text-charcoal-300 mt-1"><T>
           Welcome to your Ta&apos;sees Circle dashboard. May Allah bless your day.
-        </p>
+        </T></p>
       </motion.div>
 
       {/* Pending Approval Banner */}
@@ -155,10 +157,8 @@ export default function DashboardPage() {
             <Clock size={20} className="text-amber-600" />
           </div>
           <div>
-            <h3 className="font-semibold text-amber-800 text-sm">Masjid Registration Pending</h3>
-            <p className="text-xs text-amber-600 mt-1">
-              Your Masjid &quot;<span className="font-medium">{pendingMasjid.name}</span>&quot; in {pendingMasjid.city}, {pendingMasjid.country} is awaiting approval from the Ta&apos;sees Circle team. You will be notified via email and on your dashboard once approved.
-            </p>
+            <h3 className="font-semibold text-amber-800 text-sm"><T>Masjid Registration Pending</T></h3>
+            <p className="text-xs text-amber-600 mt-1"><T message={'Your Masjid "{name}" in {city} is awaiting approval from the Ta\'sees Circle team. You will be notified via email and on your dashboard once approved.'} values={{ name: <bdi>{pendingMasjid.name}</bdi>, city: <bdi>{pendingMasjid.city}, {pendingMasjid.country}</bdi> }} /></p>
           </div>
         </motion.div>
       )}
@@ -175,19 +175,19 @@ export default function DashboardPage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <CircleDot size={18} />
-                <span className="text-xs font-medium uppercase tracking-wider text-white/70">Your Active Circle</span>
+                <span className="text-xs font-medium uppercase tracking-wider text-white/70"><T>Your Active Circle</T></span>
               </div>
               <h2 className="text-lg sm:text-xl font-heading font-bold">{masjidData.name}</h2>
               <p className="text-sm text-white/80 mt-1">
-                {masjidData.area}, {masjidData.city}, {masjidData.country}
+                {masjidData.area}, {masjidData.city}, <T>{masjidData.country}</T>
               </p>
               <div className="flex items-center gap-4 mt-3">
                 <span className="flex items-center gap-1 text-xs text-white/70">
-                  <Users size={14} /> {masjidData.member_count} members
-                </span>
+                  <Users size={14} /> <T>{masjidData.member_count} members
+                </T></span>
                 {masjidData.unique_code && (
-                  <span className="px-2 py-0.5 bg-white/20 rounded text-xs font-mono">
-                    Code: {masjidData.unique_code}
+                  <span className="px-2 py-0.5 bg-white/20 rounded text-xs font-mono"><T>
+                    Code: </T>{masjidData.unique_code}
                   </span>
                 )}
               </div>
@@ -195,9 +195,9 @@ export default function DashboardPage() {
             <Link
               href="/dashboard/my-circle"
               className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl text-sm font-medium transition-all"
-            >
+            ><T>
               View Circle →
-            </Link>
+            </T></Link>
           </div>
         </motion.div>
       )}
@@ -216,15 +216,15 @@ export default function DashboardPage() {
                 <div className="w-14 h-14 rounded-2xl bg-gradient-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Plus size={24} className="text-white" />
                 </div>
-                <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-2">
+                <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-2"><T>
                   Register Your Masjid
-                </h3>
-                <p className="text-sm text-charcoal-300 leading-relaxed">
+                </T></h3>
+                <p className="text-sm text-charcoal-300 leading-relaxed"><T>
                   Create a new circle for your Masjid community. Add your Masjid details and get a unique code to invite members.
-                </p>
-                <span className="inline-flex items-center gap-1 mt-4 text-gold text-sm font-medium group-hover:gap-2 transition-all">
+                </T></p>
+                <span className="inline-flex items-center gap-1 mt-4 text-gold text-sm font-medium group-hover:gap-2 transition-all"><T>
                   Get Started →
-                </span>
+                </T></span>
               </div>
             </Link>
           </motion.div>
@@ -240,15 +240,15 @@ export default function DashboardPage() {
                 <div className="w-14 h-14 rounded-2xl bg-islamic-green flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <LinkIcon size={24} className="text-white" />
                 </div>
-                <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-2">
+                <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-2"><T>
                   Join a Masjid Circle
-                </h3>
-                <p className="text-sm text-charcoal-300 leading-relaxed">
+                </T></h3>
+                <p className="text-sm text-charcoal-300 leading-relaxed"><T>
                   Have a Masjid code or referral? Join an existing circle to connect with your community.
-                </p>
-                <span className="inline-flex items-center gap-1 mt-4 text-islamic-green text-sm font-medium group-hover:gap-2 transition-all">
+                </T></p>
+                <span className="inline-flex items-center gap-1 mt-4 text-islamic-green text-sm font-medium group-hover:gap-2 transition-all"><T>
                   Join Now →
-                </span>
+                </T></span>
               </div>
             </Link>
           </motion.div>
@@ -265,23 +265,23 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-beige-100">
           <div className="flex items-center gap-2">
             <Bell size={16} className="text-charcoal-300" />
-            <h3 className="text-sm font-bold text-charcoal-600">Recent Notifications</h3>
+            <h3 className="text-sm font-bold text-charcoal-600"><T>Recent Notifications</T></h3>
           </div>
           <Link
             href="/dashboard/notifications"
             className="text-xs text-gold hover:text-gold-dark font-medium"
-          >
+          ><T>
             View All
-          </Link>
+          </T></Link>
         </div>
 
         {recentNotifications.length === 0 ? (
           <div className="p-8 text-center">
             <Bell size={28} className="text-beige-300 mx-auto mb-2" />
-            <p className="text-sm text-charcoal-300">No notifications yet</p>
-            <p className="text-xs text-charcoal-200 mt-1">
+            <p className="text-sm text-charcoal-300"><T>No notifications yet</T></p>
+            <p className="text-xs text-charcoal-200 mt-1"><T>
               You&apos;ll receive updates about your circle, approvals, and more.
-            </p>
+            </T></p>
           </div>
         ) : (
           <div className="divide-y divide-beige-50">
@@ -293,13 +293,13 @@ export default function DashboardPage() {
                 }`}
               >
                 <div className="w-6 h-6 rounded-full bg-beige-100 flex items-center justify-center shrink-0 mt-0.5">
-                  {renderTypeIcon(notif.type)}
+                  <T>{renderTypeIcon(notif.type)}</T>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm ${!notif.is_read ? "font-semibold text-charcoal-600" : "text-charcoal-400"}`}>
-                    {notif.title}
+                    <T>{notif.title}</T>
                   </p>
-                  <p className="text-xs text-charcoal-300 mt-0.5 truncate">{notif.message}</p>
+                  <p className="text-xs text-charcoal-300 mt-0.5 truncate"><T>{notif.message}</T></p>
                 </div>
                 {!notif.is_read && (
                   <div className="w-2 h-2 rounded-full bg-gold shrink-0 mt-2" />
@@ -325,8 +325,8 @@ export default function DashboardPage() {
             <MessageSquare size={18} className="text-gold" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-charcoal-600">Contact Support</p>
-            <p className="text-xs text-charcoal-300">Get help from our team</p>
+            <p className="text-sm font-semibold text-charcoal-600"><T>Contact Support</T></p>
+            <p className="text-xs text-charcoal-300"><T>Get help from our team</T></p>
           </div>
         </Link>
 
@@ -338,8 +338,8 @@ export default function DashboardPage() {
             <Bell size={18} className="text-gold" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-charcoal-600">Notifications</p>
-            <p className="text-xs text-charcoal-300">View all updates</p>
+            <p className="text-sm font-semibold text-charcoal-600"><T>Notifications</T></p>
+            <p className="text-xs text-charcoal-300"><T>View all updates</T></p>
           </div>
         </Link>
 
@@ -351,8 +351,8 @@ export default function DashboardPage() {
             <CircleDot size={18} className="text-gold" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-charcoal-600">Visit Website</p>
-            <p className="text-xs text-charcoal-300">Back to main site</p>
+            <p className="text-sm font-semibold text-charcoal-600"><T>Visit Website</T></p>
+            <p className="text-xs text-charcoal-300"><T>Back to main site</T></p>
           </div>
         </Link>
       </motion.div>

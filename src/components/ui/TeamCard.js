@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
@@ -23,9 +25,9 @@ export default function TeamCard({ name, role, description, index = 0 }) {
 
       {/* Content */}
       <div className="p-6 text-center">
-        <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-1">{name}</h3>
-        <p className="text-gold text-sm font-medium mb-3">{role}</p>
-        <p className="text-charcoal-300 text-sm leading-relaxed">{description}</p>
+        <h3 className="font-heading font-bold text-charcoal-600 text-lg mb-1"><T>{name}</T></h3>
+        <p className="text-gold text-sm font-medium mb-3"><T>{role}</T></p>
+        <p className="text-charcoal-300 text-sm leading-relaxed"><T>{description}</T></p>
       </div>
     </motion.div>
   );

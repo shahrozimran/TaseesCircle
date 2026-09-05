@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import PakistanClient from "./PakistanClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Pakistan Community — Rizq e Halal & Islamic Guidance",
   description:
     "Explore authentic Islamic discussions on earning halal livelihood, job ethics, freelancing, and avoiding riba in Pakistan with Quran & Hadith references.",
@@ -26,3 +27,5 @@ export const metadata = {
 export default function PakistanPage() {
   return <PakistanClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

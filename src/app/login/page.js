@@ -1,7 +1,8 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import { Suspense } from "react";
 import LoginClient from "./LoginClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Sign In — Ta'sees Circle Community",
   description:
     "Sign in to Ta'sees Circle with Google or Email to join discussion circles, register your Masjid, and connect with Muslim communities in Pakistan and Canada.",
@@ -38,3 +39,5 @@ export default function LoginPage() {
     </Suspense>
   );
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

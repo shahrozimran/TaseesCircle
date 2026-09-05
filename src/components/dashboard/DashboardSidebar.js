@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +30,7 @@ const iconMap = {
 };
 
 export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdmin }) {
+  const { t: translate } = useLanguage();
   const pathname = usePathname();
   const hasCircle = !!profile?.current_masjid_id;
 
@@ -47,25 +51,25 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-full w-64 bg-charcoal-600 text-white z-40 transform transition-transform duration-300 ease-in-out flex flex-col ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0`}
+      className={`fixed top-0 start-0 h-full w-64 bg-charcoal-600 text-white z-40 transform transition-transform duration-300 ease-in-out flex flex-col ${
+        isOpen ? "translate-x-0" : "invisible lg:visible -translate-x-full rtl:translate-x-full"
+      } lg:translate-x-0 lg:rtl:translate-x-0`}
     >
       {/* Logo / Header */}
       <div className="flex items-center justify-between p-5 border-b border-white/10">
         <Link href="/dashboard" className="flex items-center gap-3 group" onClick={onClose}>
           <div className="w-9 h-9 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-            <span className="text-white font-heading font-bold text-sm">T</span>
+            <span className="text-white font-heading font-bold text-sm"><T>T</T></span>
           </div>
           <div>
-            <span className="font-heading font-bold text-sm text-white">{SITE_NAME}</span>
-            <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase">Dashboard</span>
+            <span className="font-heading font-bold text-sm text-white"><T>{SITE_NAME}</T></span>
+            <span className="block text-[10px] text-white/40 font-medium tracking-wider uppercase"><T>Dashboard</T></span>
           </div>
         </Link>
         <button
           onClick={onClose}
           className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 transition-colors text-white/60"
-          aria-label="Close sidebar"
+          aria-label={translate("Close sidebar")}
         >
           <X size={18} />
         </button>
@@ -92,7 +96,7 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
         </div>
         {hasCircle && (
           <div className="mt-3 px-2.5 py-1.5 rounded-lg bg-islamic-green/20 border border-islamic-green/30">
-            <p className="text-[10px] text-islamic-green-light font-medium uppercase tracking-wider">Active Circle</p>
+            <p className="text-[10px] text-islamic-green-light font-medium uppercase tracking-wider"><T>Active Circle</T></p>
           </div>
         )}
       </div>
@@ -116,9 +120,9 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
                 }`}
               >
                 <Icon size={18} className={active ? "text-gold" : ""} />
-                {link.label}
+                <T>{link.label}</T>
                 {link.icon === "Bell" && (
-                  <span className="ml-auto w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center notification-badge" id="sidebar-notification-count" style={{ display: "none" }}>
+                  <span className="ms-auto w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center notification-badge" id="sidebar-notification-count" style={{ display: "none" }}>
                     0
                   </span>
                 )}
@@ -136,9 +140,9 @@ export default function DashboardSidebar({ isOpen, onClose, user, profile, isAdm
           onClick={onClose}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:text-white hover:bg-white/5 transition-all"
         >
-          <LayoutDashboard size={18} />
+          <LayoutDashboard size={18} /><T>
           Back to Website
-        </Link>
+        </T></Link>
       </div>
     </aside>
   );

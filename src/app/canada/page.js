@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import CanadaClient from "./CanadaClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Canada Community — Halal Living & Guidance in Canada",
   description:
     "Islamic guidance tailored for Canadian Muslims on halal salary evaluation, riba-free home mortgages, halal investing, workplace rights, and raising Islamic families.",
@@ -26,3 +27,5 @@ export const metadata = {
 export default function CanadaPage() {
   return <CanadaClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

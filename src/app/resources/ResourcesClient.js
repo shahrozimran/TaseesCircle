@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useState } from "react";
 import Hero from "@/components/sections/Hero";
@@ -38,9 +40,9 @@ export default function ResourcesClient() {
                   ? "bg-gold text-white shadow-md"
                   : "bg-beige-100 text-charcoal-400 hover:bg-beige-200"
               }`}
-            >
+            ><T>
               All Resources
-            </button>
+            </T></button>
             {resourceCategories.map((cat) => (
               <button
                 key={cat.id}
@@ -51,7 +53,7 @@ export default function ResourcesClient() {
                     : "bg-beige-100 text-charcoal-400 hover:bg-beige-200"
                 }`}
               >
-                {cat.title}
+                <T>{cat.title}</T>
               </button>
             ))}
           </div>
@@ -69,10 +71,10 @@ export default function ResourcesClient() {
                     </div>
                     <div>
                       <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl">
-                        {category.title}
+                        <T>{category.title}</T>
                       </h2>
                       <p className="text-charcoal-300 text-xs sm:text-sm">
-                        {category.description}
+                        <T>{category.description}</T>
                       </p>
                     </div>
                   </div>
@@ -100,12 +102,12 @@ export default function ResourcesClient() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl mx-auto"
           >
-            <p className="text-lg sm:text-xl md:text-2xl font-serif text-white/90 leading-relaxed mb-3 sm:mb-4 italic">
+            <p className="text-lg sm:text-xl md:text-2xl font-serif text-white/90 leading-relaxed mb-3 sm:mb-4 italic"><T>
               &ldquo;Seeking knowledge is an obligation upon every Muslim.&rdquo;
-            </p>
-            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
+            </T></p>
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide"><T>
               — Sunan Ibn Majah (Hadith 224)
-            </p>
+            </T></p>
           </motion.div>
         </div>
       </section>

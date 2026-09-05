@@ -1,4 +1,7 @@
 "use client";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -10,6 +13,7 @@ import {
 } from "lucide-react";
 
 export default function AdminApprovalsPage() {
+  const { t: translate , dateLocale} = useLanguage();
   const { user } = useAuth();
   const [masjids, setMasjids] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,13 +73,13 @@ export default function AdminApprovalsPage() {
 
       if (rpcError) {
         console.error("Approval RPC error:", rpcError);
-        alert(`Approval failed: ${rpcError.message}`);
+        alert(translate(`Approval failed: ${rpcError.message}`));
         return;
       }
 
       if (!result?.success) {
         console.error("Approval failed:", result?.error);
-        alert(`Approval failed: ${result?.error || "Unknown error"}`);
+        alert(translate(`Approval failed: ${result?.error || "Unknown error"}`));
         return;
       }
 
@@ -136,17 +140,17 @@ export default function AdminApprovalsPage() {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case "pending": return <span className="px-2.5 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full uppercase">Pending</span>;
-      case "approved": return <span className="px-2.5 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-full uppercase">Approved</span>;
-      case "rejected": return <span className="px-2.5 py-1 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase">Rejected</span>;
+      case "pending": return <span className="px-2.5 py-1 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full uppercase"><T>Pending</T></span>;
+      case "approved": return <span className="px-2.5 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-full uppercase"><T>Approved</T></span>;
+      case "rejected": return <span className="px-2.5 py-1 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase"><T>Rejected</T></span>;
     }
   };
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">Masjid Approvals</h1>
-        <p className="text-sm text-charcoal-300 mt-1">Review and manage masjid registrations</p>
+        <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>Masjid Approvals</T></h1>
+        <p className="text-sm text-charcoal-300 mt-1"><T>Review and manage masjid registrations</T></p>
       </motion.div>
 
       {/* Filter Tabs */}
@@ -164,7 +168,7 @@ export default function AdminApprovalsPage() {
               filter === tab.key ? "bg-white text-charcoal-600 shadow-sm" : "text-charcoal-300 hover:text-charcoal-400"
             }`}
           >
-            {tab.label}
+            <T>{tab.label}</T>
           </button>
         ))}
       </div>
@@ -177,8 +181,8 @@ export default function AdminApprovalsPage() {
       ) : masjids.length === 0 ? (
         <div className="bg-white rounded-2xl border border-beige-200 p-12 text-center">
           <CheckCircle size={40} className="text-beige-300 mx-auto mb-3" />
-          <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1">No {filter} masjids</h3>
-          <p className="text-sm text-charcoal-300">All clear! Check back later.</p>
+          <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1"><T>No {filter} masjids</T></h3>
+          <p className="text-sm text-charcoal-300"><T>All clear! Check back later.</T></p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -194,27 +198,27 @@ export default function AdminApprovalsPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-heading font-bold text-charcoal-600 text-base">{masjid.name}</h3>
-                    {getStatusBadge(masjid.status)}
+                    <T>{getStatusBadge(masjid.status)}</T>
                   </div>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <MapPin size={12} /> {masjid.zip_code} · {masjid.area}, {masjid.city}, {masjid.country}
+                    <MapPin size={12} /> {masjid.zip_code} · {masjid.area}, {masjid.city}, <T>{masjid.country}</T>
                   </p>
                   <p className="text-xs text-charcoal-300 flex items-center gap-1 mt-1">
-                    <User size={12} /> Submitted by {masjid.profiles?.full_name || "Unknown"} ({masjid.profiles?.email})
+                    <User size={12} /><T> Submitted by </T>{masjid.profiles?.full_name || <T>Unknown</T>} ({masjid.profiles?.email})
                   </p>
-                  <p className="text-[11px] text-charcoal-200 mt-1">
-                    Submitted {new Date(masjid.created_at).toLocaleDateString()} at {new Date(masjid.created_at).toLocaleTimeString()}
+                  <p className="text-[11px] text-charcoal-200 mt-1"><T>
+                    Submitted {new Date(masjid.created_at).toLocaleDateString(dateLocale)} at {new Date(masjid.created_at).toLocaleTimeString(dateLocale)}</T>
                   </p>
                   {masjid.description && (
                     <p className="text-xs text-charcoal-400 mt-2 p-2 bg-beige-50 rounded-lg">{masjid.description}</p>
                   )}
                   {masjid.rejection_reason && (
                     <p className="text-xs text-red-600 mt-2 p-2 bg-red-50 rounded-lg">
-                      <span className="font-medium">Rejection reason:</span> {masjid.rejection_reason}
+                      <span className="font-medium"><T>Rejection reason:</T></span> <T>{masjid.rejection_reason}</T>
                     </p>
                   )}
                   {masjid.unique_code && (
-                    <p className="text-xs text-islamic-green mt-2 font-mono">Code: {masjid.unique_code}</p>
+                    <p className="text-xs text-islamic-green mt-2 font-mono"><T>Code: </T>{masjid.unique_code}</p>
                   )}
                 </div>
 
@@ -226,17 +230,17 @@ export default function AdminApprovalsPage() {
                       disabled={processing === masjid.id}
                       className="flex items-center gap-1 px-4 py-2 bg-islamic-green text-white text-xs font-medium rounded-xl hover:bg-islamic-green-light transition-all disabled:opacity-50"
                     >
-                      {processing === masjid.id ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={12} />}
+                      {processing === masjid.id ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={12} />}<T>
                       Approve
-                    </button>
+                    </T></button>
                     <button
                       onClick={() => { setShowRejectModal(masjid.id); setRejectReason(""); }}
                       disabled={processing === masjid.id}
                       className="flex items-center gap-1 px-4 py-2 border-2 border-red-200 text-red-600 text-xs font-medium rounded-xl hover:bg-red-50 transition-all disabled:opacity-50"
                     >
-                      <XCircle size={12} />
+                      <XCircle size={12} /><T>
                       Reject
-                    </button>
+                    </T></button>
                   </div>
                 )}
               </div>
@@ -248,11 +252,11 @@ export default function AdminApprovalsPage() {
                   animate={{ opacity: 1, height: "auto" }}
                   className="mt-4 pt-4 border-t border-beige-100"
                 >
-                  <p className="text-xs font-medium text-charcoal-400 mb-2">Rejection reason *</p>
+                  <p className="text-xs font-medium text-charcoal-400 mb-2"><T>Rejection reason *</T></p>
                   <textarea
                     value={rejectReason}
                     onChange={(e) => setRejectReason(e.target.value)}
-                    placeholder="Please provide a reason for rejection..."
+                    placeholder={translate("Please provide a reason for rejection...")}
                     rows={3}
                     className="w-full px-3 py-2 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-red-300 focus:ring-1 focus:ring-red-300 resize-none"
                   />
@@ -262,14 +266,14 @@ export default function AdminApprovalsPage() {
                       disabled={!rejectReason.trim() || processing === masjid.id}
                       className="flex items-center gap-1 px-4 py-2 bg-red-500 text-white text-xs font-medium rounded-xl hover:bg-red-600 disabled:opacity-50"
                     >
-                      {processing === masjid.id ? <Loader2 size={12} className="animate-spin" /> : "Confirm Reject"}
+                      <T>{processing === masjid.id ? <Loader2 size={12} className="animate-spin" /> : "Confirm Reject"}</T>
                     </button>
                     <button
                       onClick={() => setShowRejectModal(null)}
                       className="px-4 py-2 text-xs text-charcoal-400 hover:text-charcoal-600 font-medium"
-                    >
+                    ><T>
                       Cancel
-                    </button>
+                    </T></button>
                   </div>
                 </motion.div>
               )}

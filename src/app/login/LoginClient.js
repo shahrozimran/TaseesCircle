@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -16,6 +20,7 @@ const benefits = [
 ];
 
 export default function LoginClient() {
+  const { t: translate } = useLanguage();
   const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -61,12 +66,12 @@ export default function LoginClient() {
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-islamic-green/10 flex items-center justify-center mx-auto mb-4">
             <Star size={26} className="text-islamic-green" />
           </div>
-          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-2">
+          <h2 className="font-heading font-bold text-charcoal-600 text-xl sm:text-2xl mb-2"><T>
             Assalamu Alaikum!
-          </h2>
-          <p className="text-charcoal-300 text-xs sm:text-sm mb-6">
+          </T></h2>
+          <p className="text-charcoal-300 text-xs sm:text-sm mb-6"><T>
             Redirecting to your dashboard...
-          </p>
+          </T></p>
         </motion.div>
       </div>
     );
@@ -123,15 +128,15 @@ export default function LoginClient() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium">
+            <span className="text-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-medium"><T>
               Welcome to Ta&apos;sees Circle
-            </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-charcoal-600 mt-2 sm:mt-3 mb-3 sm:mb-4">
+            </T></span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-charcoal-600 mt-2 sm:mt-3 mb-3 sm:mb-4"><T>
               Join Our Community
-            </h1>
-            <p className="text-charcoal-300 text-xs sm:text-sm md:text-base leading-relaxed mb-6 sm:mb-8">
+            </T></h1>
+            <p className="text-charcoal-300 text-xs sm:text-sm md:text-base leading-relaxed mb-6 sm:mb-8"><T>
               Sign in to register your Masjid, create your Circle, and connect with Muslim communities worldwide. Your journey of faith, community, and halal business starts here.
-            </p>
+            </T></p>
 
             {/* Benefits */}
             <div className="space-y-3 sm:space-y-4 mb-6 lg:mb-0">
@@ -146,7 +151,7 @@ export default function LoginClient() {
                   <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
                     <benefit.icon size={15} className="text-gold" />
                   </div>
-                  <span className="text-charcoal-400 text-xs sm:text-sm">{benefit.text}</span>
+                  <span className="text-charcoal-400 text-xs sm:text-sm"><T>{benefit.text}</T></span>
                 </motion.div>
               ))}
             </div>
@@ -162,13 +167,13 @@ export default function LoginClient() {
               {/* Islamic Greeting */}
               <div className="text-center mb-6 sm:mb-8">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-gold flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <span className="text-white font-heading font-bold text-xl sm:text-2xl">T</span>
+                  <span className="text-white font-heading font-bold text-xl sm:text-2xl"><T>T</T></span>
                 </div>
-                <h2 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-1">
+                <h2 className="font-heading font-bold text-charcoal-600 text-lg sm:text-xl mb-1"><T>
                   Assalamu Alaikum
-                </h2>
-                <p className="text-charcoal-300 text-xs sm:text-sm">
-                  Peace be upon you. {authMode === "signup" ? "Create your account." : "Sign in to continue."}
+                </T></h2>
+                <p className="text-charcoal-300 text-xs sm:text-sm"><T>
+                  Peace be upon you. {authMode === "signup" ? "Create your account." : "Sign in to continue."}</T>
                 </p>
               </div>
 
@@ -197,14 +202,14 @@ export default function LoginClient() {
                         fill="#EA4335"
                         d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                       />
-                    </svg>
+                    </svg><T>
                     Continue with Google
-                  </button>
+                  </T></button>
 
                   {/* Divider */}
                   <div className="flex items-center gap-3 my-5 sm:my-6">
                     <div className="h-px flex-1 bg-beige-200" />
-                    <span className="text-xs text-charcoal-200">or</span>
+                    <span className="text-xs text-charcoal-200"><T>or</T></span>
                     <div className="h-px flex-1 bg-beige-200" />
                   </div>
 
@@ -213,14 +218,14 @@ export default function LoginClient() {
                     onClick={() => setEmailTab(true)}
                     className="w-full flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg transition-all text-xs sm:text-sm"
                   >
-                    <Mail size={16} />
+                    <Mail size={16} /><T>
                     Continue with Email
-                  </button>
+                  </T></button>
                 </>
               ) : (
                 <>
                   {/* Email/Password Form */}
-                  <form onSubmit={handleEmailAuth} className="space-y-4">
+                  <LocalizedForm onSubmit={handleEmailAuth} className="space-y-4">
                     {/* Mode Toggle */}
                     <div className="flex rounded-lg bg-beige-50 p-1 mb-2">
                       <button
@@ -231,9 +236,9 @@ export default function LoginClient() {
                             ? "bg-white text-charcoal-600 shadow-sm"
                             : "text-charcoal-300 hover:text-charcoal-400"
                         }`}
-                      >
+                      ><T>
                         Sign In
-                      </button>
+                      </T></button>
                       <button
                         type="button"
                         onClick={() => { setAuthMode("signup"); setFormError(""); setFormSuccess(""); }}
@@ -242,26 +247,26 @@ export default function LoginClient() {
                             ? "bg-white text-charcoal-600 shadow-sm"
                             : "text-charcoal-300 hover:text-charcoal-400"
                         }`}
-                      >
+                      ><T>
                         Create Account
-                      </button>
+                      </T></button>
                     </div>
 
                     {/* Full Name (signup only) */}
                     {authMode === "signup" && (
                       <div>
-                        <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+                        <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                           Full Name
-                        </label>
+                        </T></label>
                         <div className="relative">
-                          <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+                          <User size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
                           <input
                             type="text"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            placeholder="Enter your full name"
+                            placeholder={translate("Enter your full name")}
                             required
-                            className="w-full pl-10 pr-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
+                            className="w-full ps-10 pe-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
                           />
                         </div>
                       </div>
@@ -269,43 +274,43 @@ export default function LoginClient() {
 
                     {/* Email */}
                     <div>
-                      <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+                      <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                         Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+                      </T></label>
+                      <div className="relative" dir="ltr">
+                        <Mail size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
                         <input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          placeholder="you@example.com"
+                          placeholder={translate("you@example.com")}
                           required
-                          className="w-full pl-10 pr-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
+                          className="w-full ps-10 pe-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Password */}
                     <div>
-                      <label className="block text-xs font-medium text-charcoal-400 mb-1.5">
+                      <label className="block text-xs font-medium text-charcoal-400 mb-1.5"><T>
                         Password
-                      </label>
-                      <div className="relative">
-                        <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
+                      </T></label>
+                      <div className="relative" dir="ltr">
+                        <Lock size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-charcoal-200" />
                         <input
                           type={showPassword ? "text" : "password"}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          placeholder={authMode === "signup" ? "At least 6 characters" : "Enter your password"}
+                          placeholder={translate(authMode === "signup" ? "At least 6 characters" : "Enter your password")}
                           required
                           minLength={6}
-                          className="w-full pl-10 pr-12 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
+                          className="w-full ps-10 pe-12 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          aria-label={showPassword ? "Hide password" : "Show password"}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-200 hover:text-charcoal-400 transition-colors"
+                          aria-label={translate(showPassword ? "Hide password" : "Show password")}
+                          className="absolute end-3 top-1/2 -translate-y-1/2 text-charcoal-200 hover:text-charcoal-400 transition-colors"
                         >
                           {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                         </button>
@@ -315,12 +320,12 @@ export default function LoginClient() {
                     {/* Error/Success Messages */}
                     {formError && (
                       <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-xs">
-                        {formError}
+                        <T>{formError}</T>
                       </div>
                     )}
                     {formSuccess && (
                       <div className="p-3 rounded-lg bg-green-50 border border-green-200 text-green-600 text-xs">
-                        {formSuccess}
+                        <T>{formSuccess}</T>
                       </div>
                     )}
 
@@ -330,21 +335,21 @@ export default function LoginClient() {
                       disabled={submitting}
                       className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg transition-all text-xs sm:text-sm disabled:opacity-50"
                     >
-                      {submitting ? (
+                      <T>{submitting ? (
                         "Please wait..."
                       ) : (
                         <>
-                          {authMode === "signup" ? "Create Account" : "Sign In"}
+                          <T>{authMode === "signup" ? "Create Account" : "Sign In"}</T>
                           <ArrowRight size={16} />
                         </>
-                      )}
+                      )}</T>
                     </button>
-                  </form>
+                  </LocalizedForm>
 
                   {/* Divider */}
                   <div className="flex items-center gap-3 my-5 sm:my-6">
                     <div className="h-px flex-1 bg-beige-200" />
-                    <span className="text-xs text-charcoal-200">or</span>
+                    <span className="text-xs text-charcoal-200"><T>or</T></span>
                     <div className="h-px flex-1 bg-beige-200" />
                   </div>
 
@@ -352,16 +357,16 @@ export default function LoginClient() {
                   <button
                     onClick={() => { setEmailTab(false); setFormError(""); setFormSuccess(""); }}
                     className="w-full flex items-center justify-center gap-2 px-5 sm:px-6 py-3 bg-beige-50 border border-beige-200 rounded-xl text-charcoal-400 font-medium hover:bg-beige-100 transition-all text-xs sm:text-sm"
-                  >
+                  ><T>
                     ← Back to Google Sign In
-                  </button>
+                  </T></button>
                 </>
               )}
 
-              <p className="text-[11px] sm:text-xs text-charcoal-200 text-center mt-5 sm:mt-6 leading-relaxed">
+              <p className="text-[11px] sm:text-xs text-charcoal-200 text-center mt-5 sm:mt-6 leading-relaxed"><T>
                 By signing in, you agree to our Terms of Service and Privacy Policy.
                 Your information is kept secure and is never shared.
-              </p>
+              </T></p>
             </div>
           </motion.div>
         </div>

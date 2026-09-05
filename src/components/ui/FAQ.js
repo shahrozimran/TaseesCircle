@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -60,10 +62,10 @@ export default function FAQ({ items = faqData }) {
         >
           <button
             onClick={() => setOpenIndex(openIndex === i ? null : i)}
-            className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-beige-50/50 transition-colors"
+            className="w-full flex items-center justify-between gap-4 p-5 text-start hover:bg-beige-50/50 transition-colors"
           >
             <span className="font-heading font-semibold text-charcoal-600 text-base">
-              {item.question}
+              <T>{item.question}</T>
             </span>
             <ChevronDown
               size={18}
@@ -83,7 +85,7 @@ export default function FAQ({ items = faqData }) {
                 className="overflow-hidden"
               >
                 <div className="px-5 pb-5 text-charcoal-400 text-sm leading-relaxed border-t border-beige-100 pt-4">
-                  {item.answer}
+                  <T>{item.answer}</T>
                 </div>
               </motion.div>
             )}

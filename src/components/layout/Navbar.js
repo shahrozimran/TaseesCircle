@@ -1,4 +1,8 @@
 "use client";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -22,6 +26,7 @@ const heroRoutes = [
 ];
 
 export default function Navbar() {
+  const { t: translate } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
@@ -56,7 +61,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 start-0 end-0 z-50 transition-all duration-300 ${
           isSolid
             ? "bg-white/95 backdrop-blur-md shadow-navbar py-3"
             : "bg-transparent py-5"
@@ -66,14 +71,14 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <span className="text-white font-heading font-bold text-lg">T</span>
+              <span className="text-white font-heading font-bold text-lg"><T>T</T></span>
             </div>
             <span
-              className={`font-heading font-bold text-xl transition-colors ${
+              className={`font-heading font-bold text-base xl:text-xl transition-colors ${
                 isSolid ? "text-charcoal-600" : "text-white"
               }`}
             >
-              {SITE_NAME}
+              <T>{SITE_NAME}</T>
             </span>
           </Link>
 
@@ -89,7 +94,7 @@ export default function Navbar() {
                     onMouseLeave={() => setDropdownOpen(null)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`flex items-center gap-1 px-2.5 py-2 rounded-lg text-sm font-medium transition-all ${
                         link.children.some((c) => isActive(c.href))
                           ? "text-gold"
                           : isSolid
@@ -97,7 +102,7 @@ export default function Navbar() {
                           : "text-white/80 hover:text-white hover:bg-white/10"
                       }`}
                     >
-                      {link.label}
+                      <T>{link.label}</T>
                       <ChevronDown
                         size={14}
                         className={`transition-transform ${
@@ -108,7 +113,7 @@ export default function Navbar() {
 
                     {/* Dropdown Menu */}
                     {dropdownOpen === link.label && (
-                      <div className="absolute top-full left-0 pt-2 animate-slide-down">
+                      <div className="absolute top-full start-0 pt-2 animate-slide-down">
                         <div className="bg-white rounded-xl shadow-card-hover border border-beige-200 py-2 min-w-[180px]">
                           {link.children.map((child) => (
                             <Link
@@ -120,7 +125,7 @@ export default function Navbar() {
                                   : "text-charcoal-400 hover:text-charcoal-600 hover:bg-beige-50"
                               }`}
                             >
-                              {child.label}
+                              <T>{child.label}</T>
                             </Link>
                           ))}
                         </div>
@@ -131,7 +136,7 @@ export default function Navbar() {
                   /* Regular Link */
                   <Link
                     href={link.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-2.5 py-2 rounded-lg text-sm font-medium transition-all ${
                       isActive(link.href)
                         ? "text-gold"
                         : isSolid
@@ -139,36 +144,39 @@ export default function Navbar() {
                         : "text-white/80 hover:text-white hover:bg-white/10"
                     }`}
                   >
-                    {link.label}
+                    <T>{link.label}</T>
                   </Link>
                 )}
               </div>
             ))}
 
+            <LanguageSwitcher dark={!isSolid} />
             {/* Logged-in State: Dashboard Button + User Menu */}
             {user ? (
-              <div className="flex items-center gap-2 ml-4">
+              <div className="flex items-center gap-2 ms-4">
                 <Link
                   href="/dashboard"
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-gold text-white text-sm font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all"
                 >
-                  <LayoutDashboard size={16} />
+                  <LayoutDashboard size={16} /><T>
                   Dashboard
-                </Link>
+                </T></Link>
                 <UserMenu scrolled={isSolid} />
               </div>
             ) : (
               <Link
                 href="/login"
-                className="ml-4 flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-white text-sm font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all"
+                className="ms-4 flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-white text-sm font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all"
               >
-                <LogIn size={16} />
+                <LogIn size={16} /><T>
                 Sign In / Login
-              </Link>
+              </T></Link>
             )}
           </div>
 
           {/* Mobile Menu Toggle */}
+          <div className="flex items-center gap-1 lg:hidden">
+          <LanguageSwitcher dark={!isSolid} compact />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`lg:hidden p-2 rounded-lg transition-colors ${
@@ -176,10 +184,11 @@ export default function Navbar() {
                 ? "text-charcoal-500 hover:bg-beige-100"
                 : "text-white hover:bg-white/10"
             }`}
-            aria-label="Toggle menu"
+            aria-label={translate("Toggle menu")}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          </div>
         </div>
       </nav>
 

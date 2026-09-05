@@ -1,4 +1,8 @@
 "use client";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -31,6 +35,7 @@ const iconMap = {
 };
 
 export default function DashboardHeader({ user, profile, signOut, isProfileComplete }) {
+  const { t: translate } = useLanguage();
   const pathname = usePathname();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -68,23 +73,24 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
           {/* Brand Logo & Title */}
           <Link
             href={isProfileComplete ? "/dashboard" : "/dashboard/profile?setup=required"}
-            className="flex items-center gap-3 group shrink-0"
+            className="flex items-center gap-2 group min-w-0"
           >
             <div className="w-9 h-9 rounded-full bg-gradient-gold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <span className="text-white font-heading font-bold text-base">T</span>
+              <span className="text-white font-heading font-bold text-base"><T>T</T></span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-heading font-bold text-base text-charcoal-600">
-                {SITE_NAME}
+              <span className="font-heading font-bold text-sm sm:text-base text-charcoal-600">
+                <T>{SITE_NAME}</T>
               </span>
-              <span className="px-2 py-0.5 text-[10px] font-bold text-gold bg-gold/10 rounded-full uppercase tracking-wider">
+              <span className="hidden md:inline-block px-2 py-0.5 text-[10px] font-bold text-gold bg-gold/10 rounded-full uppercase tracking-wider"><T>
                 User Dashboard
-              </span>
+              </T></span>
             </div>
           </Link>
 
           {/* Right User Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
+            <LanguageSwitcher compact />
             {/* Realtime Notification Bell */}
             <NotificationBell userId={user?.id} />
 
@@ -92,10 +98,10 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
             <Link
               href="/"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-beige-300 hover:border-gold text-xs text-charcoal-400 hover:text-gold transition-all"
-              title="Return to Public Website"
+              title={translate("Return to Public Website")}
             >
               <Globe size={14} />
-              <span className="hidden sm:inline">Website</span>
+              <span className="hidden sm:inline"><T>Website</T></span>
             </Link>
 
             {/* User Profile Dropdown */}
@@ -127,9 +133,9 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-card-hover border border-beige-200 py-2 z-50 animate-slide-down">
+                <div className="absolute end-0 top-full mt-2 w-56 bg-white rounded-xl shadow-card-hover border border-beige-200 py-2 z-50 animate-slide-down">
                   <div className="px-4 py-3 border-b border-beige-100">
-                    <p className="text-xs text-charcoal-300">Signed in as</p>
+                    <p className="text-xs text-charcoal-300"><T>Signed in as</T></p>
                     <p className="text-sm font-semibold text-charcoal-600 truncate">{fullName}</p>
                     <p className="text-xs text-charcoal-400 truncate">{user?.email}</p>
                   </div>
@@ -139,18 +145,18 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
                     onClick={() => setUserMenuOpen(false)}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-400 hover:bg-beige-50 transition-colors"
                   >
-                    <Settings size={16} />
+                    <Settings size={16} /><T>
                     Profile Settings
-                  </Link>
+                  </T></Link>
 
                   <Link
                     href="/"
                     onClick={() => setUserMenuOpen(false)}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-400 hover:bg-beige-50 transition-colors"
                   >
-                    <Globe size={16} />
+                    <Globe size={16} /><T>
                     Back to Public Website
-                  </Link>
+                  </T></Link>
 
                   <div className="border-t border-beige-100 mt-1 pt-1">
                     <button
@@ -158,11 +164,11 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
                         setUserMenuOpen(false);
                         signOut();
                       }}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-start"
                     >
-                      <LogOut size={16} />
+                      <LogOut size={16} /><T>
                       Sign Out
-                    </button>
+                    </T></button>
                   </div>
                 </div>
               )}
@@ -184,10 +190,10 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
                 <span
                   key={link.href}
                   className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-charcoal-300 bg-beige-50 opacity-60 cursor-not-allowed whitespace-nowrap shrink-0"
-                  title="Complete profile setup to unlock"
+                  title={translate("Complete profile setup to unlock")}
                 >
                   <Lock size={14} className="text-amber-500 shrink-0" />
-                  <span className="whitespace-nowrap">{link.label}</span>
+                  <span className="whitespace-nowrap"><T>{link.label}</T></span>
                 </span>
               );
             }
@@ -203,7 +209,7 @@ export default function DashboardHeader({ user, profile, signOut, isProfileCompl
                 }`}
               >
                 <Icon size={16} className={`shrink-0 ${active ? "text-gold" : "text-charcoal-300"}`} />
-                <span className="whitespace-nowrap">{link.label}</span>
+                <span className="whitespace-nowrap"><T>{link.label}</T></span>
               </Link>
             );
           })}

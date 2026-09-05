@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -27,7 +29,7 @@ export default function UserMenu({ scrolled }) {
   const fullName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0];
 
   return (
-    <div className="relative ml-2" ref={menuRef}>
+    <div className="relative ms-2" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${
@@ -54,9 +56,9 @@ export default function UserMenu({ scrolled }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-card-hover border border-beige-200 py-2 z-50 animate-slide-down">
+        <div className="absolute end-0 top-full mt-2 w-56 bg-white rounded-xl shadow-card-hover border border-beige-200 py-2 z-50 animate-slide-down">
           <div className="px-4 py-3 border-b border-beige-100">
-            <p className="text-xs text-charcoal-300">Signed in as</p>
+            <p className="text-xs text-charcoal-300"><T>Signed in as</T></p>
             <p className="text-sm font-semibold text-charcoal-600 truncate">{fullName}</p>
             <p className="text-xs text-charcoal-400 truncate">{user.email}</p>
           </div>
@@ -66,18 +68,18 @@ export default function UserMenu({ scrolled }) {
             onClick={() => setIsOpen(false)}
             className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-500 hover:bg-beige-50 transition-colors font-medium"
           >
-            <LayoutDashboard size={16} className="text-gold" />
+            <LayoutDashboard size={16} className="text-gold" /><T>
             Go to Dashboard
-          </Link>
+          </T></Link>
 
           <Link
             href="/dashboard/profile"
             onClick={() => setIsOpen(false)}
             className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-charcoal-400 hover:bg-beige-50 transition-colors"
           >
-            <User size={16} />
+            <User size={16} /><T>
             Profile Settings
-          </Link>
+          </T></Link>
 
           <div className="border-t border-beige-100 mt-1 pt-1">
             <button
@@ -85,11 +87,11 @@ export default function UserMenu({ scrolled }) {
                 setIsOpen(false);
                 signOut();
               }}
-              className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left"
+              className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-start"
             >
-              <LogOut size={16} />
+              <LogOut size={16} /><T>
               Sign Out
-            </button>
+            </T></button>
           </div>
         </div>
       )}

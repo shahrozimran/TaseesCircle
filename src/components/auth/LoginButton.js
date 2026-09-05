@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { useAuth } from "@/hooks/useAuth";
 import { LogIn } from "lucide-react";
@@ -9,9 +11,9 @@ export default function LoginButton({ className }) {
 
   if (loading) {
     return (
-      <div className={`px-4 py-2 text-xs text-charcoal-300 animate-pulse ${className}`}>
+      <div className={`px-4 py-2 text-xs text-charcoal-300 animate-pulse ${className}`}><T>
         Loading...
-      </div>
+      </T></div>
     );
   }
 
@@ -24,8 +26,8 @@ export default function LoginButton({ className }) {
       href="/login"
       className={`flex items-center gap-2 px-5 py-2.5 bg-gradient-gold text-white text-sm font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all ${className}`}
     >
-      <LogIn size={16} />
+      <LogIn size={16} /><T>
       Sign In / Login
-    </Link>
+    </T></Link>
   );
 }

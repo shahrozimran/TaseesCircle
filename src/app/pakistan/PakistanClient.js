@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import Hero from "@/components/sections/Hero";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -53,25 +55,25 @@ export default function PakistanClient() {
             className="max-w-4xl mx-auto bg-gradient-to-br from-charcoal-600 via-charcoal-500 to-islamic-green/90 text-white rounded-3xl p-6 sm:p-10 shadow-xl islamic-pattern border border-white/10"
           >
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-3 text-center md:text-left">
+              <div className="space-y-3 text-center md:text-start">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gold/20 text-gold-light border border-gold/30">
                   <Sparkles size={14} />
-                  <span>Sadaqah-e-Jariyah (Ongoing Charity)</span>
+                  <span><T>Sadaqah-e-Jariyah (Ongoing Charity)</T></span>
                 </div>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white leading-tight">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-white leading-tight"><T>
                   Be Part of the Community & Earn Continuous Rewards
-                </h3>
-                <p className="text-white/80 text-xs sm:text-sm leading-relaxed max-w-2xl">
+                </T></h3>
+                <p className="text-white/80 text-xs sm:text-sm leading-relaxed max-w-2xl"><T>
                   Whether you want to suggest a topic, share authenticated Islamic knowledge, or help spread beneficial guidance in Pakistan — being part of this community is an ongoing charity that continues to benefit the Ummah.
-                </p>
+                </T></p>
               </div>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-gold text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all text-xs sm:text-sm shrink-0"
               >
-                <HeartHandshake size={18} />
+                <HeartHandshake size={18} /><T>
                 Get Involved / Contact Us
-              </Link>
+              </T></Link>
             </div>
           </motion.div>
         </div>
@@ -86,12 +88,12 @@ export default function PakistanClient() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-lg sm:text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-arabic text-white/90 leading-relaxed mb-3 sm:mb-4"><T>
               &ldquo;And eat of what Allah has provided for you, lawful and good. And fear Allah, in Whom you are believers.&rdquo;
-            </p>
-            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide">
+            </T></p>
+            <p className="text-gold text-xs sm:text-sm font-medium tracking-wide"><T>
               — Surah Al-Ma&apos;idah (5:88)
-            </p>
+            </T></p>
           </motion.div>
         </div>
       </section>
@@ -117,12 +119,12 @@ export default function PakistanClient() {
                 <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center mb-3 sm:mb-4">
                   <Newspaper size={18} className="text-gold" />
                 </div>
-                <p className="text-xs text-gold font-medium mb-1.5">{news.date}</p>
+                <p className="text-xs text-gold font-medium mb-1.5"><T>{news.date}</T></p>
                 <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2 sm:mb-3 leading-snug">
-                  {news.title}
+                  <T>{news.title}</T>
                 </h3>
                 <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
-                  {news.excerpt}
+                  <T>{news.excerpt}</T>
                 </p>
               </motion.div>
             ))}
@@ -146,9 +148,9 @@ export default function PakistanClient() {
               href="/contact"
               className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 bg-gradient-gold text-white font-medium rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all text-sm"
             >
-              <MessageSquare size={16} />
+              <MessageSquare size={16} /><T>
               Contact Us
-            </Link>
+            </T></Link>
           </div>
         </div>
       </section>

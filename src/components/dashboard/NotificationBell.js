@@ -1,4 +1,8 @@
 "use client";
+import { formatRelativeTime } from "@/lib/i18n/translate.mjs";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
@@ -6,6 +10,7 @@ import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
 export default function NotificationBell({ userId }) {
+  const { t: translate, locale } = useLanguage();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -97,41 +102,35 @@ export default function NotificationBell({ userId }) {
     }
   };
 
-  const timeAgo = (dateStr) => {
-    const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (seconds < 60) return "just now";
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
-  };
+  const timeAgo = (dateStr) => formatRelativeTime(dateStr, locale);
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 rounded-xl text-charcoal-400 hover:bg-beige-100 transition-colors"
-        aria-label="Notifications"
+        aria-label={translate("Notifications")}
       >
         <Bell size={20} />
         {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center animate-pulse-soft">
-            {unreadCount > 9 ? "9+" : unreadCount}
+          <span className="absolute -top-0.5 -end-0.5 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center animate-pulse-soft">
+            <T>{unreadCount > 9 ? "9+" : unreadCount}</T>
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-card-hover border border-beige-200 z-50 animate-slide-down overflow-hidden">
+        <div className="absolute end-0 top-full mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-card-hover border border-beige-200 z-50 animate-slide-down overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-beige-100">
-            <h3 className="text-sm font-bold text-charcoal-600">Notifications</h3>
+            <h3 className="text-sm font-bold text-charcoal-600"><T>Notifications</T></h3>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
                 className="text-xs text-gold hover:text-gold-dark font-medium transition-colors"
-              >
+              ><T>
                 Mark all as read
-              </button>
+              </T></button>
             )}
           </div>
 
@@ -154,10 +153,10 @@ export default function NotificationBell({ userId }) {
             ) : notifications.length === 0 ? (
               <div className="p-8 text-center">
                 <Bell size={32} className="text-beige-300 mx-auto mb-2" />
-                <p className="text-sm text-charcoal-300">No notifications yet</p>
-                <p className="text-xs text-charcoal-200 mt-1">
+                <p className="text-sm text-charcoal-300"><T>No notifications yet</T></p>
+                <p className="text-xs text-charcoal-200 mt-1"><T>
                   You&apos;ll see updates here
-                </p>
+                </T></p>
               </div>
             ) : (
               notifications.map((notification) => (
@@ -169,17 +168,17 @@ export default function NotificationBell({ userId }) {
                 >
                   <div className="flex gap-3">
                     <span className="text-lg shrink-0 mt-0.5">
-                      {getTypeIcon(notification.type)}
+                      <T>{getTypeIcon(notification.type)}</T>
                     </span>
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm ${!notification.is_read ? "font-semibold text-charcoal-600" : "text-charcoal-400"}`}>
-                        {notification.title}
+                        <T>{notification.title}</T>
                       </p>
                       <p className="text-xs text-charcoal-300 mt-0.5 line-clamp-2">
-                        {notification.message}
+                        <T>{notification.message}</T>
                       </p>
                       <p className="text-[10px] text-charcoal-200 mt-1">
-                        {timeAgo(notification.created_at)}
+                        <T>{timeAgo(notification.created_at)}</T>
                       </p>
                     </div>
                     {!notification.is_read && (
@@ -198,9 +197,9 @@ export default function NotificationBell({ userId }) {
                 href="/dashboard/notifications"
                 onClick={() => setIsOpen(false)}
                 className="text-xs text-gold hover:text-gold-dark font-medium transition-colors"
-              >
+              ><T>
                 View all notifications →
-              </Link>
+              </T></Link>
             </div>
           )}
         </div>

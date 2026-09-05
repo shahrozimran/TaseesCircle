@@ -1,6 +1,7 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import ResourcesClient from "./ResourcesClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Resources & Learning — Islamic Educational Materials",
   description:
     "Access curated Islamic learning materials, Quran study guides, Hadith collections, and authentic literature from Ta'sees Circle.",
@@ -25,3 +26,5 @@ export const metadata = {
 export default function ResourcesPage() {
   return <ResourcesClient />;
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

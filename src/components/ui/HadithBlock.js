@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { MessageCircle } from "lucide-react";
 
@@ -14,24 +16,24 @@ export default function HadithBlock({ text, source, grade, className = "" }) {
           <div className="w-6 h-6 rounded-full bg-gold/15 flex items-center justify-center shrink-0">
             <MessageCircle size={13} className="text-gold" />
           </div>
-          <span className="text-gold text-xs font-semibold uppercase tracking-wider">
+          <span className="text-gold text-xs font-semibold uppercase tracking-wider"><T>
             Hadith Reference
-          </span>
+          </T></span>
         </div>
         {grade && (
           <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-islamic-green/10 text-islamic-green border border-islamic-green/20">
-            {grade}
+            <T>{grade}</T>
           </span>
         )}
       </div>
 
       <p className="text-charcoal-500 text-xs sm:text-sm leading-relaxed italic mb-2.5">
-        &ldquo;{text}&rdquo;
+        &ldquo;<T>{text}</T>&rdquo;
       </p>
 
       {source && (
-        <p className="text-charcoal-400 text-xs font-medium text-right">
-          — {source}
+        <p className="text-charcoal-400 text-xs font-medium text-end">
+          — <T>{source}</T>
         </p>
       )}
     </div>

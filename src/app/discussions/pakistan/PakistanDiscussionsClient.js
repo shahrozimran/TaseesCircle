@@ -1,4 +1,8 @@
 "use client";
+import { matchesLocalizedSearch } from "@/lib/i18n/translate.mjs";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState } from "react";
 import Hero from "@/components/sections/Hero";
@@ -10,6 +14,7 @@ import { motion } from "framer-motion";
 import { Filter, Search, BookOpen } from "lucide-react";
 
 export default function PakistanDiscussionsClient() {
+  const { t: translate } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -27,11 +32,7 @@ export default function PakistanDiscussionsClient() {
     const matchesCategory =
       selectedCategory === "All" || disc.category === selectedCategory;
     const cleanSearch = sanitizeSearchQuery(searchQuery).toLowerCase();
-    const matchesSearch =
-      cleanSearch === "" ||
-      disc.title.toLowerCase().includes(cleanSearch) ||
-      disc.excerpt.toLowerCase().includes(cleanSearch) ||
-      disc.tags.some((t) => t.toLowerCase().includes(cleanSearch));
+    const matchesSearch = matchesLocalizedSearch(cleanSearch, disc.title, disc.excerpt, disc.tags);
     return matchesCategory && matchesSearch;
   });
 
@@ -60,20 +61,20 @@ export default function PakistanDiscussionsClient() {
           <div className="mb-8 sm:mb-10 space-y-4">
             {/* Search Input */}
             <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-300" size={18} />
+              <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-charcoal-300" size={18} />
               <input
                 type="text"
                 maxLength={100}
-                placeholder="Search topics, keywords (e.g. Rizq, Freelancing, Riba)..."
+                placeholder={translate("Search topics, keywords (e.g. Rizq, Freelancing, Riba)...")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-600 placeholder:text-charcoal-300 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
+                className="w-full ps-11 pe-4 py-3 rounded-xl border border-beige-300 bg-beige-50 text-charcoal-600 placeholder:text-charcoal-300 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all text-sm"
               />
             </div>
 
             {/* Category Pills */}
             <div className="flex items-center justify-center gap-2 flex-wrap pt-2">
-              <Filter size={14} className="text-gold shrink-0 mr-1 hidden sm:inline-block" />
+              <Filter size={14} className="text-gold shrink-0 me-1 hidden sm:inline-block" />
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -84,7 +85,7 @@ export default function PakistanDiscussionsClient() {
                       : "bg-beige-100 text-charcoal-400 hover:bg-beige-200"
                   }`}
                 >
-                  {cat}
+                  <T>{cat}</T>
                 </button>
               ))}
             </div>
@@ -100,12 +101,12 @@ export default function PakistanDiscussionsClient() {
           ) : (
             <div className="text-center py-12 bg-beige-50 rounded-2xl border border-beige-200 max-w-md mx-auto">
               <BookOpen size={36} className="text-charcoal-300 mx-auto mb-3" />
-              <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1">
+              <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1"><T>
                 No Discussions Found
-              </h3>
-              <p className="text-charcoal-300 text-xs">
+              </T></h3>
+              <p className="text-charcoal-300 text-xs"><T>
                 Try adjusting your search query or selecting another category.
-              </p>
+              </T></p>
             </div>
           )}
         </div>

@@ -1,7 +1,8 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import { Suspense } from "react";
 import JoinLandingClient from "./JoinLandingClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Join a Masjid Circle — Ta'sees Circle",
   description: "Join a Masjid circle using a code or referral link. Connect with your community on Ta'sees Circle.",
 };
@@ -17,3 +18,5 @@ export default function JoinPage() {
     </Suspense>
   );
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

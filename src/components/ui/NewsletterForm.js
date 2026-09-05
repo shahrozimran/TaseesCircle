@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -6,6 +10,7 @@ import { Mail, ArrowRight, CheckCircle, AlertCircle } from "lucide-react";
 import { validateEmail } from "@/lib/security";
 
 export default function NewsletterForm() {
+  const { t: translate } = useLanguage();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -64,12 +69,12 @@ export default function NewsletterForm() {
           className="flex items-center justify-center gap-3 py-4 text-center px-4"
         >
           <CheckCircle size={22} className="text-islamic-green shrink-0" />
-          <span className="text-charcoal-600 font-medium text-sm sm:text-base">
+          <span className="text-charcoal-600 font-medium text-sm sm:text-base"><T>
             JazakAllah Khair! You&apos;ve been subscribed.
-          </span>
+          </T></span>
         </motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full">
+        <LocalizedForm onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full">
           <div className="relative flex-1 w-full">
             <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-200" />
             <input
@@ -80,17 +85,17 @@ export default function NewsletterForm() {
                 setEmail(e.target.value);
               }}
               maxLength={254}
-              placeholder="Enter your email address"
+              placeholder={translate("Enter your email address")}
               required
-              className={`w-full pl-12 pr-4 py-3.5 rounded-xl border bg-white text-charcoal-500 placeholder:text-charcoal-200 focus:ring-2 transition-all text-sm ${
+              className={`w-full ps-12 pe-4 py-3.5 rounded-xl border bg-white text-charcoal-500 placeholder:text-charcoal-200 focus:ring-2 transition-all text-sm ${
                 errorMessage
                   ? "border-red-400 focus:ring-red-200"
                   : "border-beige-300 focus:border-gold focus:ring-gold/20"
               }`}
             />
             {errorMessage && (
-              <span className="flex items-center gap-1 text-[11px] text-red-500 mt-1 pl-1">
-                <AlertCircle size={12} className="shrink-0" /> {errorMessage}
+              <span className="flex items-center gap-1 text-[11px] text-red-500 mt-1 ps-1">
+                <AlertCircle size={12} className="shrink-0" /> <T>{errorMessage}</T>
               </span>
             )}
           </div>
@@ -99,10 +104,10 @@ export default function NewsletterForm() {
             disabled={loading}
             className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-gold text-white font-medium rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all text-sm whitespace-nowrap self-start sm:self-auto disabled:opacity-50"
           >
-            {loading ? "Subscribing..." : "Subscribe"}
+            <T>{loading ? "Subscribing..." : "Subscribe"}</T>
             <ArrowRight size={16} />
           </button>
-        </form>
+        </LocalizedForm>
       )}
     </motion.div>
   );

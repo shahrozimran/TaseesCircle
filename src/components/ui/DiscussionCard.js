@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { motion } from "framer-motion";
 import { BookOpen, MessageCircle, Clock, Tag, ArrowRight } from "lucide-react";
@@ -52,24 +54,24 @@ export default function DiscussionCard({
           <span
             className={`inline-block px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border ${badgeClass}`}
           >
-            {category}
+            <T>{category}</T>
           </span>
           {readTime && (
             <span className="flex items-center gap-1 text-[11px] text-charcoal-300">
               <Clock size={11} />
-              {readTime}
+              <T>{readTime}</T>
             </span>
           )}
         </div>
 
         {/* Title */}
         <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg leading-snug mb-2 sm:mb-3 group-hover:text-gold transition-colors">
-          {title}
+          <T>{title}</T>
         </h3>
 
         {/* Excerpt */}
         <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed mb-4 flex-1">
-          {excerpt}
+          <T>{excerpt}</T>
         </p>
 
         {/* Quranic Reference */}
@@ -79,21 +81,21 @@ export default function DiscussionCard({
               <div className="w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center shrink-0 mt-0.5">
                 <BookOpen size={12} className="text-gold" />
               </div>
-              <span className="text-gold text-[10px] sm:text-xs font-medium uppercase tracking-wider">
+              <span className="text-gold text-[10px] sm:text-xs font-medium uppercase tracking-wider"><T>
                 Quranic Reference
-              </span>
+              </T></span>
             </div>
             {/* Arabic text */}
-            <p dir="rtl" className="text-white/90 text-right font-arabic text-base sm:text-lg leading-loose mb-2">
+            <p dir="rtl" lang="ar" translate="no" className="text-white/90 text-right font-arabic text-base sm:text-lg leading-loose mb-2">
               {quranRef.arabic}
             </p>
             {/* Translation */}
             <p className="text-white/70 text-[11px] sm:text-xs leading-relaxed italic mb-1.5">
-              &ldquo;{quranRef.translation}&rdquo;
+              &ldquo;<T>{quranRef.translation}</T>&rdquo;
             </p>
             {/* Surah reference */}
             <p className="text-gold text-[10px] sm:text-xs font-medium tracking-wide">
-              — {quranRef.surah}
+              — <T>{quranRef.surah}</T>
             </p>
           </div>
         )}
@@ -105,15 +107,15 @@ export default function DiscussionCard({
               <div className="w-5 h-5 rounded-full bg-gold/15 flex items-center justify-center shrink-0 mt-0.5">
                 <MessageCircle size={10} className="text-gold" />
               </div>
-              <span className="text-gold text-[10px] sm:text-xs font-medium uppercase tracking-wider">
+              <span className="text-gold text-[10px] sm:text-xs font-medium uppercase tracking-wider"><T>
                 Hadith
-              </span>
+              </T></span>
             </div>
             <p className="text-charcoal-400 text-[11px] sm:text-xs leading-relaxed italic mb-1">
-              &ldquo;{hadithRef.text}&rdquo;
+              &ldquo;<T>{hadithRef.text}</T>&rdquo;
             </p>
             <p className="text-charcoal-300 text-[10px] font-medium">
-              — {hadithRef.source}
+              — <T>{hadithRef.source}</T>
             </p>
           </div>
         )}
@@ -127,7 +129,7 @@ export default function DiscussionCard({
                 key={tag}
                 className="text-[10px] sm:text-xs text-charcoal-300 bg-beige-100 px-2 py-0.5 rounded-full"
               >
-                {tag}
+                <T>{tag}</T>
               </span>
             ))}
           </div>
@@ -136,7 +138,7 @@ export default function DiscussionCard({
         {/* Read Full Article Link */}
         {href && (
           <div className="mt-auto pt-2 flex items-center justify-between text-xs font-semibold text-gold group-hover:text-gold-dark transition-colors">
-            <span>Read Full Discussion</span>
+            <span><T>Read Full Discussion</T></span>
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </div>
         )}
@@ -145,7 +147,7 @@ export default function DiscussionCard({
   );
 
   if (href) {
-    return <Link href={href} className="block h-full">{content}</Link>;
+    return <Link href={href} className="block h-full"><T>{content}</T></Link>;
   }
 
   return content;

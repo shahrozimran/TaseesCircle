@@ -1,7 +1,8 @@
+import { localizeMetadata } from "@/lib/i18n/server";
 import { Suspense } from "react";
 import ProfileClient from "./ProfileClient";
 
-export const metadata = {
+const baseMetadata = {
   title: "Profile Settings — Ta'sees Circle",
   description: "Manage your profile details and preferences.",
 };
@@ -23,3 +24,5 @@ export default function ProfilePage() {
     </Suspense>
   );
 }
+
+export async function generateMetadata() { return localizeMetadata(baseMetadata); }

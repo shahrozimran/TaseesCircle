@@ -1,4 +1,8 @@
 "use client";
+import LocalizedForm from "@/components/i18n/LocalizedForm";
+import T from "@/components/i18n/T";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+
 
 import { useState, useEffect, useCallback, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,19 +39,19 @@ function RoleBadge({ role }) {
   if (role === "admin")
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gold/15 text-gold text-[10px] font-bold rounded-full uppercase tracking-wide">
-        <Crown size={9} /> Circle Admin
-      </span>
+        <Crown size={9} /><T> Circle Admin
+      </T></span>
     );
   if (role === "moderator")
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase tracking-wide">
-        <Shield size={9} /> Mod
-      </span>
+        <Shield size={9} /><T> Mod
+      </T></span>
     );
   return (
-    <span className="px-2 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase tracking-wide">
+    <span className="px-2 py-0.5 bg-beige-100 text-charcoal-300 text-[10px] font-bold rounded-full uppercase tracking-wide"><T>
       Member
-    </span>
+    </T></span>
   );
 }
 
@@ -64,6 +68,7 @@ function Avatar({ src, name, size = "md" }) {
 
 // ─── Post Card ────────────────────────────────────────────────────────────────
 function PostCard({ post, userId, circleId, onReact }) {
+  const { t: translate , dateLocale} = useLanguage();
   const [reactions, setReactions] = useState(post.reactions || []);
   const [reacting, setReacting]   = useState(null);
 
@@ -105,12 +110,12 @@ function PostCard({ post, userId, circleId, onReact }) {
     <motion.article
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-2xl border border-beige-200 overflow-hidden hover:shadow-md transition-shadow ${post.is_pinned ? "border-l-4 border-l-gold" : ""}`}
+      className={`bg-white rounded-2xl border border-beige-200 overflow-hidden hover:shadow-md transition-shadow ${post.is_pinned ? "border-s-4 border-s-gold" : ""}`}
     >
       {post.is_pinned && (
         <div className="flex items-center gap-1.5 px-5 py-2 bg-gold/8 border-b border-gold/20">
           <Pin size={12} className="text-gold" />
-          <span className="text-[11px] font-semibold text-gold uppercase tracking-wide">Pinned</span>
+          <span className="text-[11px] font-semibold text-gold uppercase tracking-wide"><T>Pinned</T></span>
         </div>
       )}
 
@@ -127,23 +132,23 @@ function PostCard({ post, userId, circleId, onReact }) {
             )}
             <div>
               <div className="flex items-center gap-2">
-                <p className="text-sm font-bold text-charcoal-600">{authorName}</p>
+                <p className="text-sm font-bold text-charcoal-600"><T>{authorName}</T></p>
                 {isTaseesPost && (
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded-full uppercase tracking-wide border border-red-200">
-                    <Shield size={9} /> Official Announcement
-                  </span>
+                    <Shield size={9} /><T> Official Announcement
+                  </T></span>
                 )}
               </div>
               <p className="text-[11px] text-charcoal-300 flex items-center gap-1 mt-0.5">
                 <Clock size={10} />
-                {new Date(post.created_at).toLocaleDateString("en-PK", {
+                <T>{new Date(post.created_at).toLocaleDateString(dateLocale, {
                   day: "numeric", month: "short", year: "numeric",
-                })}
+                })}</T>
               </p>
             </div>
           </div>
           <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border ${catCfg.color}`}>
-            {catCfg.label}
+            <T>{catCfg.label}</T>
           </span>
         </div>
 
@@ -161,15 +166,15 @@ function PostCard({ post, userId, circleId, onReact }) {
                 key={r.key}
                 onClick={() => handleReact(r.key)}
                 disabled={reacting === r.key}
-                title={r.label}
+                title={translate(r.label)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all border
                   ${mine
                     ? "bg-gold/10 border-gold/30 text-gold"
                     : "bg-beige-50 border-beige-200 text-charcoal-300 hover:bg-beige-100 hover:border-beige-300"
                   }`}
               >
-                <span className="text-base leading-none">{r.emoji}</span>
-                {count > 0 && <span>{count}</span>}
+                <span className="text-base leading-none"><T>{r.emoji}</T></span>
+                {count > 0 && <span><T>{count}</T></span>}
               </button>
             );
           })}
@@ -181,6 +186,7 @@ function PostCard({ post, userId, circleId, onReact }) {
 
 // ─── Compose Box ──────────────────────────────────────────────────────────────
 function ComposeBox({ circleId, userId, onPost }) {
+  const { t: translate } = useLanguage();
   const [open,     setOpen]     = useState(false);
   const [title,    setTitle]    = useState("");
   const [body,     setBody]     = useState("");
@@ -225,7 +231,7 @@ function ComposeBox({ circleId, userId, onPost }) {
         <div className="w-8 h-8 rounded-full bg-beige-100 flex items-center justify-center group-hover:bg-gold/10 transition-colors">
           <Plus size={16} />
         </div>
-        <span>Share something with your circle…</span>
+        <span><T>Share something with your circle…</T></span>
       </button>
     );
   }
@@ -237,24 +243,24 @@ function ComposeBox({ circleId, userId, onPost }) {
       className="bg-white rounded-2xl border border-beige-200 shadow-card overflow-hidden"
     >
       <div className="flex items-center justify-between px-5 py-3 border-b border-beige-100 bg-beige-50">
-        <span className="text-sm font-semibold text-charcoal-600">New Post</span>
+        <span className="text-sm font-semibold text-charcoal-600"><T>New Post</T></span>
         <button onClick={() => setOpen(false)} className="p-1 rounded-lg hover:bg-beige-200 transition-colors">
           <X size={16} className="text-charcoal-400" />
         </button>
       </div>
-      <form onSubmit={handleSubmit} className="p-5 space-y-4">
+      <LocalizedForm onSubmit={handleSubmit} className="p-5 space-y-4">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title…"
+          placeholder={translate("Post title…")}
           required
           className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none"
         />
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder="Write your post…"
+          placeholder={translate("Write your post…")}
           rows={4}
           required
           className="w-full px-4 py-3 border border-beige-300 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none resize-none"
@@ -267,7 +273,7 @@ function ComposeBox({ circleId, userId, onPost }) {
               className="px-3 py-2 border border-beige-300 rounded-lg text-xs text-charcoal-500 focus:border-gold outline-none"
             >
               {Object.entries(CATEGORY_CONFIG).map(([key, cfg]) => (
-                <option key={key} value={key}>{cfg.label}</option>
+                <option key={key} value={key}><T>{cfg.label}</T></option>
               ))}
             </select>
             <label className="flex items-center gap-1.5 text-xs text-charcoal-400 cursor-pointer select-none">
@@ -277,30 +283,31 @@ function ComposeBox({ circleId, userId, onPost }) {
                 onChange={(e) => setPinned(e.target.checked)}
                 className="accent-gold"
               />
-              <Pin size={12} /> Pin post
-            </label>
+              <Pin size={12} /><T> Pin post
+            </T></label>
           </div>
           <div className="flex gap-2">
-            <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 text-xs text-charcoal-400 font-medium hover:text-charcoal-600 rounded-lg">
+            <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 text-xs text-charcoal-400 font-medium hover:text-charcoal-600 rounded-lg"><T>
               Cancel
-            </button>
+            </T></button>
             <button
               type="submit"
               disabled={saving}
               className="flex items-center gap-1.5 px-5 py-2 bg-gradient-gold text-white text-xs font-semibold rounded-lg hover:shadow-md transition-all disabled:opacity-50"
             >
               {saving ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
-              {saving ? "Posting…" : "Post"}
+              <T>{saving ? "Posting…" : "Post"}</T>
             </button>
           </div>
         </div>
-      </form>
+      </LocalizedForm>
     </motion.div>
   );
 }
 
 // ─── Prayer Check-In ──────────────────────────────────────────────────────────
 function CheckInTab({ circleId, userId }) {
+  const { t: translate , dateLocale} = useLanguage();
   const [prayers,    setPrayers]    = useState({});
   const [reflection, setReflection] = useState("");
   const [saving,     setSaving]     = useState(false);
@@ -362,10 +369,10 @@ function CheckInTab({ circleId, userId }) {
       <div className="bg-gradient-to-br from-islamic-green to-islamic-green-light rounded-2xl p-5 text-white">
         <div className="flex items-center gap-2 mb-1">
           <Calendar size={16} />
-          <span className="text-sm font-semibold">Daily Prayer Check-In</span>
+          <span className="text-sm font-semibold"><T>Daily Prayer Check-In</T></span>
         </div>
         <p className="text-xs text-white/70">
-          {new Date().toLocaleDateString("en-PK", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+          <T>{new Date().toLocaleDateString(dateLocale, { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</T>
         </p>
         <div className="mt-4 flex items-center gap-3">
           <div className="flex-1 bg-white/20 rounded-full h-2">
@@ -374,10 +381,10 @@ function CheckInTab({ circleId, userId }) {
               style={{ width: `${(prayedCount / 5) * 100}%` }}
             />
           </div>
-          <span className="text-sm font-bold">{prayedCount}/5</span>
+          <span className="text-sm font-bold"><T>{prayedCount}</T>/5</span>
         </div>
         {prayedCount === 5 && (
-          <p className="mt-2 text-xs text-white/90 font-medium">MashAllah! All prayers completed today 🤲</p>
+          <p className="mt-2 text-xs text-white/90 font-medium"><T>MashAllah! All prayers completed today 🤲</T></p>
         )}
       </div>
 
@@ -394,20 +401,20 @@ function CheckInTab({ circleId, userId }) {
               }`}
           >
             {prayers[p] ? <CheckCircle2 size={22} /> : <div className="w-5 h-5 rounded-full border-2 border-current opacity-40" />}
-            <span>{p}</span>
+            <span><T>{p}</T></span>
           </button>
         ))}
       </div>
 
       {/* Reflection */}
       <div className="bg-white rounded-2xl border border-beige-200 p-5">
-        <label className="block text-xs font-semibold text-charcoal-400 mb-2 uppercase tracking-wider">
+        <label className="block text-xs font-semibold text-charcoal-400 mb-2 uppercase tracking-wider"><T>
           Reflection (optional)
-        </label>
+        </T></label>
         <textarea
           value={reflection}
           onChange={(e) => setReflection(e.target.value)}
-          placeholder="Any thoughts, goals, or duas for today…"
+          placeholder={translate("Any thoughts, goals, or duas for today…")}
           rows={3}
           className="w-full px-4 py-3 border border-beige-200 rounded-xl text-sm text-charcoal-500 placeholder:text-charcoal-200 focus:border-islamic-green focus:ring-2 focus:ring-islamic-green/20 outline-none resize-none"
         />
@@ -419,8 +426,8 @@ function CheckInTab({ circleId, userId }) {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700 font-medium"
         >
-          <CheckCircle2 size={16} /> Alhamdulillah! Check-in saved.
-        </motion.div>
+          <CheckCircle2 size={16} /><T> Alhamdulillah! Check-in saved.
+        </T></motion.div>
       )}
 
       <button
@@ -429,7 +436,7 @@ function CheckInTab({ circleId, userId }) {
         className="w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-islamic-green to-islamic-green-light text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
       >
         {saving ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
-        {saving ? "Saving…" : existing ? "Update Check-In" : "Save Check-In"}
+        <T>{saving ? "Saving…" : existing ? "Update Check-In" : "Save Check-In"}</T>
       </button>
     </motion.div>
   );
@@ -437,6 +444,7 @@ function CheckInTab({ circleId, userId }) {
 
 // ─── Members Tab ──────────────────────────────────────────────────────────────
 function MembersTab({ members, userId, canManage, onRoleChange }) {
+  const { t: translate , dateLocale} = useLanguage();
   const [search,  setSearch]  = useState("");
   const [loading, setLoading] = useState(null);
 
@@ -455,20 +463,20 @@ function MembersTab({ members, userId, canManage, onRoleChange }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
       {/* Search */}
       <div className="relative">
-        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-charcoal-300" />
+        <Search size={16} className="absolute start-4 top-1/2 -translate-y-1/2 text-charcoal-300" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search members…"
-          className="w-full pl-10 pr-4 py-3 border border-beige-200 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none bg-white"
+          placeholder={translate("Search members…")}
+          className="w-full ps-10 pe-4 py-3 border border-beige-200 rounded-xl text-sm text-charcoal-600 placeholder:text-charcoal-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none bg-white"
         />
       </div>
 
       <div className="bg-white rounded-2xl border border-beige-200 overflow-hidden">
         <div className="px-5 py-3 border-b border-beige-100 flex items-center justify-between">
           <span className="text-xs font-semibold text-charcoal-400 uppercase tracking-wider">
-            {filtered.length} Member{filtered.length !== 1 ? "s" : ""}
+            <T message={filtered.length === 1 ? "{count} Member" : "{count} Members"} values={{ count: filtered.length }} />
           </span>
         </div>
         <div className="divide-y divide-beige-50">
@@ -479,11 +487,11 @@ function MembersTab({ members, userId, canManage, onRoleChange }) {
                 <Avatar src={member.profiles?.avatar_url} name={member.profiles?.full_name} size="sm" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-charcoal-600 truncate">
-                    {member.profiles?.full_name || "Unknown"}
-                    {isMe && <span className="ml-1.5 text-[10px] text-charcoal-300">(you)</span>}
+                    {member.profiles?.full_name || <T>Unknown</T>}
+                    {isMe && <span className="ms-1.5 text-[10px] text-charcoal-300"><T>(you)</T></span>}
                   </p>
-                  <p className="text-[11px] text-charcoal-300">
-                    Joined {new Date(member.joined_at).toLocaleDateString("en-PK", { day: "numeric", month: "short", year: "numeric" })}
+                  <p className="text-[11px] text-charcoal-300"><T>
+                    Joined {new Date(member.joined_at).toLocaleDateString(dateLocale, { day: "numeric", month: "short", year: "numeric" })}</T>
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -495,9 +503,9 @@ function MembersTab({ members, userId, canManage, onRoleChange }) {
                       onChange={(e) => handleRoleChange(member.id, e.target.value)}
                       className="text-[10px] border border-beige-200 rounded-lg px-2 py-1 text-charcoal-400 focus:border-gold outline-none"
                     >
-                      <option value="admin">Admin</option>
-                      <option value="moderator">Moderator</option>
-                      <option value="member">Member</option>
+                      <option value="admin"><T>Admin</T></option>
+                      <option value="moderator"><T>Moderator</T></option>
+                      <option value="member"><T>Member</T></option>
                     </select>
                   )}
                   {loading === member.id && <Loader2 size={12} className="animate-spin text-gold" />}
@@ -535,8 +543,8 @@ function AdminTab({ masjid, circle, members }) {
             <Sparkles size={18} className="text-gold" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-charcoal-600">Invite Members</h3>
-            <p className="text-xs text-charcoal-300">Share your circle code to invite people</p>
+            <h3 className="text-sm font-bold text-charcoal-600"><T>Invite Members</T></h3>
+            <p className="text-xs text-charcoal-300"><T>Share your circle code to invite people</T></p>
           </div>
         </div>
         <div className="flex items-center gap-3 p-4 bg-beige-50 rounded-xl mb-4">
@@ -548,16 +556,16 @@ function AdminTab({ masjid, circle, members }) {
             className="flex items-center gap-1.5 px-3 py-2 bg-white border border-beige-200 rounded-lg text-xs font-medium text-charcoal-400 hover:border-gold hover:text-gold transition-all"
           >
             {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
-            {copied ? "Copied!" : "Copy"}
+            <T>{copied ? "Copied!" : "Copy"}</T>
           </button>
         </div>
         <button
           onClick={shareWhatsApp}
           className="w-full flex items-center justify-center gap-2 py-3 bg-[#25D366] text-white text-sm font-semibold rounded-xl hover:bg-[#1ebe57] transition-all"
         >
-          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><T>
           Share on WhatsApp
-        </button>
+        </T></button>
       </div>
 
       {/* Stats Card */}
@@ -569,10 +577,10 @@ function AdminTab({ masjid, circle, members }) {
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-2xl border border-beige-200 p-5">
             <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center mb-3`}>
-              {stat.icon}
+              <T>{stat.icon}</T>
             </div>
-            <p className="text-2xl font-bold text-charcoal-600">{stat.value}</p>
-            <p className="text-xs text-charcoal-300">{stat.label}</p>
+            <p className="text-2xl font-bold text-charcoal-600"><T>{stat.value}</T></p>
+            <p className="text-xs text-charcoal-300"><T>{stat.label}</T></p>
           </div>
         ))}
       </div>
@@ -582,6 +590,7 @@ function AdminTab({ masjid, circle, members }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function CircleViewPage({ params }) {
+  const { t: translate, dateLocale } = useLanguage();
   const resolvedParams = use(params);
   const circleId = resolvedParams.id;
   const { user, profile } = useAuth();
@@ -739,7 +748,7 @@ export default function CircleViewPage({ params }) {
     });
 
     if (error || data?.success === false) {
-      alert(error?.message || data?.error || "Failed to update role");
+      alert(translate(error?.message || data?.error || "Failed to update role"));
       return;
     }
 
@@ -773,11 +782,11 @@ export default function CircleViewPage({ params }) {
         <div className="w-16 h-16 rounded-2xl bg-beige-100 flex items-center justify-center mx-auto mb-4">
           <CircleDot size={28} className="text-beige-300" />
         </div>
-        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2">Circle Not Found</h2>
-        <p className="text-sm text-charcoal-300 mb-6">This circle doesn&apos;t exist or you don&apos;t have access.</p>
+        <h2 className="font-heading font-bold text-charcoal-600 text-xl mb-2"><T>Circle Not Found</T></h2>
+        <p className="text-sm text-charcoal-300 mb-6"><T>This circle doesn&apos;t exist or you don&apos;t have access.</T></p>
         <Link href="/dashboard/my-circle" className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-gold text-white text-sm font-medium rounded-xl hover:shadow-lg transition-all">
-          <ArrowLeft size={16} /> Back to My Circle
-        </Link>
+          <ArrowLeft size={16} /><T> Back to My Circle
+        </T></Link>
       </div>
     );
   }
@@ -812,34 +821,34 @@ export default function CircleViewPage({ params }) {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <CircleDot size={16} className="text-gold" />
-              <span className="text-xs font-medium uppercase tracking-widest text-white/50">Circle</span>
+              <span className="text-xs font-medium uppercase tracking-widest text-white/50"><T>Circle</T></span>
               <RoleBadge role={userRole} />
             </div>
             <h1 className="text-2xl sm:text-3xl font-heading font-bold leading-tight">{circle.name || masjid?.name}</h1>
             <p className="text-sm text-white/60 flex items-center gap-1.5 mt-2">
-              <MapPin size={13} /> {masjid?.area}, {masjid?.city}, {masjid?.country}
+              <MapPin size={13} /> {masjid?.area}, {masjid?.city}, <T>{masjid?.country}</T>
             </p>
             <div className="flex items-center gap-5 mt-4">
               <span className="flex items-center gap-1.5 text-xs text-white/50">
-                <Users size={13} /> {members.length} members
-              </span>
+                <Users size={13} /> <T>{members.length} members
+              </T></span>
               <span className="flex items-center gap-1.5 text-xs text-white/50">
-                <FileText size={13} /> {posts.length} posts
-              </span>
+                <FileText size={13} /> <T>{posts.length} posts
+              </T></span>
             </div>
           </div>
 
           {/* Code card */}
           {masjid?.unique_code && (
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 min-w-[170px] shrink-0 border border-white/10">
-              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1.5">Circle Code</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1.5"><T>Circle Code</T></p>
               <p className="text-xl font-mono font-bold tracking-[0.25em] text-gold">{masjid.unique_code}</p>
               <Link
                 href="/dashboard/my-circle"
                 className="inline-flex items-center gap-1 mt-3 text-[11px] text-white/40 hover:text-white transition-colors"
               >
-                <ArrowLeft size={11} /> My Circle
-              </Link>
+                <ArrowLeft size={11} /><T> My Circle
+              </T></Link>
             </div>
           )}
         </div>
@@ -857,8 +866,8 @@ export default function CircleViewPage({ params }) {
                 : "text-charcoal-300 hover:text-charcoal-500 hover:bg-beige-200/60"
               }`}
           >
-            {t.icon}
-            {t.label}
+            <T>{t.icon}</T>
+            <T>{t.label}</T>
           </button>
         ))}
       </div>
@@ -876,7 +885,7 @@ export default function CircleViewPage({ params }) {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Pin size={13} className="text-gold" />
-                <span className="text-xs font-semibold text-charcoal-400 uppercase tracking-wider">Pinned</span>
+                <span className="text-xs font-semibold text-charcoal-400 uppercase tracking-wider"><T>Pinned</T></span>
               </div>
               {pinnedPosts.map((post) => (
                 <PostCard key={post.id} post={post} userId={user.id} circleId={circleId} onReact={handleReact} />
@@ -890,7 +899,7 @@ export default function CircleViewPage({ params }) {
               {pinnedPosts.length > 0 && (
                 <div className="flex items-center gap-2">
                   <MessageCircle size={13} className="text-charcoal-300" />
-                  <span className="text-xs font-semibold text-charcoal-400 uppercase tracking-wider">Latest Posts</span>
+                  <span className="text-xs font-semibold text-charcoal-400 uppercase tracking-wider"><T>Latest Posts</T></span>
                 </div>
               )}
               {regularPosts.map((post) => (
@@ -905,11 +914,11 @@ export default function CircleViewPage({ params }) {
               <div className="w-16 h-16 rounded-2xl bg-beige-100 flex items-center justify-center mx-auto mb-4">
                 <FileText size={28} className="text-beige-300" />
               </div>
-              <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1">No posts yet</h3>
+              <h3 className="font-heading font-bold text-charcoal-600 text-base mb-1"><T>No posts yet</T></h3>
               <p className="text-sm text-charcoal-300">
-                {canPost
+                <T>{canPost
                   ? "Be the first to share something with your circle!"
-                  : "Posts from your circle admin and moderators will appear here."}
+                  : "Posts from your circle admin and moderators will appear here."}</T>
               </p>
             </div>
           )}

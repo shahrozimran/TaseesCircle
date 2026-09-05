@@ -1,4 +1,8 @@
 "use client";
+import { formatRelativeTime } from "@/lib/i18n/translate.mjs";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import T from "@/components/i18n/T";
+
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -7,6 +11,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Bell, CheckCheck, CheckCircle, XCircle, Mail, UserPlus } from "lucide-react";
 
 export default function NotificationsPage() {
+  const { locale } = useLanguage();
   const { user } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,14 +56,7 @@ export default function NotificationsPage() {
     }
   };
 
-  const timeAgo = (dateStr) => {
-    const seconds = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (seconds < 60) return "just now";
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
-    return new Date(dateStr).toLocaleDateString();
-  };
+  const timeAgo = (dateStr) => formatRelativeTime(dateStr, locale);
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
@@ -70,11 +68,11 @@ export default function NotificationsPage() {
         className="flex items-center justify-between mb-6"
       >
         <div>
-          <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600">
+          <h1 className="text-xl sm:text-2xl font-heading font-bold text-charcoal-600"><T>
             Notifications
-          </h1>
+          </T></h1>
           <p className="text-sm text-charcoal-300 mt-1">
-            {unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}` : "You're all caught up!"}
+            <T>{unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}` : "You're all caught up!"}</T>
           </p>
         </div>
         {unreadCount > 0 && (
@@ -82,9 +80,9 @@ export default function NotificationsPage() {
             onClick={markAllAsRead}
             className="flex items-center gap-1 px-3 py-2 text-xs font-medium text-gold hover:bg-gold/10 rounded-lg transition-colors"
           >
-            <CheckCheck size={14} />
+            <CheckCheck size={14} /><T>
             Mark all read
-          </button>
+          </T></button>
         )}
       </motion.div>
 
@@ -104,10 +102,10 @@ export default function NotificationsPage() {
         ) : notifications.length === 0 ? (
           <div className="p-12 text-center">
             <Bell size={40} className="text-beige-300 mx-auto mb-3" />
-            <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1">No Notifications</h3>
-            <p className="text-sm text-charcoal-300">
+            <h3 className="font-heading font-bold text-charcoal-500 text-base mb-1"><T>No Notifications</T></h3>
+            <p className="text-sm text-charcoal-300"><T>
               You&apos;ll receive notifications about masjid approvals, support responses, and circle updates.
-            </p>
+            </T></p>
           </div>
         ) : (
           <div className="divide-y divide-beige-50">
@@ -122,14 +120,14 @@ export default function NotificationsPage() {
                 }`}
               >
                 <div className="w-8 h-8 rounded-full bg-beige-100 flex items-center justify-center shrink-0 mt-0.5">
-                  {renderTypeIcon(notif.type)}
+                  <T>{renderTypeIcon(notif.type)}</T>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm ${!notif.is_read ? "font-semibold text-charcoal-600" : "text-charcoal-400"}`}>
-                    {notif.title}
+                    <T>{notif.title}</T>
                   </p>
-                  <p className="text-xs text-charcoal-300 mt-1 leading-relaxed">{notif.message}</p>
-                  <p className="text-[11px] text-charcoal-200 mt-2">{timeAgo(notif.created_at)}</p>
+                  <p className="text-xs text-charcoal-300 mt-1 leading-relaxed"><T>{notif.message}</T></p>
+                  <p className="text-[11px] text-charcoal-200 mt-2"><T>{timeAgo(notif.created_at)}</T></p>
                 </div>
                 {!notif.is_read && (
                   <div className="w-2.5 h-2.5 rounded-full bg-gold shrink-0 mt-2" />

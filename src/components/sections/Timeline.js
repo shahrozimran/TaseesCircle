@@ -1,4 +1,6 @@
 "use client";
+import T from "@/components/i18n/T";
+
 
 import { motion } from "framer-motion";
 
@@ -6,7 +8,7 @@ export default function Timeline({ milestones }) {
   return (
     <div className="relative">
       {/* Vertical Line */}
-      <div className="absolute left-4 sm:left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-beige-300 md:-translate-x-px" />
+      <div className="absolute start-4 sm:start-6 md:start-1/2 top-0 bottom-0 w-0.5 bg-beige-300 md:-translate-x-px rtl:md:translate-x-px" />
 
       <div className="space-y-8 sm:space-y-12">
         {milestones.map((milestone, i) => (
@@ -21,18 +23,18 @@ export default function Timeline({ milestones }) {
             }`}
           >
             {/* Dot */}
-            <div className="absolute left-4 sm:left-6 md:left-1/2 w-4 h-4 rounded-full bg-gold border-4 border-beige-50 -translate-x-1/2 z-10 shadow-md top-1" />
+            <div className="absolute start-4 sm:start-6 md:left-1/2 w-4 h-4 rounded-full bg-gold border-4 border-beige-50 -translate-x-1/2 rtl:translate-x-1/2 z-10 shadow-md top-1" />
 
             {/* Content */}
-            <div className={`ml-9 sm:ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? "md:text-right md:pr-8" : "md:text-left md:pl-8"}`}>
+            <div className={`ms-9 sm:ms-16 md:ms-0 md:w-[calc(50%-2rem)] ${i % 2 === 0 ? "md:text-end md:pe-8" : "md:text-start md:ps-8"}`}>
               <span className="inline-block px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold bg-gold/10 text-gold mb-2">
-                {milestone.year}
+                <T>{milestone.year}</T>
               </span>
               <h3 className="font-heading font-bold text-charcoal-600 text-base sm:text-lg mb-2">
-                {milestone.title}
+                <T>{milestone.title}</T>
               </h3>
               <p className="text-charcoal-300 text-xs sm:text-sm leading-relaxed">
-                {milestone.description}
+                <T>{milestone.description}</T>
               </p>
             </div>
 
